@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use LaravelEasyRepository\Traits\JsonValidateResponse;
 
-class UserRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     use JsonValidateResponse;
     /**
@@ -24,18 +23,10 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $password = $this->id ? '' : ['required','min:8'];
         return [
-            'name' => [
-                'required',
-            ],
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users', 'email')->ignore($this->id ?? null)
-            ],
-            'password' => $password,
-            'status' => ['required'],
+            'name' => ['required'],
+            'email' => ['required', 'unique:users,email', 'email'],
+            'password' => ['required'],
         ];
     }
 
@@ -43,12 +34,10 @@ class UserRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama wajib diisi.',
-            'email.required' => 'Email wajib diisi.',
             'email.email' => 'Gunakan format email yang benar.',
-            'email.unique' => 'Email harus bersifat unik.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.required' => 'Email wajib diisi.',
             'password.required' => 'Password wajib diisi',
-            'password.min' => 'Password harus memiliki panjang 8 karakter',
-            'status.required' => 'Status wajib diisi',
         ];
     }
 }

@@ -12,7 +12,7 @@
     <link href="{{ asset('assets') }}/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
     <link href="{{ asset('assets') }}/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
     <link href="{{ asset('assets') }}/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
-{{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">--}}
+    {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">--}}
     <style>
         @import url('https://rsms.me/inter/inter.css');
         :root {
@@ -46,49 +46,38 @@
             </a>
         </div>
         <div class="alert-container"></div>
-        <div class="card card-md">
+        <form id="form-register" class="card card-md" action="./" method="get" autocomplete="off" novalidate>
             <div class="card-body">
-                <h2 class="h2 text-center mb-4">Login</h2>
-                <form id="form-login">
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input id="email" name="email" type="email" class="form-control" placeholder="your@email.com" autocomplete="off">
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-label">
-                            Password
-                            <span class="form-label-description">
-                  </span>
-                        </label>
-                        <input id="password" type="password" class="form-control"  placeholder="Your password"  autocomplete="off" name="password">
-                    </div>
-                    <div class="mb-2">
-                        <label class="form-check">
-                            <input id="remember" name="remember" type="checkbox" class="form-check-input"/>
-                            <span class="form-check-label">Ingat saya di perangkat ini</span>
-                        </label>
-                    </div>
-                    <div class="form-footer">
-                        <button id="btn-login" type="submit" class="btn btn-primary w-100">Masuk</button>
-                    </div>
-                </form>
-                <div class="text-center text-secondary mt-3">
-                    Belum memiliki akun? <a href="{{ route('register') }}" tabindex="-1">Registrasi</a>
+                <h2 class="card-title text-center mb-4">Buat Akun Baru</h2>
+                <div class="mb-3">
+                    <label class="form-label">Nama</label>
+                    <input type="text" class="form-control" placeholder="Nama" name="name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email address</label>
+                    <input type="email" class="form-control" placeholder="Email" name="email">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" placeholder="Email" name="password">
+                </div>
+                <div class="form-footer">
+                    <button id="btn-register" type="submit" class="btn btn-primary w-100">Daftar</button>
                 </div>
             </div>
+        </form>
+        <div class="text-center text-secondary mt-3">
+            Sudah memiliki akun? <a href="{{ route('login') }}" tabindex="-1">Login</a>
         </div>
-{{--        <div class="text-center text-secondary mt-3">--}}
-{{--            Don't have account yet? <a href="./sign-up.html" tabindex="-1">Sign up</a>--}}
-{{--        </div>--}}
     </div>
 </div>
-<input type="hidden" value="{{ route('login') }}" id="login-url">
+<input type="hidden" value="{{ route('register.submit') }}" id="register-url">
 <!-- Libs JS -->
 <!-- Tabler Core -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="{{ asset('assets') }}/dist/js/tabler.min.js?1692870487" defer></script>
 <script src="{{ asset('assets') }}/dist/js/demo.min.js?1692870487" defer></script>
 @vite(['resources/js/app.js'])
-@vite(['resources/js/apps/auth/login.js'])
+@vite(['resources/js/apps/auth/register.js'])
 </body>
 </html>

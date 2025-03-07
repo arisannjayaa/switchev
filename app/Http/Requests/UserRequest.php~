@@ -35,6 +35,7 @@ class UserRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($this->id ?? null)
             ],
             'password' => $password,
+            'telephone' => ['required', 'min:8'],
             'status' => ['required'],
         ];
     }
@@ -48,6 +49,8 @@ class UserRequest extends FormRequest
             'email.unique' => 'Email harus bersifat unik.',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password harus memiliki panjang 8 karakter',
+            'telephone.required' => 'Telepon wajib diisi',
+            'telephone.min' => 'Telepon harus memiliki panjang 8 karakter',
             'status.required' => 'Status wajib diisi',
         ];
     }

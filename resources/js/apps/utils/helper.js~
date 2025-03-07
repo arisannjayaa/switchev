@@ -42,9 +42,9 @@ export function swalError(errors) {
 export function capitalizeFirstLetter(str) {
     let color = "";
     let status = str.charAt(0).toUpperCase() + str.slice(1);
-    if (status == "Pending") {
+    if (status == "pending") {
         color = "bg-yellow text-yellow-fg";
-    } else if (status == "Verified") {
+    } else if (status == "verified") {
         color = "bg-green bg-green text-green-fg";
     } else {
         color = "bg-red text-red-fg";

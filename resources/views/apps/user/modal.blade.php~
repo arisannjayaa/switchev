@@ -29,7 +29,7 @@
                             <select class="form-select" name="status" id="status">
                                 <option value="pending">Pending</option>
                                 <option value="verified">Verifikasi</option>
-                                <option value="rejected">Tolak</option>
+                                <option value="3">Tolak</option>
                             </select>
                         </div>
                     </div>

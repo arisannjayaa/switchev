@@ -144,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     $("#name").val(res.data.name);
                     $("#email").val(res.data.email);
                     $("#telephone").val(res.data.telephone);
-                    $("#status").val(res.data.status);
 
                     $("#modal-user").modal("show");
                     resetValidation();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
@@ -12,7 +13,9 @@ Route::get('/', function () {
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::get('/register', [RegistrationController::class, 'index'])->name('register');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+    Route::post('/registration', [RegistrationController::class, 'register'])->name('register.submit');
 });
 
 Route::middleware('auth')->group(function () {
