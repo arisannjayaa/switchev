@@ -57,4 +57,21 @@ class AuthServiceImplement extends ServiceApi implements AuthService{
             ->setCode(200)
             ->setMessage('Logout Berhasil');
     }
+
+    public function register($data)
+    {
+        try {
+            $data['role_id'] = 2;
+            $data['status'] = "pending";
+            $user = $this->mainRepository->create($data);
+            // change with default user like guest or customer
+
+            return $this->setCode(200)
+                ->setStatus(true)
+                ->setMessage('Akun berhasil didaftarkan silahkan melakukan login')
+                ->setResult(['redirect' => route('login')]);
+        } catch (\Exception $exception) {
+            return $this->exceptionResponse($exception);
+        }
+    }
 }

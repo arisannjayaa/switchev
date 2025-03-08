@@ -8,5 +8,7 @@ interface AuthService extends BaseService{
 
     public function login(array $data);
 
+    public function register($data);
+
     public function logout();
 }

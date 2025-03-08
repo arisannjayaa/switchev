@@ -78,7 +78,7 @@ class UserServiceImplement extends ServiceApi implements UserService{
     {
         DB::beginTransaction();
         try {
-            $data['password'] = bcrypt($data['password']);
+//            $data['password'] = bcrypt($data['password']);
             unset($data['id']);
             $this->mainRepository->update($id, $data);
 

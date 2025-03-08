@@ -1,6 +1,6 @@
 {
-  "_helper-C0_gHl74.js": {
-    "file": "assets/helper-C0_gHl74.js",
+  "_helper-DvTVYjZE.js": {
+    "file": "assets/helper-DvTVYjZE.js",
     "name": "helper"
   },
   "resources/css/app.css": {
@@ -9,39 +9,39 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-YJBJM5CH.js",
+    "file": "assets/app-CgrLtdu5.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_helper-C0_gHl74.js"
+      "_helper-DvTVYjZE.js"
     ]
   },
   "resources/js/apps/auth/login.js": {
-    "file": "assets/login-VUTyaDUt.js",
+    "file": "assets/login-BsIu9BS-.js",
     "name": "login",
     "src": "resources/js/apps/auth/login.js",
     "isEntry": true,
     "imports": [
-      "_helper-C0_gHl74.js"
+      "_helper-DvTVYjZE.js"
     ]
   },
-  "resources/js/apps/candidate/candidate.js": {
-    "file": "assets/candidate-48aq1qC-.js",
-    "name": "candidate",
-    "src": "resources/js/apps/candidate/candidate.js",
+  "resources/js/apps/auth/register.js": {
+    "file": "assets/register-CYeqQ9ga.js",
+    "name": "register",
+    "src": "resources/js/apps/auth/register.js",
     "isEntry": true,
     "imports": [
-      "_helper-C0_gHl74.js"
+      "_helper-DvTVYjZE.js"
     ]
   },
   "resources/js/apps/user/user.js": {
-    "file": "assets/user-CK6lWuJO.js",
+    "file": "assets/user-D3-KK_H1.js",
     "name": "user",
     "src": "resources/js/apps/user/user.js",
     "isEntry": true,
     "imports": [
-      "_helper-C0_gHl74.js"
+      "_helper-DvTVYjZE.js"
     ]
   }
 }
