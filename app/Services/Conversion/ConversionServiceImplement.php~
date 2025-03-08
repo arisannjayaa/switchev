@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Services\Conversion;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use LaravelEasyRepository\ServiceApi;
+use App\Repositories\Conversion\ConversionRepository;
+
+class ConversionServiceImplement extends ServiceApi implements ConversionService{
+
+    /**
+     * set title message api for CRUD
+     * @param string $title
+     */
+     protected $title = "";
+     /**
+     * uncomment this to override the default message
+     * protected $create_message = "";
+     * protected $update_message = "";
+     * protected $delete_message = "";
+     */
+
+     /**
+     * don't change $this->mainRepository variable name
+     * because used in extends service class
+     */
+     protected $mainRepository;
+
+    public function __construct(ConversionRepository $mainRepository)
+    {
+      $this->mainRepository = $mainRepository;
+    }
+
+    // Define your custom methods :)
+    public function checkStatusUser()
+    {
+        if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
+            return $this->checkConversion();
+        }
+
+        if (auth()->user()->isGuest() && auth()->user()->isPending()) {
+            return view('apps.conversion.pending');
+        }
+    }
+
+    public function create($data)
+    {
+        DB::beginTransaction();
+        try {
+            $data['user_id'] = auth()->user()->id;
+            $data['status'] = "step-1";
+            // file application letter
+            $fileApplicationLetter = $data['application_letter'];
+            $originalNameApplicationLetter = $fileApplicationLetter->getClientOriginalName();
+            $extensionApplicationLetter = $fileApplicationLetter->getClientOriginalExtension();
+            $newFileNameApplicationLetter = uniqid() . '.' . $extensionApplicationLetter;
+            $filePathApplicationLetter = $fileApplicationLetter->storeAs('documents', $newFileNameApplicationLetter, 'public');
+            $data['application_letter'] = $filePathApplicationLetter;
+
+            // file technician_competency
+            $fileTechnicianCompetency = $data['technician_competency'];
+            $originalNameTechnicianCompetency = $fileTechnicianCompetency->getClientOriginalName();
+            $extensionTechnicianCompetency = $fileTechnicianCompetency->getClientOriginalExtension();
+            $newFileNameTechnicianCompetency = uniqid() . '.' . $extensionTechnicianCompetency;
+            $filePathTechnicianCompetency = $fileTechnicianCompetency->storeAs('documents', $newFileNameTechnicianCompetency, 'public');
+            $data['technician_competency'] = $filePathTechnicianCompetency;
+
+            // file equipment
+            $fileEquipment = $data['equipment'];
+            $originalNameEquipment = $fileEquipment->getClientOriginalName();
+            $extensionEquipment = $fileEquipment->getClientOriginalExtension();
+            $newFileNameEquipment = uniqid() . '.' . $extensionEquipment;
+            $filePathEquipment = $fileEquipment->storeAs('documents', $newFileNameEquipment, 'public');
+            $data['equipment'] = $filePathEquipment;
+
+            // file sop
+            $fileSop = $data['sop'];
+            $originalNameSop = $fileSop->getClientOriginalName();
+            $extensionSop = $fileSop->getClientOriginalExtension();
+            $newFileNameSop = uniqid() . '.' . $extensionSop;
+            $filePathSop = $fileSop->storeAs('documents', $newFileNameSop, 'public');
+            $data['sop'] = $filePathSop;
+
+            // file wiring_diagram
+            $fileWiringDiagram = $data['wiring_diagram'];
+            $originalNameWiringDiagram = $fileWiringDiagram->getClientOriginalName();
+            $extensionWiringDiagram = $fileWiringDiagram->getClientOriginalExtension();
+            $newFileNameWiringDiagram = uniqid() . '.' . $extensionWiringDiagram;
+            $filePathWiringDiagram = $fileWiringDiagram->storeAs('documents', $newFileNameWiringDiagram, 'public');
+            $data['wiring_diagram'] = $filePathWiringDiagram;
+
+            $this->mainRepository->create($data);
+            $redirect = redirect()->intended(URL::route('conversion.index'));
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult(['redirect' => $redirect->getTargetUrl()])
+                ->setMessage("Berhasil melakukan pendaftaran");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($exception);
+        }
+    }
+
+    public function checkConversion()
+    {
+        if ($this->mainRepository->checkIsConversion()) {
+            $data['conversion'] = $this->mainRepository->findByUserId(auth()->user()->id);
+            return view('apps.conversion.guest-index', $data);
+        }
+
+        return view('apps.conversion.guest-welcome');
+    }
+}

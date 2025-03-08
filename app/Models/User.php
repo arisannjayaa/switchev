@@ -64,4 +64,15 @@ class User extends Authenticatable
     {
         return $this->role->id == Role::GUEST;
     }
+
+    public function isVerified()
+    {
+        return $this->status == "verified";
+    }
+
+    public function isPending()
+    {
+        return $this->status == "pending";
+    }
 }
+

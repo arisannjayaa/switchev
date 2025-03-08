@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/apps/auth/login.js',
                 'resources/js/apps/auth/register.js',
                 'resources/js/apps/user/user.js',
+                'resources/js/apps/conversion/conversion.js',
             ],
             refresh: true,
         }),
