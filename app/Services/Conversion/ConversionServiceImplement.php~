@@ -3,9 +3,11 @@
 namespace App\Services\Conversion;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\Conversion\ConversionRepository;
+use Yajra\DataTables\Facades\DataTables;
 
 class ConversionServiceImplement extends ServiceApi implements ConversionService{
 
@@ -42,19 +44,26 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         if (auth()->user()->isGuest() && auth()->user()->isPending()) {
             return view('apps.conversion.pending');
         }
+
+        if (auth()->user()->isAdmin()) {
+            return view('apps.conversion.index');
+        }
     }
 
-    public function create($data)
+    public function upsert($data)
     {
         DB::beginTransaction();
         try {
             $data['user_id'] = auth()->user()->id;
-            $data['status'] = "step-1";
+            $data['step'] = "step-1";
+            $data['status'] = "checking";
+            $data['message'] = "Tim kami saat ini sedang memeriksa dan memverifikasi berkas yang telah Anda unggah untuk memastikan kelengkapannya. Proses ini mungkin membutuhkan waktu, dan kami akan memberi kabar lebih lanjut setelah verifikasi selesai.";
+
             // file application letter
             $fileApplicationLetter = $data['application_letter'];
             $originalNameApplicationLetter = $fileApplicationLetter->getClientOriginalName();
             $extensionApplicationLetter = $fileApplicationLetter->getClientOriginalExtension();
-            $newFileNameApplicationLetter = uniqid() . '.' . $extensionApplicationLetter;
+            $newFileNameApplicationLetter = 'Surat Permohonan_' . uniqid() . '.' . $extensionApplicationLetter;
             $filePathApplicationLetter = $fileApplicationLetter->storeAs('documents', $newFileNameApplicationLetter, 'public');
             $data['application_letter'] = $filePathApplicationLetter;
 
@@ -62,7 +71,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $fileTechnicianCompetency = $data['technician_competency'];
             $originalNameTechnicianCompetency = $fileTechnicianCompetency->getClientOriginalName();
             $extensionTechnicianCompetency = $fileTechnicianCompetency->getClientOriginalExtension();
-            $newFileNameTechnicianCompetency = uniqid() . '.' . $extensionTechnicianCompetency;
+            $newFileNameTechnicianCompetency = 'Lampiran Data SDM dan Sertifikat Kompetensi Teknisi_' . uniqid() . '.' . $extensionTechnicianCompetency;
             $filePathTechnicianCompetency = $fileTechnicianCompetency->storeAs('documents', $newFileNameTechnicianCompetency, 'public');
             $data['technician_competency'] = $filePathTechnicianCompetency;
 
@@ -70,7 +79,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $fileEquipment = $data['equipment'];
             $originalNameEquipment = $fileEquipment->getClientOriginalName();
             $extensionEquipment = $fileEquipment->getClientOriginalExtension();
-            $newFileNameEquipment = uniqid() . '.' . $extensionEquipment;
+            $newFileNameEquipment = 'Lampiran Data Peralatan_' . uniqid() . '.' . $extensionEquipment;
             $filePathEquipment = $fileEquipment->storeAs('documents', $newFileNameEquipment, 'public');
             $data['equipment'] = $filePathEquipment;
 
@@ -78,7 +87,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $fileSop = $data['sop'];
             $originalNameSop = $fileSop->getClientOriginalName();
             $extensionSop = $fileSop->getClientOriginalExtension();
-            $newFileNameSop = uniqid() . '.' . $extensionSop;
+            $newFileNameSop = 'Lampiran Data SOP_' . uniqid() . '.' . $extensionSop;
             $filePathSop = $fileSop->storeAs('documents', $newFileNameSop, 'public');
             $data['sop'] = $filePathSop;
 
@@ -86,11 +95,19 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $fileWiringDiagram = $data['wiring_diagram'];
             $originalNameWiringDiagram = $fileWiringDiagram->getClientOriginalName();
             $extensionWiringDiagram = $fileWiringDiagram->getClientOriginalExtension();
-            $newFileNameWiringDiagram = uniqid() . '.' . $extensionWiringDiagram;
+            $newFileNameWiringDiagram = 'Lampiran Data Wiring Diagram_' . uniqid() . '.' . $extensionWiringDiagram;
             $filePathWiringDiagram = $fileWiringDiagram->storeAs('documents', $newFileNameWiringDiagram, 'public');
             $data['wiring_diagram'] = $filePathWiringDiagram;
 
-            $this->mainRepository->create($data);
+            if (@$data['id']) {
+                $this->mainRepository->update($data['id'], $data);
+            }
+
+            if (!@$data['id']) {
+                unset($data['id']);
+                $this->mainRepository->create($data);
+            }
+
             $redirect = redirect()->intended(URL::route('conversion.index'));
             DB::commit();
             return $this->setStatus(true)
@@ -111,5 +128,140 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         }
 
         return view('apps.conversion.guest-welcome');
+    }
+
+    public function table()
+    {
+        return DataTables::of($this->mainRepository->table())
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $verificationMenu = '<button class="dropdown-item detail" href="javascript:void(0)" data-id="'.$row->id.'">
+                                  Lihat
+                                </button>';
+                if ($row->step == "step-2") {
+                    $verificationMenu .= '<button class="dropdown-item verification-zoom" href="javascript:void(0)" data-id="'.$row->id.'">
+                                  Verifikasi Zoom
+                                </button>';
+                }
+
+                if ($row->step == "step-3") {
+                    $verificationMenu .= '<button class="dropdown-item verification-field" href="javascript:void(0)" data-id="'.$row->id.'">
+                                  Verifikasi Lapangan
+                                </button>';
+                }
+
+
+
+                $html = '<span class="dropdown">
+                              <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-circle-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 12l0 .01" /><path d="M12 12l0 .01" /><path d="M16 12l0 .01" /></svg></button>
+                              <div class="dropdown-menu dropdown-menu-end" style="">
+                              '.$verificationMenu.'
+                              </div>
+                            </span>';
+                return $html;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function approve($id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $conversion = $this->mainRepository->find($id);
+
+            if ($conversion->step == 'step-1') {
+                $data['step'] = 'step-2';
+                $data['status'] = 'verified_upload';
+                $data['message'] = 'Verifikasi berkas Anda oleh admin telah berhasil! Berkas yang Anda kirimkan telah disetujui dan sesuai dengan persyaratan yang ditentukan. Anda sekarang dapat melanjutkan ke tahap verifikasi berikutnya, yaitu verifikasi melalui Zoom.';
+                $data['result'] = 'Berhasil memverifikasi berkas';
+            }
+
+            if ($conversion->step == 'step-2') {
+                $data['step'] = 'step-3';
+                $data['status'] = 'verified_zoom';
+                $data['message'] = 'Terima kasih! Verifikasi melalui Zoom telah berhasil dilakukan. Kami mengonfirmasi bahwa semua informasi dan langkah-langkah yang diperlukan telah dipenuhi. Anda sekarang dapat melanjutkan ke tahap terakhir dari verifikasi, yaitu verifikasi lapangan.';
+                $data['result'] = 'Berhasil memverifikasi via zoom';
+            }
+
+            if ($conversion->step == 'step-3') {
+                $data['step'] = 'step-4';
+                $data['status'] = 'verified_field';
+                $data['message'] = 'Selamat! Verifikasi lapangan Anda berhasil diselesaikan. Dengan ini, seluruh proses verifikasi telah selesai dengan sukses. Anda sekarang dapat melanjutkan ke tahap selanjutnya atau menerima hasil dari verifikasi ini.';
+                $data['result'] = 'Berhasil memverifikasi lapangan';
+            }
+
+            if ($conversion->step == 'step-4') {
+                $data['step'] = 'step-5';
+                $data['status'] = 'finished';
+                $data['message'] = 'Semua data terverifikasi';
+            }
+
+            $data['redirect'] = route('conversion.index');
+
+            $this->mainRepository->update($id, $data);
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult([
+                    'redirect' => $data['redirect'],])
+                ->setMessage($data['result']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($exception);
+        }
+    }
+
+    public function reject($id)
+    {
+        DB::beginTransaction();
+        try {
+            $conversion = $this->mainRepository->find($id);
+            $data['step'] = 'step-1';
+            $data['status'] = 'rejected';
+
+            $data['attachments'][] = $conversion->application_letter;
+            $data['attachments'][] = $conversion->equipment;
+            $data['attachments'][] = $conversion->technician_competency;
+            $data['attachments'][] = $conversion->sop;
+            $data['attachments'][] = $conversion->wiring_diagram;
+
+            foreach ($data['attachments'] as $attachment) {
+                if (file_exists(storage_path('app/public/'.$attachment))) {
+                    unlink(storage_path('app/public/'.$attachment));
+                }
+            }
+
+            if ($conversion->step == 'step-1') {
+                $data['message'] = 'Mohon maaf, berkas yang Anda kirimkan tidak memenuhi persyaratan yang telah ditentukan. Setelah dilakukan pemeriksaan oleh admin, ditemukan beberapa kekurangan atau ketidaksesuaian.';
+            }
+
+            if ($conversion->step == 'step-2') {
+                $data['message'] = 'Mohon maaf, kami tidak dapat melanjutkan verifikasi melalui Zoom pada sesi yang telah dijadwalkan. Mungkin ada ketidaksesuaian atau hal-hal lain yang perlu diperbaiki selama sesi Zoom.';
+            }
+
+            if ($conversion->step == 'step-3') {
+                $data['message'] = 'Verifikasi lapangan Anda tidak berhasil dilakukan. Tim kami menemukan beberapa masalah saat melakukan pengecekan di lapangan yang perlu diperbaiki.';
+            }
+
+            $data['application_letter'] = null;
+            $data['equipment'] = null;
+            $data['technician_competency'] = null;
+            $data['sop'] = null;
+            $data['wiring_diagram']= null;
+
+            $this->mainRepository->update($id, $data);
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setMessage("Data berhasil ditolak karena tidak sesuai");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($exception);
+        }
     }
 }

@@ -28,5 +28,7 @@ class Conversion extends Model
         'sop',
         'wiring_diagram',
         'status',
+        'step',
+        'message',
     ];
 }

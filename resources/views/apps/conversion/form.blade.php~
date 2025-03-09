@@ -100,7 +100,7 @@
 @endsection
 
 @section('url')
-    <input type="hidden" id="create-url" value="{{ route('conversion.upsert') }}">
+    <input type="hidden" id="create-url" value="{{ route('conversion.create') }}">
 @endsection
 
 @section('script')

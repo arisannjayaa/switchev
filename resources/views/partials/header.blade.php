@@ -109,7 +109,7 @@
                         $result = substr($firstName, 0, 2);
                     }
                 @endphp
-                <span class="avatar avatar mb-3 rounded">{{ $result }}</span>
+                <span class="avatar avatar rounded">{{ $result }}</span>
                 <div class="d-none d-xl-block ps-2">
                     <div>{{ auth()->user()->name }}</div>
                     <div class="mt-1 small text-secondary">{{ ucfirst(auth()->user()->role->name) }}</div>

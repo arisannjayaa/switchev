@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('convertions', function (Blueprint $table) {
+        Schema::create('conversions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('type');
@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('equipment');
             $table->string('sop');
             $table->string('wiring_diagram');
+            $table->string('step');
+            $table->text('message');
             $table->string('status');
             $table->timestamps();
         });

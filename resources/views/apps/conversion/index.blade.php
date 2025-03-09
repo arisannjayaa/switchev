@@ -17,7 +17,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <h1 class="page-title">
-                            User
+                            Daftar Bengkel Konversi
                         </h1>
                     </div>
                     <!-- Page title actions -->
@@ -44,9 +44,11 @@
                             <thead>
                             <tr>
                                 <th class="w-1">No.</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Telepon</th>
+                                <th>Penanggung Jawab</th>
+                                <th>Bengkel</th>
+                                <th>WhatsApp</th>
+                                <th>Jenis</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
@@ -61,11 +63,8 @@
 @endsection
 
 @section('url')
-    <input type="hidden" id="table-url" value="{{ route('user.table') }}">
-    <input type="hidden" id="create-url" value="{{ route('user.create') }}">
-    <input type="hidden" id="update-url" value="{{ route('user.update') }}">
-    <input type="hidden" id="delete-url" value="{{ route('user.delete') }}">
-    <input type="hidden" id="edit-url" value="{{ route('user.show', ['id' => ':id']) }}">
+    <input type="hidden" id="table-url" value="{{ route('conversion.table') }}">
+    <input type="hidden" id="show-url" value="{{ route('conversion.show', ['id' => ':id']) }}">
 @endsection
 
 @section('script')

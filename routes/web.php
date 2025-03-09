@@ -5,6 +5,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SecureFileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -36,23 +38,24 @@ Route::middleware('auth')->group(function () {
     // candidate
     Route::prefix('candidate')->name('candidate.')->group(function () {
         Route::get('/', [CandidateController::class, 'index'])->name('index');
-        Route::get('/form', [CandidateController::class, 'form'])->name('form');
         Route::post('/', [CandidateController::class, 'create'])->name('create');
         Route::post('/update', [CandidateController::class, 'update'])->name('update');
         Route::post('/delete', [CandidateController::class, 'delete'])->name('delete');
         Route::get('/edit/{id}', [CandidateController::class, 'edit'])->name('edit');
         Route::get('/{id}', [CandidateController::class, 'show'])->name('show');
+        Route::get('/form/{id}', [CandidateController::class, 'form'])->name('form');
     });
 
-    // user
+    // conversion
     Route::prefix('conversion')->name('conversion.')->group(function () {
         Route::get('/', [ConversionController::class, 'index'])->name('index');
-        Route::get('/form', [ConversionController::class, 'form'])->name('form');
-        Route::post('/create', [ConversionController::class, 'create'])->name('create');
-        Route::post('/', [ConversionController::class, 'create'])->name('create');
+        Route::get('/form/{id?}', [ConversionController::class, 'form'])->name('form');
+        Route::post('/upsert', [ConversionController::class, 'upsert'])->name('upsert');
         Route::get('/table', [ConversionController::class, 'table'])->name('table');
         Route::post('/update', [ConversionController::class, 'update'])->name('update');
         Route::post('/delete', [ConversionController::class, 'delete'])->name('delete');
+        Route::post('/approve', [ConversionController::class, 'approve'])->name('approve');
+        Route::post('/reject', [ConversionController::class, 'reject'])->name('reject');
         Route::get('/{id}', [ConversionController::class, 'show'])->name('show');
     });
 });

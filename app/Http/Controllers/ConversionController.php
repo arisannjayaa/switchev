@@ -19,14 +19,15 @@ class ConversionController extends Controller
         return $this->conversionService->checkStatusUser();
     }
 
-    public function form()
+    public function form($id = null)
     {
         if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
-            return view('apps.conversion.form');
+            $data['conversion'] = @$this->conversionService->find($id)->getResult();
+            return view('apps.conversion.form', $data);
         }
     }
 
-    public function create(ConversionRequest $request)
+    public function upsert(ConversionRequest $request)
     {
         if (auth()->user()->isAdmin()) {
             return abort(403);
@@ -42,7 +43,51 @@ class ConversionController extends Controller
             'equipment',
             'sop',
             'wiring_diagram',
-            'status']);
-        return $this->conversionService->create($data)->toJson();
+            'status',
+            'id']);
+        return $this->conversionService->upsert($data)->toJson();
+    }
+
+    public function table()
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        return $this->conversionService->table();
+    }
+
+    public function show($id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data['conversion'] = $this->conversionService->findOrFail($id)->getResult();
+        $data['attachments'][] = $data['conversion']->application_letter;
+        $data['attachments'][] = $data['conversion']->equipment;
+        $data['attachments'][] = $data['conversion']->technician_competency;
+        $data['attachments'][] = $data['conversion']->sop;
+        $data['attachments'][] = $data['conversion']->wiring_diagram;
+
+        return view('apps.conversion.detail', $data);
+    }
+
+    public function approve(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        return $this->conversionService->approve($request->id)->toJson();
+    }
+
+    public function reject(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        return $this->conversionService->reject($request->id)->toJson();
     }
 }
