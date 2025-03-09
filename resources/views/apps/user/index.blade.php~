@@ -16,7 +16,7 @@
             <div>
                 <div class="row align-items-center">
                     <div class="col">
-                        <h1 class="">
+                        <h1 class="page-title">
                             User
                         </h1>
                     </div>
@@ -61,7 +61,7 @@
 @endsection
 
 @section('url')
-    <input type="hidden" id="table-url" value="{{ route('user.table') }}">
+{{--    <input type="hidden" id="table-url" value="{{ route('user.table') }}">--}}
     <input type="hidden" id="create-url" value="{{ route('user.create') }}">
     <input type="hidden" id="update-url" value="{{ route('user.update') }}">
     <input type="hidden" id="delete-url" value="{{ route('user.delete') }}">

@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('address');
             $table->string('person_responsible');
             $table->string('whatapp_responsible');
-            $table->string('application_letter')->nullable();
-            $table->string('technician_competency')->nullable();
-            $table->string('equipment')->nullable();
-            $table->string('sop')->nullable();
-            $table->string('wiring_diagram')->nullable();
+            $table->string('application_letter');
+            $table->string('technician_competency');
+            $table->string('equipment');
+            $table->string('sop');
+            $table->string('wiring_diagram');
             $table->string('step');
             $table->text('message');
             $table->string('status');

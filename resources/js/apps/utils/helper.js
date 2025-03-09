@@ -93,3 +93,34 @@ export function hideLoading(second = 1000) {
         $(".loading-screen").remove();
     }, second);
 }
+
+export function conversionStatus(status) {
+    let result = '';
+
+    if (status == 'checking') {
+        result = 'Periksa Data Upload';
+    }
+
+    if (status == 'verified_upload') {
+        result = 'Data Upload Terverifikasi';
+    }
+
+    if (status == 'verified_zoom') {
+        result = 'Verifikasi Zoom Terverifikasi';
+    }
+
+    if (status == 'verified_field') {
+        result = 'Verifikasi Lapangan Terverifikasi';
+    }
+
+    if (status == 'finished') {
+        result = 'Di Terima';
+    }
+
+    if (status == 'rejected') {
+        result = 'Ditolak';
+    }
+
+    return result;
+
+}
