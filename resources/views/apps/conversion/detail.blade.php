@@ -97,12 +97,6 @@
                 @endif
             </div>
         </div>
-        @if($conversion->status == 'checking')
-            <div class="card-footer text-end">
-                <button id="btn-reject" type="submit" class="btn btn-danger">Batalkan</button>
-                <button id="btn-approve" type="submit" class="btn btn-primary">Verifikasi Berkas Sesuai</button>
-            </div>
-        @endif
     </div>
 @endsection
 

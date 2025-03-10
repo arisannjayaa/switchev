@@ -15,8 +15,6 @@ class Helper
                 return 'Periksa Data Upload';
             case 'verified_upload':
                 return 'Data Upload Terverifikasi';
-            case 'verification-field':
-                return 'Verifikasi Lapangan';
             case 'verified_zoom':
                 return 'Verifikasi Zoom Terverifikasi';
             case 'verified_field':

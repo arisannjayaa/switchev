@@ -76,6 +76,7 @@ class ConversionController extends Controller
 
     public function approve(Request $request)
     {
+        dd($request);
         if (!auth()->user()->isAdmin()) {
             return abort(403);
         }

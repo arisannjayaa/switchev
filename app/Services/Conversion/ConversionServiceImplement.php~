@@ -2,6 +2,7 @@
 
 namespace App\Services\Conversion;
 
+use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -55,7 +56,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         DB::beginTransaction();
         try {
             $data['user_id'] = auth()->user()->id;
-            $data['step'] = "step-1";
+            $data['step'] = 1;
             $data['status'] = "checking";
             $data['message'] = "Tim kami saat ini sedang memeriksa dan memverifikasi berkas yang telah Anda unggah untuk memastikan kelengkapannya. Proses ini mungkin membutuhkan waktu, dan kami akan memberi kabar lebih lanjut setelah verifikasi selesai.";
 
@@ -135,22 +136,12 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         return DataTables::of($this->mainRepository->table())
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $verificationMenu = '<button class="dropdown-item detail" href="javascript:void(0)" data-id="'.$row->id.'">
+                $verificationMenu = '<a class="dropdown-item detail" href="'.route('conversion.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Lihat
-                                </button>';
-                if ($row->step == "step-2") {
-                    $verificationMenu .= '<button class="dropdown-item verification-zoom" href="javascript:void(0)" data-id="'.$row->id.'">
-                                  Verifikasi Zoom
-                                </button>';
-                }
-
-                if ($row->step == "step-3") {
-                    $verificationMenu .= '<button class="dropdown-item verification-field" href="javascript:void(0)" data-id="'.$row->id.'">
-                                  Verifikasi Lapangan
-                                </button>';
-                }
-
-
+                                </a>
+                                <a class="dropdown-item verification-zoom" href="'.route('conversion.verification', ['id' => Helper::encrypt( $row->id)]).'" data-id="'.$row->id.'">
+                                  Verifikasi
+                                </a>';
 
                 $html = '<span class="dropdown">
                               <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
@@ -169,37 +160,34 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
     {
         DB::beginTransaction();
         try {
-
             $conversion = $this->mainRepository->find($id);
 
-            if ($conversion->step == 'step-1') {
-                $data['step'] = 'step-2';
+            if ($conversion->step == 1) {
+                $data['step'] = 2;
                 $data['status'] = 'verified_upload';
                 $data['message'] = 'Verifikasi berkas Anda oleh admin telah berhasil! Berkas yang Anda kirimkan telah disetujui dan sesuai dengan persyaratan yang ditentukan. Anda sekarang dapat melanjutkan ke tahap verifikasi berikutnya, yaitu verifikasi melalui Zoom.';
                 $data['result'] = 'Berhasil memverifikasi berkas';
             }
 
-            if ($conversion->step == 'step-2') {
-                $data['step'] = 'step-3';
+            if ($conversion->step == 2) {
+                $data['step'] = 3;
                 $data['status'] = 'verified_zoom';
                 $data['message'] = 'Terima kasih! Verifikasi melalui Zoom telah berhasil dilakukan. Kami mengonfirmasi bahwa semua informasi dan langkah-langkah yang diperlukan telah dipenuhi. Anda sekarang dapat melanjutkan ke tahap terakhir dari verifikasi, yaitu verifikasi lapangan.';
                 $data['result'] = 'Berhasil memverifikasi via zoom';
             }
 
-            if ($conversion->step == 'step-3') {
-                $data['step'] = 'step-4';
+            if ($conversion->step == 3) {
+                $data['step'] = 4;
                 $data['status'] = 'verified_field';
                 $data['message'] = 'Selamat! Verifikasi lapangan Anda berhasil diselesaikan. Dengan ini, seluruh proses verifikasi telah selesai dengan sukses. Anda sekarang dapat melanjutkan ke tahap selanjutnya atau menerima hasil dari verifikasi ini.';
                 $data['result'] = 'Berhasil memverifikasi lapangan';
             }
 
-            if ($conversion->step == 'step-4') {
-                $data['step'] = 'step-5';
+            if ($conversion->step == 4) {
+                $data['step'] = 5;
                 $data['status'] = 'finished';
                 $data['message'] = 'Semua data terverifikasi';
             }
-
-            $data['redirect'] = route('conversion.index');
 
             $this->mainRepository->update($id, $data);
 
@@ -207,7 +195,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             return $this->setStatus(true)
                 ->setCode(200)
                 ->setResult([
-                    'redirect' => $data['redirect'],])
+                    'redirect' => route('conversion.index'),])
                 ->setMessage($data['result']);
         } catch (Exception $e) {
             DB::rollBack();
@@ -220,7 +208,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         DB::beginTransaction();
         try {
             $conversion = $this->mainRepository->find($id);
-            $data['step'] = 'step-1';
+            $data['step'] = 0;
             $data['status'] = 'rejected';
 
             $data['attachments'][] = $conversion->application_letter;
@@ -235,15 +223,15 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 }
             }
 
-            if ($conversion->step == 'step-1') {
+            if ($conversion->step == 1) {
                 $data['message'] = 'Mohon maaf, berkas yang Anda kirimkan tidak memenuhi persyaratan yang telah ditentukan. Setelah dilakukan pemeriksaan oleh admin, ditemukan beberapa kekurangan atau ketidaksesuaian.';
             }
 
-            if ($conversion->step == 'step-2') {
+            if ($conversion->step == 2) {
                 $data['message'] = 'Mohon maaf, kami tidak dapat melanjutkan verifikasi melalui Zoom pada sesi yang telah dijadwalkan. Mungkin ada ketidaksesuaian atau hal-hal lain yang perlu diperbaiki selama sesi Zoom.';
             }
 
-            if ($conversion->step == 'step-3') {
+            if ($conversion->step == 3) {
                 $data['message'] = 'Verifikasi lapangan Anda tidak berhasil dilakukan. Tim kami menemukan beberapa masalah saat melakukan pengecekan di lapangan yang perlu diperbaiki.';
             }
 
@@ -258,6 +246,8 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             DB::commit();
             return $this->setStatus(true)
                 ->setCode(200)
+                ->setResult([
+                    'redirect' => route('conversion.index'),])
                 ->setMessage("Data berhasil ditolak karena tidak sesuai");
         } catch (Exception $e) {
             DB::rollBack();

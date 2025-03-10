@@ -89,7 +89,7 @@
                         <div class="d-flex justify-content-center align-items-center text-center flex-column">
                             <img width="300" src="{{ asset('assets/dist/img/undraw_completing_gsf8.svg') }}" alt="">
                             <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
-                            <p class="text-secondary">{{ $conversion->message }}</p>
+                            <p class="text-secondary">Semua verifikasi telah selesai</p>
                         </div>
                     @endif
             </div>

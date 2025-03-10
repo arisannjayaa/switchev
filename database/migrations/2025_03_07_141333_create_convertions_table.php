@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('equipment')->nullable();
             $table->string('sop')->nullable();
             $table->string('wiring_diagram')->nullable();
-            $table->string('step');
+            $table->tinyInteger('step');
             $table->text('message');
             $table->string('status');
             $table->timestamps();

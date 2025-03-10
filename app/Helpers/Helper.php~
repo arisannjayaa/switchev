@@ -9,19 +9,22 @@ class Helper
 {
     public static function check_status_conversion($status)
     {
+
         switch ($status) {
             case 'checking':
-                return 'Perlu di tinjau';
-            case 'verification zoom':
-                return 'Verifikasi Zoom';
+                return 'Periksa Data Upload';
+            case 'verified_upload':
+                return 'Data Upload Terverifikasi';
             case 'verification-field':
                 return 'Verifikasi Lapangan';
-            case 'verification zoom failed':
-                return 'Verifikasi Zoom Gagal. Belum lengkap atau belum memenuhi syarat';
-            case 'verification field failed':
-                return 'Verifikasi lapangan tidak sesuai.';
+            case 'verified_zoom':
+                return 'Verifikasi Zoom Terverifikasi';
+            case 'verified_field':
+                return 'Verifikasi Lapangan Terverifikasi';
+            case 'finished':
+                return 'Di Terima';
             default:
-                return 'Role not recognized.';
+                return 'Ditolak';
         }
     }
 

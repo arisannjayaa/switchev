@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [ConversionController::class, 'delete'])->name('delete');
         Route::post('/approve', [ConversionController::class, 'approve'])->name('approve');
         Route::post('/reject', [ConversionController::class, 'reject'])->name('reject');
+        Route::get('/verification/{id}', [ConversionController::class, 'verification'])->name('verification');
         Route::get('/{id}', [ConversionController::class, 'show'])->name('show');
     });
 });

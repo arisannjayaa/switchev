@@ -168,8 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             });
 
-                            $("btn-approve").disable();
-
                             setTimeout(function() {
                                 location.reload();
                             }, 2000);
