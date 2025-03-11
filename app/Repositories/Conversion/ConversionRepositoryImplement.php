@@ -35,4 +35,12 @@ class ConversionRepositoryImplement extends Eloquent implements ConversionReposi
         return $this->model->query()
             ->orderBy('updated_at', 'desc');
     }
+
+    public function find($id)
+    {
+        return $this->model->query()
+            ->with(['user'])
+            ->where('id', $id)
+            ->first();
+    }
 }

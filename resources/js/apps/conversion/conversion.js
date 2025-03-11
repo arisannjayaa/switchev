@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             });
 
-                            $("btn-approve").disable();
+                            $("#btn-approve").prop('disabled', true);
 
                             setTimeout(function() {
                                 location.reload();
@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hideLoading(1000);
         });
     })
+
     $("#btn-reject").click(function (){
         let id = $("#id").val();
         let url = $("#reject-url").val();
@@ -244,5 +245,56 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             hideLoading(1000);
         });
+    })
+
+    $("#btn-send-mail-zoom").click(function () {
+        let id = $("#id").val();
+        let message = quill.root.innerHTML;
+        let url = $("#mail-zoom-url").val();
+        url = url.replace(":id", id);
+        let formData = new FormData();
+        let btn = "#btn-send-mail-zoom";
+        formData.append("id", id);
+        formData.append('message', message);
+
+        $(btn).empty().append(`<div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>`).prop('disabled', true);
+        console.log(message)
+        // send data
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+            },
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data.code == 200) {
+
+                    Swal.fire({
+                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
+                    <h3>Berhasil</h3>
+                    <div class="text-secondary">${data.message}</div>`,
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#2fb344',
+                        customClass: {
+                            confirmButton: 'btn btn-success w-100'
+                        }
+                    });
+                }
+
+                $(btn).empty().append("Kirim");
+
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            .finally(() => {
+                $(btn).empty().append("Kirim");
+            });
     })
 });

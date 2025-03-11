@@ -172,7 +172,7 @@
                                 </div>
                             </div>
                             <div class="card-footer text-end">
-                                <button id="btn-send-mail" type="submit" class="btn btn-primary">Kirim Email</button>
+                                <button id="btn-send-mail-zoom" type="submit" class="btn btn-primary">Kirim Email</button>
                             </div>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                                 </div>
                             </div>
                             <div class="card-footer text-end">
-                                <button id="btn-send-mail-field" type="submit" class="btn btn-primary">Kirim Email</button>
+                                <button id="btn-send-mail-zoom" type="submit" class="btn btn-primary">Kirim Email</button>
                             </div>
                         </div>
                 @endif
@@ -312,6 +312,7 @@
     <input type="hidden" id="id" value="{{ $conversion->id }}">
     <input type="hidden" id="table-url" value="{{ route('conversion.table') }}">
     <input type="hidden" id="create-url" value="{{ route('conversion.upsert') }}">
+    <input type="hidden" id="mail-zoom-url" value="{{ route('conversion.send-mail-zoom') }}">
     <input type="hidden" id="approve-url" value="{{ route('conversion.approve') }}">
     <input type="hidden" id="reject-url" value="{{ route('conversion.reject') }}">
     <input type="hidden" id="edit-url" value="{{ route('conversion.show', ['id' => ':id']) }}">

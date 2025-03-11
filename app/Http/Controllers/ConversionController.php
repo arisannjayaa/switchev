@@ -94,6 +94,10 @@ class ConversionController extends Controller
 
     public function verification($id)
     {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
         $data['conversion'] = $this->conversionService->findOrFail(Helper::decrypt($id))->getResult();
         $data['attachments'][] = $data['conversion']->application_letter;
         $data['attachments'][] = $data['conversion']->equipment;
@@ -101,5 +105,15 @@ class ConversionController extends Controller
         $data['attachments'][] = $data['conversion']->sop;
         $data['attachments'][] = $data['conversion']->wiring_diagram;
         return view('apps.conversion.verification', $data);
+    }
+
+    public function sendZoomEmail(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['message','id']);
+        return $this->conversionService->sendEmailZoom($data)->toJson();
     }
 }

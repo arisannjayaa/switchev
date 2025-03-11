@@ -3,7 +3,9 @@
 namespace App\Services\Conversion;
 
 use App\Helpers\Helper;
+use App\Mail\VerificationZoom;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
@@ -250,6 +252,26 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setResult([
                     'redirect' => route('conversion.index'),])
                 ->setMessage("Data berhasil ditolak karena tidak sesuai");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($exception);
+        }
+    }
+
+    public function sendEmailZoom($data)
+    {
+        DB::beginTransaction();
+        try {
+            $conversion = $this->mainRepository->find($data['id']);
+            $mail['message'] = $data['message'];
+            $mail['email'] = $conversion->user->email;
+
+            Mail::to($mail['email'])->send(new VerificationZoom($mail));
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setMessage("Berhasil mengirimkan email");
         } catch (Exception $e) {
             DB::rollBack();
             return $this->exceptionResponse($exception);

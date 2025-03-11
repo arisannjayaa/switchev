@@ -31,4 +31,9 @@ class Conversion extends Model
         'step',
         'message',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

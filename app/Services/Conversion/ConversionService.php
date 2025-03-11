@@ -17,4 +17,6 @@ interface ConversionService extends BaseService{
     public function reject($id);
 
     public function upsert($data);
+
+    public function sendEmailZoom($data);
 }
