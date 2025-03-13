@@ -42,7 +42,7 @@
     <div class="container container-tight py-4">
         <div class="text-center mb-4">
             <a href="." class="navbar-brand navbar-brand-autodark">
-                <h1>E-Surat</h1>
+                <h1>SwitchEV</h1>
             </a>
         </div>
         <div class="alert-container"></div>
