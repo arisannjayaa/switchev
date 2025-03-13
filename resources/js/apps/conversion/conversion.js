@@ -4,14 +4,22 @@ import {
     reloadTable,
     resetValidation,
     capitalizeFirstLetter,
-    conversionStatus
+    conversionStatus,
+    destroyQuill, btnLoading,
 } from "@/apps/utils/helper.js";
 import {csrfToken, handleValidation} from "@/app.js";
 import Swal from "sweetalert2";
 
 document.addEventListener('DOMContentLoaded', function() {
+
     const tableUrl = $('#table-url').val();
     const asset = $("#asset-url").val();
+
+    var quillReject;
+
+    $('#modal-reject').on('hidden.bs.modal', function () {
+        destroyQuill(quillReject, "#editor-reject");
+    });
 
     $("#table").DataTable({
         order: [[0, 'desc']],
@@ -207,41 +215,83 @@ document.addEventListener('DOMContentLoaded', function() {
             showCancelButton: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken(),
-                    },
-                    body: formData,
-                })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        if(data.code == 200) {
+                $("#modal-reject").modal('show');
 
-                            Swal.fire({
-                                html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
+                quillReject = new Quill('#editor-reject', {
+                    theme: 'snow'
+                });
+
+                const btnRejectConfirm = "#btn-reject-confirm";
+
+                $("#btn-reject-confirm").click(function () {
+                    btnLoading(btnRejectConfirm);
+                    let message = quillReject.root.innerHTML;
+                    let noHtml = quillReject.getText().trim();
+                    formData.append('message', message);
+                    formData.append('nohtml', noHtml);
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken(),
+                        },
+                        body: formData,
+                    })
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(data => {
+                            if(data.code == 200) {
+
+                                Swal.fire({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
                             <h3>Berhasil</h3>
                             <div class="text-secondary">${data.message}</div>`,
-                                confirmButtonText: 'Ok',
-                                confirmButtonColor: '#2fb344',
-                                customClass: {
-                                    confirmButton: 'btn btn-success w-100'
-                                }
-                            });
+                                    confirmButtonText: 'Ok',
+                                    confirmButtonColor: '#2fb344',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success w-100'
+                                    }
+                                });
 
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        }
-                    })
-                    .catch(error => {
-                        console.log('Error:', error);
-                    })
-                    .finally(() => {
-                        hideLoading();
-                    });
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 2000);
+                            }
+
+                            if (data.errors || data.invalid) {
+                                let messages = data.errors || data.invalid;
+                                $(".invalid-feedback").remove();
+                                for (let i in messages) {
+                                    for (let t in messages[i]) {
+                                        $("[key=" + i + "]")
+                                            .addClass("is-invalid")
+                                            .after(
+                                                '<div class="text-left invalid-feedback">' +
+                                                messages[i][t] +
+                                                "</div>"
+                                            );
+                                    }
+
+                                    // remove message if event key press
+                                    $("[key=" + i + "]").keypress(function () {
+                                        $("[key=" + i + "]").removeClass("is-invalid");
+                                    });
+
+                                    // remove message if event change
+                                    $("[key=" + i + "]").change(function () {
+                                        $("[key=" + i + "]").removeClass("is-invalid");
+                                    });
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.log('Error:', error);
+                        })
+                        .finally(() => {
+                            $(btnRejectConfirm).empty().append("Konfirmasi").prop('disabled', false);
+                        });
+                })
             }
             hideLoading(1000);
         });

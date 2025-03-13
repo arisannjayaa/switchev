@@ -206,11 +206,11 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         }
     }
 
-    public function reject($id)
+    public function reject($data)
     {
         DB::beginTransaction();
         try {
-            $conversion = $this->mainRepository->find($id);
+            $conversion = $this->mainRepository->find($data['id']);
             $data['step'] = 0;
             $data['status'] = 'rejected';
 
@@ -226,17 +226,17 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 }
             }
 
-            if ($conversion->step == 1) {
-                $data['message'] = 'Mohon maaf, berkas yang Anda kirimkan tidak memenuhi persyaratan yang telah ditentukan. Setelah dilakukan pemeriksaan oleh admin, ditemukan beberapa kekurangan atau ketidaksesuaian.';
-            }
-
-            if ($conversion->step == 2) {
-                $data['message'] = 'Mohon maaf, kami tidak dapat melanjutkan verifikasi melalui Zoom pada sesi yang telah dijadwalkan. Mungkin ada ketidaksesuaian atau hal-hal lain yang perlu diperbaiki selama sesi Zoom.';
-            }
-
-            if ($conversion->step == 3) {
-                $data['message'] = 'Verifikasi lapangan Anda tidak berhasil dilakukan. Tim kami menemukan beberapa masalah saat melakukan pengecekan di lapangan yang perlu diperbaiki.';
-            }
+//            if ($conversion->step == 1) {
+//                $data['message'] = 'Mohon maaf, berkas yang Anda kirimkan tidak memenuhi persyaratan yang telah ditentukan. Setelah dilakukan pemeriksaan oleh admin, ditemukan beberapa kekurangan atau ketidaksesuaian.';
+//            }
+//
+//            if ($conversion->step == 2) {
+//                $data['message'] = 'Mohon maaf, kami tidak dapat melanjutkan verifikasi melalui Zoom pada sesi yang telah dijadwalkan. Mungkin ada ketidaksesuaian atau hal-hal lain yang perlu diperbaiki selama sesi Zoom.';
+//            }
+//
+//            if ($conversion->step == 3) {
+//                $data['message'] = 'Verifikasi lapangan Anda tidak berhasil dilakukan. Tim kami menemukan beberapa masalah saat melakukan pengecekan di lapangan yang perlu diperbaiki.';
+//            }
 
             $data['application_letter'] = null;
             $data['equipment'] = null;
@@ -244,7 +244,8 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $data['sop'] = null;
             $data['wiring_diagram']= null;
 
-            $this->mainRepository->update($id, $data);
+            $this->mainRepository->update($data['id'], $data);
+            $this->sendEmail($data);
 
             DB::commit();
             return $this->setStatus(true)
@@ -258,7 +259,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         }
     }
 
-    public function sendEmailZoom($data)
+    public function sendEmail($data)
     {
         DB::beginTransaction();
         try {
@@ -271,7 +272,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             DB::commit();
             return $this->setStatus(true)
                 ->setCode(200)
-                ->setMessage("Berhasil mengirimkan email");
+                ->setMessage("Berhasil mengirimkan notifikasi melalui email");
         } catch (Exception $e) {
             DB::rollBack();
             return $this->exceptionResponse($exception);

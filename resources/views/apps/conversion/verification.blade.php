@@ -31,6 +31,13 @@
             color: #2fb344 !important;
         }
 
+        .ql-container {
+            height: 200px !important;
+            border-radius: 0 0 8px 8px !important;
+        }
+        .ql-toolbar.ql-snow {
+            border-radius: 8px 8px 0 0 !important;
+        }
     </style>
     <!-- Include stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
@@ -306,6 +313,7 @@
             </div>
         </div>
     </div>
+    @include('apps.conversion.reject-modal')
 @endsection
 
 @section('url')

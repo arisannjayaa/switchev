@@ -122,5 +122,19 @@ export function conversionStatus(status) {
     }
 
     return result;
+}
 
+export function destroyQuill(quill, editorId) {
+    if (quill) {
+        quill = null;
+        $('.wrapper-editor-reject').children().not(editorId).remove();
+        $(editorId).empty();
+        console.log(editorId);
+    }
+}
+
+export function btnLoading(btn) {
+    $(btn).empty().append(`<div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>`).prop('disabled', true);
 }

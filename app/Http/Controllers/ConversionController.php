@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\ConversionRequest;
+use App\Http\Requests\RejectConversionRequest;
 use App\Services\Conversion\ConversionService;
 use Illuminate\Http\Request;
 
@@ -83,13 +84,14 @@ class ConversionController extends Controller
         return $this->conversionService->approve($request->id)->toJson();
     }
 
-    public function reject(Request $request)
+    public function reject(RejectConversionRequest $request)
     {
         if (!auth()->user()->isAdmin()) {
             return abort(403);
         }
 
-        return $this->conversionService->reject($request->id)->toJson();
+        $data = $request->only(['message', 'id', 'nohtml']);
+        return $this->conversionService->reject($data)->toJson();
     }
 
     public function verification($id)
