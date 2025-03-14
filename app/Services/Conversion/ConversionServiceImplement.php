@@ -267,6 +267,18 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $mail['message'] = $data['message'];
             $mail['email'] = $conversion->user->email;
 
+            unset($data['id']);
+
+            if ($conversion->step == 2) {
+                $data['zoom_mail_attempt'] = $conversion->zoom_mail_attempt + 1;
+                $this->mainRepository->update($conversion->id, $data);
+            }
+
+            if ($conversion->step == 3) {
+                $data['field_mail_attempt'] = $conversion->field_mail_attempt;
+                $this->mainRepository->update($conversion->id, $data);
+            }
+
             Mail::to($mail['email'])->send(new VerificationZoom($mail));
 
             DB::commit();

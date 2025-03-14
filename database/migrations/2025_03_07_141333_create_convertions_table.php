@@ -27,6 +27,8 @@ return new class extends Migration
             $table->tinyInteger('step');
             $table->text('message');
             $table->string('status');
+            $table->tinyInteger('zoom_mail_attempt')->default(0);
+            $table->tinyInteger('field_mail_attempt')->default(0);
             $table->timestamps();
         });
     }

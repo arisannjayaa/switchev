@@ -52,7 +52,7 @@
                             </div>
                             <div>
                                 <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <div class="text-secondary">{{ @$conversion->message }}</div>
+                                <div class="text-secondary">{!! @$conversion->message !!} </div>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                             </div>
                             <div>
                                 <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <div class="text-secondary">{{ @$conversion->message }}</div>
+                                <div class="text-secondary">{!! @$conversion->message !!}</div>
                             </div>
                         </div>
                     </div>
@@ -80,18 +80,35 @@
                             </div>
                             <div>
                                 <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <div class="text-secondary"> {{ @$conversion->message }} <span>Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['id' => $conversion->id]) }}">Perbaiki data</a></div>
+                                <div class="text-secondary"> {!! @$conversion->message !!}<span>Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['id' => $conversion->id]) }}">Perbaiki data</a></div>
                             </div>
                         </div>
                     </div>
                 @endif
-                    @if($conversion->step == 5)
-                        <div class="d-flex justify-content-center align-items-center text-center flex-column">
-                            <img width="300" src="{{ asset('assets/dist/img/undraw_completing_gsf8.svg') }}" alt="">
-                            <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
-                            <p class="text-secondary">{{ $conversion->message }}</p>
+                @if($conversion->step == 4)
+                    <div class="d-flex justify-content-center align-items-center text-center flex-column">
+                        <img width="200" src="{{ asset('assets/dist/img/undraw_completing_gsf8.svg') }}" alt="">
+                        <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
+                        <p class="text-secondary">{!! $conversion->message !!}</p>
+                    </div>
+                @endif
+                @if($conversion->step == 5)
+                    <div class="d-flex justify-content-center align-items-center text-center flex-column">
+                        <div class="bg-primary-lt w-100 p-4 rounded-3">
+                            <img width="200" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}" alt="">
                         </div>
-                    @endif
+                        <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
+                        <p class="text-secondary">{!! $conversion->message !!}</p>
+                        <div class="row w-100 gap-2">
+                            <div class="col-12">
+                                <a href="{{ route('conversion.index') }}" class="btn btn-outline-primary w-100 text-left">Sertifikat</a>
+                            </div>
+                            <div class="col-12">
+                                <a href="{{ route('conversion.index') }}" class="btn btn-outline-primary w-100">Surat Keterangan</a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-lg-4 col-12">
                 <div class="card">

@@ -310,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function() {
         $(btn).empty().append(`<div class="spinner-border" role="status">
                                 <span class="visually-hidden">Loading...</span>
                                 </div>`).prop('disabled', true);
-        console.log(message)
         // send data
         fetch(url, {
             method: 'POST',
@@ -324,7 +323,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 if(data.code == 200) {
-
                     Swal.fire({
                         html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
                     <h3>Berhasil</h3>

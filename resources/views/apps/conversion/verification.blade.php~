@@ -292,7 +292,7 @@
                         </div>
                 @endif
                 @if($conversion->step == 4)
-                    <div class="alert alert-important alert-info" role="alert">
+                    <div class="alert alert-important alert-success" role="alert">
                         <div class="d-flex">
                             <div class="alert-icon">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->

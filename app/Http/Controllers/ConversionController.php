@@ -116,6 +116,6 @@ class ConversionController extends Controller
         }
 
         $data = $request->only(['message','id']);
-        return $this->conversionService->sendEmailZoom($data)->toJson();
+        return $this->conversionService->sendEmail($data)->toJson();
     }
 }
