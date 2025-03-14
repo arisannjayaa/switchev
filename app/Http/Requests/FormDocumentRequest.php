@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use LaravelEasyRepository\Traits\JsonValidateResponse;
+
+class FormDocumentRequest extends FormRequest
+{
+    use JsonValidateResponse;
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        $rules =  [
+            'application_letter' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+            'technician_competency' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+            'equipment' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+            'sop' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+            'wiring_diagram' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+        ];
+
+        if (!array_key_exists('wiring_diagram', $this->all())) {
+            unset($rules['wiring_diagram']);
+        }
+
+        if ($this->has('old_application_letter') && $this->input('old_application_letter')) {
+            unset($rules['application_letter']);
+        }
+
+        if ($this->has('old_technician_competency') && $this->input('old_technician_competency')) {
+            unset($rules['technician_competency']);
+        }
+
+        if ($this->has('old_equipment') && $this->input('old_equipment')) {
+            unset($rules['equipment']);
+        }
+
+        if ($this->has('old_sop') && $this->input('old_sop')) {
+            unset($rules['sop']);
+        }
+
+        if ($this->has('old_wiring_diagram') && $this->input('old_wiring_diagram')) {
+            unset($rules['wiring_diagram']);
+        }
+
+        return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'application_letter.required' => 'Surat Permohonan wajib diisi.',
+            'application_letter.file' => 'Surat Permohonan harus berupa file.',
+            'application_letter.mimes' => 'Surat Permohonan wajib berformat pdf.',
+            'application_letter.max' => 'Surat Permohonan tidak boleh berukuran lebih dari 2mb.',
+            'technician_competency.required' => 'Lampiran wajib diisi.',
+            'technician_competency.file' => 'Lampiran harus berupa file.',
+            'technician_competency.mimes' => 'Lampiran wajib berformat pdf.',
+            'technician_competency.max' => 'Lampiran tidak boleh berukuran lebih dari 2mb.',
+            'equipment.required' => 'Data Peralatan wajib diisi.',
+            'equipment.file' => 'Data Peralatan harus berupa file.',
+            'equipment.mimes' => 'Data Peralatan wajib berformat pdf.',
+            'equipment.max' => 'Data Peralatan tidak boleh berukuran lebih dari 2mb.',
+            'sop.required' => 'SOP wajib diisi.',
+            'sop.file' => 'SOP harus berupa file.',
+            'sop.mimes' => 'SOP wajib berformat pdf.',
+            'sop.max' => 'SOP tidak boleh berukuran lebih dari 2mb.',
+            'wiring_diagram.required' => 'Wiring Diagram wajib diisi.',
+            'wiring_diagram.file' => 'Wiring Diagram harus berupa file.',
+            'wiring_diagram.mimes' => 'Wiring Diagram wajib berformat pdf.',
+            'wiring_diagram.max' => 'Wiring Diagram tidak boleh berukuran lebih dari 2mb.',
+        ];
+    }
+}

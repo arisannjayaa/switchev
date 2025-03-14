@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\ConversionRequest;
+use App\Http\Requests\FormDocumentRequest;
+use App\Http\Requests\FormResponsibleWorkshopRequest;
 use App\Http\Requests\RejectConversionRequest;
 use App\Services\Conversion\ConversionService;
 use Illuminate\Http\Request;
@@ -27,6 +29,67 @@ class ConversionController extends Controller
             $data['conversion'] = @$this->conversionService->find($id)->getResult();
             return view('apps.conversion.form', $data);
         }
+    }
+
+    public function formResponsibleWorkshop($step)
+    {
+        if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
+            $totalSteps = 4;
+
+            if ($step < 1 || $step > $totalSteps) {
+                return redirect()->route('conversion.form', ['step' => 1]);
+            }
+
+            if ($step > 1 && !$this->conversionService->hasCompletedPreviousStep(auth()->user()->id, $step - 1)) {
+                return redirect()->route('conversion.form', ['step' => $step - 1]);
+            }
+
+            $data['conversion'] = $this->conversionService->findByUserId(auth()->user()->id)->getResult();
+
+
+            $data['titleStep'] = Helper::check_step_form_title($step);
+            $data['form'] = $step;
+
+            return view('apps.conversion.form', $data);
+        }
+    }
+
+    public function upsertFormResponsibleWorkshop(FormResponsibleWorkshopRequest $request)
+    {
+        if (auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['type',
+            'workshop',
+            'address',
+            'person_responsible',
+            'whatapp_responsible',
+            'id','step','step_1_completed']);
+        return $this->conversionService->upsertFormResponsibleWorkshop($data)->toJson();
+    }
+
+    public function upsertFormDocument(FormDocumentRequest $request)
+    {
+        if (auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only([
+            'application_letter',
+            'old_application_letter',
+            'technician_competency',
+            'old_technician_competency',
+            'equipment',
+            'old_equipment',
+            'sop',
+            'old_sop',
+            'wiring_diagram',
+            'old_wiring_diagram',
+            'step_2_completed',
+            'step',
+            'id']);
+        return $this->conversionService->upsertFormDocumentRequest($data)->toJson();
     }
 
     public function upsert(ConversionRequest $request)

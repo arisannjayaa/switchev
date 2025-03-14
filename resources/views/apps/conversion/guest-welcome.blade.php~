@@ -19,7 +19,7 @@
             <div class="text-center">
                 <h1 class="fw-bold">Selamat Datang di Pengajuan Sertifikasi Konversi</h1>
                 <p class="text-muted">Silahkan mulai mengisi form di bawah ini</p>
-                <a href="{{ route('conversion.form', ['step' => "step-1"]) }}" class="btn btn-primary">Mulai</a>
+                <a href="{{ route('conversion.form', ['form' => "step-1"]) }}" class="btn btn-primary">Mulai</a>
             </div>
         </div>
     </div>

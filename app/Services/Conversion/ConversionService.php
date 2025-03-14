@@ -19,4 +19,12 @@ interface ConversionService extends BaseService{
     public function upsert($data);
 
     public function sendEmail($data);
+
+    public function findByUserId($user_id);
+
+    public function upsertFormResponsibleWorkshop($data);
+
+    public function upsertFormDocumentRequest($data);
+
+    public function hasCompletedPreviousStep($user, $step);
 }

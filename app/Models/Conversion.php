@@ -32,6 +32,10 @@ class Conversion extends Model
         'message',
         'zoom_mail_attempt',
         'field_mail_attempt',
+        'step_1_completed',
+        'step_2_completed',
+        'step_3_completed',
+        'step_4_completed',
     ];
 
     public function user()

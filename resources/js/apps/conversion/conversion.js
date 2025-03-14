@@ -66,15 +66,116 @@ document.addEventListener('DOMContentLoaded', function() {
             { responsivePriority: 2, targets: 1 },
         ],
     });
+
+    if ($("#type").val() === 'Selain Sepeda Motor') {
+        $("#select-wiring-diagram").show();
+    }
+
+    // Event listener ketika ada perubahan pada <select>
+    $("#type").change(function() {
+        // console.log($("#type").val());
+        let selectedValue = $(this).val();
+
+        if (selectedValue === 'Selain Sepeda Motor') {
+            $("#select-wiring-diagram").show();  // Tampilkan elemen input file
+        } else {
+            $("#select-wiring-diagram").hide();  // Sembunyikan elemen input file
+        }
+    });
+
+    // var dataTechnician = [];
+    // var dataTechnicianId = 1;
+
+    $("#btn-add-technician").click(function () {
+        $("#modal-technician").modal('show');
+        $("#form-technician")[0].reset();
+    })
+
+    // $("#btn-save-technician").click(function () {
+    //     let data ={
+    //         'id' : dataTechnicianId,
+    //         'name': $("#technician_name").val(),
+    //         'task': $("#task").val(),
+    //     }
+    //
+    //     loadingScreen()
+    //
+    //     dataTechnicianId++;
+    //     dataTechnician.push(data);
+    //
+    //     $("#table-body-technician").append(`
+    //         <tr data-id="${data.id}">
+    //             <td>${data.name}</td>
+    //             <td>${data.task}</td>
+    //             <td><button type="button" class="btn btn-danger delete" data-id="${data.id}">Hapus</button></td>
+    //         </tr>
+    //     `);
+    //     $("#modal-technician").modal("hide");
+    //     hideLoading(1000);
+    //     console.log(dataTechnician);
+    // })
+
+    // $("#table-technician").on('click', '.delete', function () {
+    //     let id = $(this).data('id');
+    //
+    //     dataTechnician = dataTechnician.filter(item => item.id !== id);
+    //     $(`tr[data-id='${id}'`).remove();
+    // })
+
+    $("#application_letter").change(function () {
+        if ($('[name="old_application_letter"]').length) {
+            $('[name="old_application_letter"]').remove();
+        }
+    })
+
+    $("#technician_competency").change(function () {
+        if ($('[name="old_technician_competency"]').length) {
+            $('[name="old_technician_competency"]').remove();
+        }
+    })
+
+    $("#equipment").change(function () {
+        if ($('[name="old_equipment"]').length) {
+            $('[name="old_equipment"]').remove();
+        }
+    })
+
+    $("#sop").change(function () {
+        if ($('[name="old_sop"]').length) {
+            $('[name="old_sop"]').remove();
+        }
+    })
+
+    $("#wiring_diagram").change(function () {
+        if ($('[name="old_wiring_diagram"]').length) {
+            $('[name="old_wiring_diagram"]').remove();
+        }
+    })
+
     $("#form-conversion").submit(function (e) {
         e.preventDefault();
 
         let id = $("#id").val();
         let formData = new FormData(this);
-        let btn = "#btn-submit";
+        let btn = "#btn-next";
         let table = "#table";
         let form = "#form-conversion";
-        var url = $("#create-url").val();
+        let step = $("#step").val();
+        let url;
+        console.log(step)
+
+        if (step == 1) {
+            url = $("#form-responsible-url").val();
+        }
+
+        if (step == 2) {
+            url = $("#form-document-url").val();
+        }
+
+        if (step == 3) {
+            url = $("#form-technician-url").val();
+        }
+
 
         $(btn).empty().append(`<div class="spinner-border" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -93,20 +194,18 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 if(data.code == 200) {
-                    Swal.fire({
-                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
-                    <h3>Berhasil</h3>
-                    <div class="text-secondary">${data.message}</div>`,
-                        confirmButtonText: 'Ok',
-                        confirmButtonColor: '#2fb344',
-                        customClass: {
-                            confirmButton: 'btn btn-success w-100'
-                        }
-                    });
+                    // Swal.fire({
+                    //     html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
+                    // <h3>Berhasil</h3>
+                    // <div class="text-secondary">${data.message}</div>`,
+                    //     confirmButtonText: 'Ok',
+                    //     confirmButtonColor: '#2fb344',
+                    //     customClass: {
+                    //         confirmButton: 'btn btn-success w-100'
+                    //     }
+                    // });
 
-                    setTimeout(function() {
-                        window.location.href = data.data.redirect;
-                    }, 2000);
+                    window.location.href = data.data.redirect;
                 }
 
                 if (data.errors || data.invalid) {
@@ -119,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .finally(() => {
                 hideLoading(1000);
-                $(btn).empty().append("Kirim Pendaftaran");
+                $(btn).empty().append("Selanjutnya");
             });
     });
 

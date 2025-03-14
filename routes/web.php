@@ -49,14 +49,16 @@ Route::middleware('auth')->group(function () {
     // conversion
     Route::prefix('conversion')->name('conversion.')->group(function () {
         Route::get('/', [ConversionController::class, 'index'])->name('index');
-        Route::get('/form/{id?}', [ConversionController::class, 'form'])->name('form');
-        Route::post('/upsert', [ConversionController::class, 'upsert'])->name('upsert');
+        Route::post('/form', [ConversionController::class, 'formResponsibleWorkshop'])->name('form');
+        Route::post('/upsert', [ConversionController::class, 'upsertFormResponsibleWorkshop'])->name('upsertFormResponsibleWorkshop');
+        Route::post('/upsert/document', [ConversionController::class, 'upsertFormDocument'])->name('upsertFormDocument');
         Route::get('/table', [ConversionController::class, 'table'])->name('table');
         Route::post('/update', [ConversionController::class, 'update'])->name('update');
         Route::post('/delete', [ConversionController::class, 'delete'])->name('delete');
         Route::post('/approve', [ConversionController::class, 'approve'])->name('approve');
         Route::post('/reject', [ConversionController::class, 'reject'])->name('reject');
         Route::post('/send-mail-zoom', [ConversionController::class, 'sendZoomEmail'])->name('send-mail-zoom');
+        Route::get('/form/step/{step}', [ConversionController::class, 'formResponsibleWorkshop'])->name('form');
         Route::get('/verification/{id}', [ConversionController::class, 'verification'])->name('verification');
         Route::get('/{id}', [ConversionController::class, 'show'])->name('show');
     });
