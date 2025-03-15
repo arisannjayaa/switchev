@@ -5,6 +5,8 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\MechanicalController;
 use App\Http\Controllers\SecureFileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -61,5 +63,27 @@ Route::middleware('auth')->group(function () {
         Route::get('/form/step/{step}', [ConversionController::class, 'formResponsibleWorkshop'])->name('form');
         Route::get('/verification/{id}', [ConversionController::class, 'verification'])->name('verification');
         Route::get('/{id}', [ConversionController::class, 'show'])->name('show');
+    });
+
+    // mechanical
+    Route::prefix('mechanical')->name('mechanical.')->group(function () {
+        Route::get('/', [MechanicalController::class, 'index'])->name('index');
+        Route::post('/', [MechanicalController::class, 'create'])->name('create');
+        Route::get('/table', [MechanicalController::class, 'table'])->name('table');
+        Route::post('/update', [MechanicalController::class, 'update'])->name('update');
+        Route::post('/delete', [MechanicalController::class, 'delete'])->name('delete');
+        Route::post('/check-available', [MechanicalController::class, 'checkIsAvailable'])->name('check.available');
+        Route::get('/{id}', [MechanicalController::class, 'show'])->name('show');
+    });
+
+    // equipment
+    Route::prefix('equipment')->name('equipment.')->group(function () {
+        Route::get('/', [EquipmentController::class, 'index'])->name('index');
+        Route::post('/', [EquipmentController::class, 'create'])->name('create');
+        Route::get('/table', [EquipmentController::class, 'table'])->name('table');
+        Route::post('/update', [EquipmentController::class, 'update'])->name('update');
+        Route::post('/delete', [EquipmentController::class, 'delete'])->name('delete');
+        Route::post('/check-available', [EquipmentController::class, 'checkIsAvailable'])->name('check.available');
+        Route::get('/{id}', [EquipmentController::class, 'show'])->name('show');
     });
 });

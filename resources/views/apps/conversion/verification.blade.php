@@ -360,7 +360,6 @@
     <input type="hidden" id="step" value="{{ $conversion->step }}">
     <input type="hidden" id="id" value="{{ $conversion->id }}">
     <input type="hidden" id="table-url" value="{{ route('conversion.table') }}">
-    <input type="hidden" id="create-url" value="{{ route('conversion.upsert') }}">
     <input type="hidden" id="mail-zoom-url" value="{{ route('conversion.send-mail-zoom') }}">
     <input type="hidden" id="approve-url" value="{{ route('conversion.approve') }}">
     <input type="hidden" id="reject-url" value="{{ route('conversion.reject') }}">

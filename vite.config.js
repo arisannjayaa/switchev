@@ -11,6 +11,8 @@ export default defineConfig({
                 'resources/js/apps/auth/register.js',
                 'resources/js/apps/user/user.js',
                 'resources/js/apps/conversion/conversion.js',
+                'resources/js/apps/mechanical/mechanical.js',
+                'resources/js/apps/equipment/equipment.js',
             ],
             refresh: true,
         }),

@@ -14,6 +14,7 @@ class Mechanical extends Model
         'conversion_id',
         'name',
         'task',
+        'user_id',
     ];
 
     public function conversion()

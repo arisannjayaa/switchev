@@ -13,7 +13,7 @@
 @section('content')
     <div class="container">
         <form id="form-conversion">
-            <input type="hidden" name="id" value="{{ @$conversion->id }}">
+            <input type="hidden" id="id" name="id" value="{{ @$conversion->id }}">
             <div class="card card-md">
                 <div class="card-body text-center py-4 p-sm-5">
                     <h1 class="mt-5">Form Pendaftaran Bengkel Konversi</h1>
@@ -124,24 +124,51 @@
                             <input type="hidden" id="step" name="step" value="3">
                             <input type="hidden" id="step" name="step_3_completed" value="1">
                             <div class="col-lg-12 col-12">
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <button id="btn-add-technician" class="btn btn-outline-primary" type="button">Tambah</button>
+                                <div class="d-flex justify-content-end align-items-center py-3">
+                                    <button id="btn-mechanical-add" class="btn btn-outline-primary" type="button">Tambah</button>
                                 </div>
                                 <div class="table-responsive">
-                                    <table id="table-technician" class="table table-vcenter card-table">
+                                    <table id="table-mechanical" class="table table-vcenter card-table">
                                         <thead>
                                         <tr>
+                                            <th>No</th>
                                             <th>Nama</th>
                                             <th>Tugas</th>
                                             <th class="w-1"></th>
                                         </tr>
                                         </thead>
-                                        <tbody id="table-body-technician">
+                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         @endif
+                        @if(@$form == 4)
+                                <input type="hidden" id="step" name="step" value="4">
+                                <input type="hidden" id="step" name="step_4_completed" value="1">
+                                <div class="col-lg-12 col-12">
+                                    <div class="d-flex justify-content-end align-items-center py-3">
+                                        <button id="btn-equipment-add" class="btn btn-outline-primary" type="button">Tambah</button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="table-equipment" class="table table-vcenter card-table">
+                                            <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Jenis</th>
+                                                <th>Nama Alat</th>
+                                                <th>Merek</th>
+                                                <th>Spesifikasi</th>
+                                                <th>Keterangan</th>
+                                                <th class="w-1"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            @endif
                     </div>
                 </div>
             </div>
@@ -176,16 +203,35 @@
                     </div>
                 </div>
             </div>
-            @include('apps.conversion.form-modal')
         </form>
+        @if($form == 3)
+            @include('apps.conversion.form-mechanical-modal')
+        @endif
+        @if($form == 4)
+            @include('apps.conversion.form-equipment-modal')
+        @endif
     </div>
 @endsection
 
 @section('url')
     <input type="hidden" id="form-responsible-url" value="{{ route('conversion.upsertFormResponsibleWorkshop') }}">
     <input type="hidden" id="form-document-url" value="{{ route('conversion.upsertFormDocument') }}">
+    <input type="hidden" id="form-mechanical-url" value="{{ route('mechanical.check.available') }}">
+    <input type="hidden" id="form-equipment-url" value="{{ route('equipment.check.available') }}">
+    <input type="hidden" id="table-mechanical-url" value="{{ route('mechanical.table') }}">
+    <input type="hidden" id="create-mechanical-url" value="{{ route('mechanical.create') }}">
+    <input type="hidden" id="update-mechanical-url" value="{{ route('mechanical.update') }}">
+    <input type="hidden" id="delete-mechanical-url" value="{{ route('mechanical.delete') }}">
+    <input type="hidden" id="edit-mechanical-url" value="{{ route('mechanical.show', ['id' => ':id']) }}">
+    <input type="hidden" id="table-equipment-url" value="{{ route('equipment.table') }}">
+    <input type="hidden" id="create-equipment-url" value="{{ route('equipment.create') }}">
+    <input type="hidden" id="update-equipment-url" value="{{ route('equipment.update') }}">
+    <input type="hidden" id="delete-equipment-url" value="{{ route('equipment.delete') }}">
+    <input type="hidden" id="edit-equipment-url" value="{{ route('equipment.show', ['id' => ':id']) }}">
 @endsection
 
 @section('script')
     @vite(['resources/js/apps/conversion/conversion.js'])
+    @vite(['resources/js/apps/mechanical/mechanical.js'])
+    @vite(['resources/js/apps/equipment/equipment.js'])
 @endsection

@@ -17,7 +17,10 @@ class Equipment extends Model
         'specification',
         'brand',
         'status',
+        'user_id',
     ];
+
+    protected $table = 'equipments';
 
     public function conversion()
     {

@@ -352,6 +352,10 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             return @$conversion->step_3_completed !== null;
         }
 
+        if ($step == 4) {
+            return @$conversion->step_4_completed !== null;
+        }
+
         return false;
     }
 

@@ -5,7 +5,7 @@ import {
     resetValidation,
     capitalizeFirstLetter,
     conversionStatus,
-    destroyQuill, btnLoading,
+    destroyQuill, btnLoading, handleModalError,
 } from "@/apps/utils/helper.js";
 import {csrfToken, handleValidation} from "@/app.js";
 import Swal from "sweetalert2";
@@ -173,13 +173,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (step == 3) {
-            url = $("#form-technician-url").val();
+            url = $("#form-mechanical-url").val();
+        }
+
+        if (step == 4) {
+            url = $("#form-equipment-url").val();
         }
 
 
         $(btn).empty().append(`<div class="spinner-border" role="status">
                                 <span class="visually-hidden">Loading...</span>
-                                </div>`);
+                                </div>`).prop('disabled', true);
 
         // send data
         fetch(url, {
@@ -208,6 +212,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = data.data.redirect;
                 }
 
+                if (data.code == 403) {
+                    Swal.fire({
+                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-danger"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+                            <h3>Terjadi Kesalahan</h3>
+        <div>${data.message}</div>`,
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#d63939',
+                        customClass: {
+                            confirmButton: 'btn btn-success w-100'
+                        }
+                    });
+
+                    $(btn).empty().append(data.data.button).prop('disabled', false);
+                }
+
+
                 if (data.errors || data.invalid) {
                     new handleValidation(data.errors || data.invalid)
                 }
@@ -217,8 +237,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Error:', error);
             })
             .finally(() => {
-                hideLoading(1000);
-                $(btn).empty().append("Selanjutnya");
             });
     });
 
