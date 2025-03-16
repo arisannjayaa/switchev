@@ -24,9 +24,15 @@ return new class extends Migration
             $table->string('equipment')->nullable();
             $table->string('sop')->nullable();
             $table->string('wiring_diagram')->nullable();
-            $table->string('step');
+            $table->tinyInteger('step');
             $table->text('message');
             $table->string('status');
+            $table->tinyInteger('zoom_mail_attempt')->default(0);
+            $table->tinyInteger('field_mail_attempt')->default(0);
+            $table->boolean('step_1_completed')->default(false);
+            $table->boolean('step_2_completed')->default(false);
+            $table->boolean('step_3_completed')->default(false);
+            $table->boolean('step_4_completed')->default(false);
             $table->timestamps();
         });
     }

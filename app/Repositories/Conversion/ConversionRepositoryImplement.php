@@ -27,12 +27,22 @@ class ConversionRepositoryImplement extends Eloquent implements ConversionReposi
 
     public function findByUserId($userId)
     {
-        return $this->model->query()->where('user_id', $userId)->first();
+        return $this->model->query()
+            ->with(['user','mechanicals','equipments'])
+            ->where('user_id', $userId)->first();
     }
 
     public function table()
     {
         return $this->model->query()
             ->orderBy('updated_at', 'desc');
+    }
+
+    public function find($id)
+    {
+        return $this->model->query()
+            ->with(['user','mechanicals','equipments'])
+            ->where('id', $id)
+            ->first();
     }
 }

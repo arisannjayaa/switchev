@@ -7,6 +7,19 @@ use App\Models\User;
 
 class Helper
 {
+    public static function check_step_form_title($step)
+    {
+        switch ($step) {
+            case 1:
+                return 'Penanggung Jawab dan Bengkel';
+            case 2:
+                return 'Dokumen';
+            case 3:
+                return 'Tenaga Ahli';
+            case 4:
+                return 'Peralatan';
+        }
+    }
     public static function check_status_conversion($status)
     {
 
@@ -15,8 +28,6 @@ class Helper
                 return 'Periksa Data Upload';
             case 'verified_upload':
                 return 'Data Upload Terverifikasi';
-            case 'verification-field':
-                return 'Verifikasi Lapangan';
             case 'verified_zoom':
                 return 'Verifikasi Zoom Terverifikasi';
             case 'verified_field':
@@ -838,4 +849,10 @@ class Helper
             ]
         ]));
     }
+
+    public static function generate_uuid($length = 13) : string
+    {
+        return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
+    }
+
 }

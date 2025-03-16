@@ -4,7 +4,7 @@
     </button>
     <h1 class="navbar-brand navbar-brand-autodark">
         <a href="{{ route('dashboard') }}">
-            <p>E-Surat</p>
+            <p>SwitchEV</p>
         </a>
     </h1>
     <div class="navbar-nav flex-row d-lg-none">

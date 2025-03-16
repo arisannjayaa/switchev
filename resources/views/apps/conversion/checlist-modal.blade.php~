@@ -1,0 +1,58 @@
+<div class="modal modal-blur fade" id="modal-checklist-equipment" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Checklist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-checklist-equipment">
+                <input type="hidden" id="id" name="id" value="{{ $conversion->id }}">
+                <div class="modal-body">
+                    <div class="table-responsive" style="max-height: 300px; overflow-y: scroll">
+                        <table id="table-checklist-equipment" class="table table-vcenter card-table">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Jenis</th>
+                                <th>Nama</th>
+                                <th>Merek</th>
+                                <th>Spesifikasi</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($conversion->equipments as $equipment)
+                                <tr id="id" data-id="{{ $equipment->id }}">
+                                    <td id="iteration">{{ $loop->iteration }}</td>
+                                    <td id="type">{{ $equipment->type }}</td>
+                                    <td id="name">{{ $equipment->name }}</td>
+                                    <td id="brand">{{ $equipment->brand }}</td>
+                                    <td id="specification">{{ $equipment->specification }}</td>
+                                    <td>
+                                        <div class="mb-3">
+                                            <div>
+                                                <label class="form-check form-check-inline">
+                                                    <input value="Sesuai" class="form-check-input" type="radio" name="status[{{ $equipment->id }}]">
+                                                    <span class="form-check-label">Sesuai</span>
+                                                </label>
+                                                <label class="form-check form-check-inline">
+                                                    <input value="Tidak Sesuai" class="form-check-input" type="radio" name="status[{{ $equipment->id }}]">
+                                                    <span class="form-check-label">Tidak Sesuai</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn me-auto" data-bs-dismiss="modal">Keluar</button>
+                <button type="submit" id="btn-reject-confirm" class="btn btn-primary">Konfirmasi</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

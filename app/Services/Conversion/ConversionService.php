@@ -14,7 +14,21 @@ interface ConversionService extends BaseService{
 
     public function approve($id);
 
-    public function reject($id);
+    public function reject($data);
 
     public function upsert($data);
+
+    public function sendEmail($data);
+
+    public function findByUserId($user_id);
+
+    public function upsertFormResponsibleWorkshop($data);
+
+    public function upsertFormDocumentRequest($data);
+
+    public function hasCompletedPreviousStep($user, $step);
+
+    public function isFormCompleted($userId);
+
+    public function checklist($data);
 }

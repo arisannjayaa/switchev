@@ -30,5 +30,26 @@ class Conversion extends Model
         'status',
         'step',
         'message',
+        'zoom_mail_attempt',
+        'field_mail_attempt',
+        'step_1_completed',
+        'step_2_completed',
+        'step_3_completed',
+        'step_4_completed',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function mechanicals()
+    {
+        return $this->hasMany(Mechanical::class);
+    }
+
+    public function equipments()
+    {
+        return $this->hasMany(Equipment::class);
+    }
 }

@@ -97,18 +97,12 @@
                 @endif
             </div>
         </div>
-        @if($conversion->status == 'checking')
-            <div class="card-footer text-end">
-                <button id="btn-reject" type="submit" class="btn btn-danger">Batalkan</button>
-                <button id="btn-approve" type="submit" class="btn btn-primary">Verifikasi Berkas Sesuai</button>
-            </div>
-        @endif
     </div>
 @endsection
 
 @section('url')
     <input type="hidden" id="table-url" value="{{ route('conversion.table') }}">
-    <input type="hidden" id="create-url" value="{{ route('conversion.upsert') }}">
+{{--    <input type="hidden" id="create-url" value="{{ route('conversion.upsert') }}">--}}
     <input type="hidden" id="approve-url" value="{{ route('conversion.approve') }}">
     <input type="hidden" id="reject-url" value="{{ route('conversion.reject') }}">
     <input type="hidden" id="edit-url" value="{{ route('conversion.show', ['id' => ':id']) }}">

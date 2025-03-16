@@ -26,7 +26,6 @@ export function swalSuccess(message) {
 }
 
 export function swalError(errors) {
-    console.log(errors)
     Swal.fire({
         html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-danger"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
                             <h3>Terjadi Kesalahan</h3>
@@ -97,6 +96,10 @@ export function hideLoading(second = 1000) {
 export function conversionStatus(status) {
     let result = '';
 
+    if (status == 'is_being_uploaded') {
+        result = 'Data Sedang di Upload';
+    }
+
     if (status == 'checking') {
         result = 'Periksa Data Upload';
     }
@@ -122,5 +125,18 @@ export function conversionStatus(status) {
     }
 
     return result;
+}
 
+export function destroyQuill(quill, editorId) {
+    if (quill) {
+        quill = null;
+        $('.wrapper-editor-reject').children().not(editorId).remove();
+        $(editorId).empty();
+    }
+}
+
+export function btnLoading(btn) {
+    $(btn).empty().append(`<div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>`).prop('disabled', true);
 }

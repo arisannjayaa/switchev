@@ -74,5 +74,11 @@ class User extends Authenticatable
     {
         return $this->status == "pending";
     }
+
+
+    public function conversion()
+    {
+        return $this->hasOne(Conversion::class);
+    }
 }
 
