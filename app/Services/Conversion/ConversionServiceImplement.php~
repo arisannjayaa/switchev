@@ -5,7 +5,6 @@ namespace App\Services\Conversion;
 use App\Helpers\Helper;
 use App\Mail\MailSend;
 use App\Mail\VerificationZoom;
-use App\Models\Equipment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -508,18 +507,5 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         }
 
         return false;
-    }
-
-    public function checklist($data)
-    {
-        try {
-            foreach ($data['status'] as $id => $status) {
-                Equipment::where('id', $id)->update(['status' => $status]);
-            }
-
-            return $this->approve($data['id']);
-        } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
-        }
     }
 }

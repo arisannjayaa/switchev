@@ -41,7 +41,7 @@ class ConversionRepositoryImplement extends Eloquent implements ConversionReposi
     public function find($id)
     {
         return $this->model->query()
-            ->with(['user'])
+            ->with(['user','mechanicals','equipments'])
             ->where('id', $id)
             ->first();
     }

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerificationZoom extends Mailable
+class Reject extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,7 +27,7 @@ class VerificationZoom extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Jadwal Verifikasi Zoom',
+            subject: 'Permohonan Sertifikasi di Tolak',
         );
     }
 
@@ -37,7 +37,7 @@ class VerificationZoom extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'apps.mail.verification-zoom',
+            view: 'apps.mail.reject',
         );
     }
 

@@ -16,9 +16,9 @@ class VerificationField extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+
+    public function __construct(public $data)
     {
-        //
     }
 
     /**
@@ -27,7 +27,7 @@ class VerificationField extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verification Field',
+            subject: 'Jadwal Verifikasi Lapangan',
         );
     }
 
@@ -37,7 +37,7 @@ class VerificationField extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'apps.mail.verification-field',
         );
     }
 

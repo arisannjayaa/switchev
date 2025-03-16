@@ -2,6 +2,7 @@
 
 namespace App\Services\Equipment;
 
+use App\Models\Equipment;
 use App\Repositories\Conversion\ConversionRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;

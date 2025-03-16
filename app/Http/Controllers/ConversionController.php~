@@ -192,6 +192,7 @@ class ConversionController extends Controller
     public function checklist(ChecklistEquipmentRequest $request)
     {
         $data = $request->only(['status','id']);
+        dd($data);
         return $this->conversionService->checklist($data)->toJson();
     }
 }

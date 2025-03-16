@@ -96,6 +96,10 @@ export function hideLoading(second = 1000) {
 export function conversionStatus(status) {
     let result = '';
 
+    if (status == 'is_being_uploaded') {
+        result = 'Data Sedang di Upload';
+    }
+
     if (status == 'checking') {
         result = 'Periksa Data Upload';
     }
@@ -128,7 +132,6 @@ export function destroyQuill(quill, editorId) {
         quill = null;
         $('.wrapper-editor-reject').children().not(editorId).remove();
         $(editorId).empty();
-        console.log(editorId);
     }
 }
 

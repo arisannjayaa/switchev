@@ -366,6 +366,7 @@
                                 <h4 class="alert-heading">Selesaikan Proses Verifikasi</h4>
                                 <div class="alert-description">
                                     <p class="d-inline">Admin, untuk menyelesaikan tahapan verifikasi, tekan tombol "Selesai". </p>
+                                    <p>Jika sudah, tekan tombol "Selesai" untuk melanjutkan.</p>
                                 </div>
                             </div>
                         </div>

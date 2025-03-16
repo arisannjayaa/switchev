@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     $('#btn-mechanical-add').click(function () {
-        console.log($("#id").val())
         $('.container form').each(function() {
             this.reset(); // Mereset semua form di dalam container
         });
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .finally(() => {
                 hideLoading(1000);
-                $(btn).empty().append("Simpan");
+                $(btn).empty().append("Simpan").prop('disabled', false);
             });
     });
 

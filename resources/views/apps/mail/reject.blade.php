@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Jadwal Verifikasi Zoom</title>
+    <title>Permohonan Sertifikasi di Tolak</title>
     <style>
         /* Styling untuk container */
         body {
@@ -60,7 +60,7 @@
 <body>
 <div class="card">
     <div class="card-header">
-        Informasi Rapat Zoom
+        Permohonan Sertifikasi di Tolak
     </div>
     <div class="card-body">
         {!! $data['message'] !!}

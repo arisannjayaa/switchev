@@ -111,7 +111,8 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
 
             return $this->setStatus(false)
                 ->setCode(403)
-                ->setMessage("Minimal satu tenaga ahli harus ada");
+                ->setMessage("Minimal satu tenaga ahli harus ada")
+                ->setResult(['button' => 'Selanjutnya']);
         } catch (Exception $e) {
             return $this->exceptionResponse($exception);
         }

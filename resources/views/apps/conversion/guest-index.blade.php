@@ -80,7 +80,7 @@
                             </div>
                             <div>
                                 <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <div class="text-secondary"> {!! @$conversion->message !!}<span>Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['id' => $conversion->id]) }}">Perbaiki data</a></div>
+                                <span class="text-secondary"> {!! @$conversion->message !!}<span class="">Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['step' => 1]) }}">Perbaiki data</a></span>
                             </div>
                         </div>
                     </div>

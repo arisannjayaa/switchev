@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChecklistEquipmentRequest;
 use App\Http\Requests\EquipmentRequest;
 use App\Services\Equipment\EquipmentService;
 use Illuminate\Http\Request;

@@ -29,6 +29,4 @@ interface ConversionService extends BaseService{
     public function hasCompletedPreviousStep($user, $step);
 
     public function isFormCompleted($userId);
-
-    public function checklist($data);
 }

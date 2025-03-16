@@ -10,10 +10,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label required">Jenis</label>
-                        <div>
-                            <input type="text" class="form-control" placeholder="Jenis" name="type" id="type">
-                            <small class="form-hint">Jenis Peralatan</small>
-                        </div>
+                        <select id="type" class="form-select" name="type">
+                            <option value="">Pilih Jenis Peralatan</option>
+                            <option value="Peralatan Khusus Instalasi">Peralatan Khusus Instalasi</option>
+                            <option value="Peralatan tangan & peralatan bertenaga">Peralatan tangan & peralatan bertenaga</option>
+                            <option value="Peralatan uji perlindungan sentuh Listrik">Peralatan uji perlindungan sentuh Listrik</option>
+                            <option value="Fasilitas keamanan dan keselamatan kerja">Fasilitas keamanan dan keselamatan kerja</option>
+                            <option value="Fasilitas keamanan dan keselamatan kerja">Fasilitas keamanan dan keselamatan kerja</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label required">Nama</label>

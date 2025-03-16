@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('brand');
             $table->string('specification');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

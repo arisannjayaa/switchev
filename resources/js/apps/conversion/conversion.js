@@ -5,7 +5,7 @@ import {
     resetValidation,
     capitalizeFirstLetter,
     conversionStatus,
-    destroyQuill, btnLoading, handleModalError,
+    destroyQuill, btnLoading, handleModalError, swalError,
 } from "@/apps/utils/helper.js";
 import {csrfToken, handleValidation} from "@/app.js";
 import Swal from "sweetalert2";
@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (data.errors || data.invalid) {
                     new handleValidation(data.errors || data.invalid)
+                    $(btn).empty().append('Selanjutnya').prop('disabled', false);
                 }
 
             })
@@ -247,6 +248,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.location.href = url;
     })
+
+    $("#form-checklist-equipment").submit(function (e) {
+        e.preventDefault();
+
+        let formData = new FormData(this);
+        let btn = "#btn-checklist-confirm";
+        let modal = "#modal-checklist-equipment";
+        let url = $("#checklist-url").val();
+
+        $(btn).empty().append(`<div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>`).prop('disabled', true);
+
+        // send data
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+            },
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data.code == 200) {
+                    $(modal).modal("hide");
+
+                    Swal.fire({
+                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
+                    <h3>Berhasil</h3>
+                    <div class="text-secondary">${data.message}</div>`,
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#2fb344',
+                        customClass: {
+                            confirmButton: 'btn btn-success w-100'
+                        }
+                    });
+
+                }
+
+                if (data.errors || data.invalid) {
+                    swalError(data.errors);
+                }
+
+                window.location.reload();
+
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            .finally(() => {
+                hideLoading(1000);
+                $(btn).empty().append("Simpan").prop('disabled', false);
+            });
+    });
 
     $("#btn-approve").click(function (){
         let id = $("#id").val();
@@ -270,6 +327,14 @@ document.addEventListener('DOMContentLoaded', function() {
             showCancelButton: true,
         }).then((result) => {
             if (result.isConfirmed) {
+                let step = $("#step").val();
+
+                if (step == 3) {
+                    hideLoading(1000);
+                    $("#modal-checklist-equipment").modal('show');
+                    return;
+                }
+
                 fetch(url, {
                     method: 'POST',
                     headers: {
@@ -340,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const btnRejectConfirm = "#btn-reject-confirm";
 
-                $("#btn-reject-confirm").click(function () {
+                $("#btn-reject-confirm").off('click').on('click', function () {
                     btnLoading(btnRejectConfirm);
                     let message = quillReject.root.innerHTML;
                     let noHtml = quillReject.getText().trim();
@@ -414,15 +479,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     })
 
-    $("#btn-send-mail-zoom").click(function () {
+    $("#btn-send-mail").click(function () {
         let id = $("#id").val();
         let message = quill.root.innerHTML;
-        let url = $("#mail-zoom-url").val();
+        let url = $("#mail-url").val();
         url = url.replace(":id", id);
         let formData = new FormData();
-        let btn = "#btn-send-mail-zoom";
+        let btn = "#btn-send-mail";
+        let step = $("#step").val();
+        let title = '';
+
+        if (step == 2) {
+            title = 'Jadwal Verifikasi Zoom';
+        }
+
+        if (step == 3) {
+            title = 'Jadwal Verifikasi Lapangan';
+        }
+
         formData.append("id", id);
         formData.append('message', message);
+        formData.append('title', title);
 
         $(btn).empty().append(`<div class="spinner-border" role="status">
                                 <span class="visually-hidden">Loading...</span>

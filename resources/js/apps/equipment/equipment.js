@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .finally(() => {
                 hideLoading(1000);
-                $(btn).empty().append("Simpan");
+                $(btn).empty().append("Simpan").prop('disabled', false);
             });
     });
 
