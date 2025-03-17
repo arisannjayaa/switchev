@@ -52,4 +52,9 @@ class Conversion extends Model
     {
         return $this->hasMany(Equipment::class);
     }
+
+    public function certificates()
+    {
+        return $this->hasMany(Equipment::class);
+    }
 }

@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/js/apps/conversion/conversion.js',
                 'resources/js/apps/mechanical/mechanical.js',
                 'resources/js/apps/equipment/equipment.js',
+                'resources/js/apps/certificate/certificate.js',
             ],
             refresh: true,
         }),

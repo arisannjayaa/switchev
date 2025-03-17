@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Helpers;
+
+use App\Models\Certificate;
+use App\Models\Role;
+use App\Models\User;
+use Carbon\Carbon;
+
+class CertificateHelper
+{
+    public static function generateNomorSurat($type, $separator = '/')
+    {
+        $lastId = Certificate::max('id') + 1;
+        setlocale(LC_TIME, 'id_ID.UTF-8');
+        Carbon::setLocale('id');
+        $monthNumber = Carbon::now()->month;
+
+        $monthRomawi = self::convertToRoman($monthNumber);
+
+        $year = Carbon::now()->year;
+
+        return "{$type}{$separator}SEV{$separator}{$monthRomawi}{$separator}{$lastId}{$separator}{$year}";
+    }
+
+    private static function convertToRoman($number)
+    {
+        $map = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI',
+            7 => 'VII', 8 => 'VIII', 9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII'
+        ];
+        return $map[$number] ?? '';
+    }
+
+    public static function formatDateID($date, $format = 'd F Y')
+    {
+        $timestamp = strtotime($date);
+
+        $day   = date('d', $timestamp);
+        $month = date('m', $timestamp);
+        $year  = date('Y', $timestamp);
+
+        $bulanIndo = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember'
+        ];
+
+        $bulan = isset($bulanIndo[$month]) ? $bulanIndo[$month] : $month;
+
+        switch ($format) {
+            case 'd F Y':
+                return "$day $bulan $year";
+            case 'l, d F Y':
+                $hariIndo = [
+                    'Sunday'    => 'Minggu',
+                    'Monday'    => 'Senin',
+                    'Tuesday'   => 'Selasa',
+                    'Wednesday' => 'Rabu',
+                    'Thursday'  => 'Kamis',
+                    'Friday'    => 'Jumat',
+                    'Saturday'  => 'Sabtu'
+                ];
+                $hari = $hariIndo[date('l', $timestamp)];
+                return "$hari, $day $bulan $year";
+            default:
+                return date($format, $timestamp);
+        }
+    }
+}

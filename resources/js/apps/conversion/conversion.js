@@ -83,44 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // var dataTechnician = [];
-    // var dataTechnicianId = 1;
-
-    $("#btn-add-technician").click(function () {
-        $("#modal-technician").modal('show');
-        $("#form-technician")[0].reset();
-    })
-
-    // $("#btn-save-technician").click(function () {
-    //     let data ={
-    //         'id' : dataTechnicianId,
-    //         'name': $("#technician_name").val(),
-    //         'task': $("#task").val(),
-    //     }
-    //
-    //     loadingScreen()
-    //
-    //     dataTechnicianId++;
-    //     dataTechnician.push(data);
-    //
-    //     $("#table-body-technician").append(`
-    //         <tr data-id="${data.id}">
-    //             <td>${data.name}</td>
-    //             <td>${data.task}</td>
-    //             <td><button type="button" class="btn btn-danger delete" data-id="${data.id}">Hapus</button></td>
-    //         </tr>
-    //     `);
-    //     $("#modal-technician").modal("hide");
-    //     hideLoading(1000);
-    //     console.log(dataTechnician);
-    // })
-
-    // $("#table-technician").on('click', '.delete', function () {
-    //     let id = $(this).data('id');
-    //
-    //     dataTechnician = dataTechnician.filter(item => item.id !== id);
-    //     $(`tr[data-id='${id}'`).remove();
-    // })
 
     $("#application_letter").change(function () {
         if ($('[name="old_application_letter"]').length) {
