@@ -18,9 +18,9 @@ class EquipmentSeeder extends Seeder
         $conversionId = '49r3wy6uxi80sckk';
         $userId = '6xrdbflbc000wo48';
 
-        $types = ['Peralatan Khusus', 'Peralatan tangan', 'Peralatan uji', 'Fasilitas keamanan'];
+        $types = ['Peralatan Khusus Instalasi', 'Peralatan tangan dan peralatan bertenaga', 'Peralatan uji perlindungan sentuh Listrik', 'Fasilitas keamanan dan keselamatan kerja'];
         $brands = ['Bosch', 'Makita', 'Snap-On', 'DeWalt', 'Hitachi', 'Honda', '3M'];
-        $types = ['Peralatan Khusus Instalasi', 'Peralatan tangan & peralatan bertenaga', 'Peralatan uji perlindungan sentuh Listrik', 'Fasilitas keamanan dan keselamatan kerja'];
+        $names = ['Wrench Set', 'Impact Drill', 'OBD2 Scanner', 'Hydraulic Lift', 'Safety Goggles'];
 
         $equipments = [];
         for ($i = 1; $i <= 100; $i++) {

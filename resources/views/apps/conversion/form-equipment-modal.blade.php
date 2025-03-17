@@ -13,7 +13,7 @@
                         <select id="type" class="form-select" name="type">
                             <option value="">Pilih Jenis Peralatan</option>
                             <option value="Peralatan Khusus Instalasi">Peralatan Khusus Instalasi</option>
-                            <option value="Peralatan tangan & peralatan bertenaga">Peralatan tangan & peralatan bertenaga</option>
+                            <option value="Peralatan tangan dan peralatan bertenaga">Peralatan tangan dan peralatan bertenaga</option>
                             <option value="Peralatan uji perlindungan sentuh Listrik">Peralatan uji perlindungan sentuh Listrik</option>
                             <option value="Fasilitas keamanan dan keselamatan kerja">Fasilitas keamanan dan keselamatan kerja</option>
                             <option value="Fasilitas keamanan dan keselamatan kerja">Fasilitas keamanan dan keselamatan kerja</option>
