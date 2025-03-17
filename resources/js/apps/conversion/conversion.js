@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var quillReject;
 
+    $("#check-all").change(function() {
+        if ($("#check-all:checked").length === $("#check-all").length) {
+            $("input[value='Sesuai']").prop("checked", true);
+        } else {
+            $("input[value='Sesuai']").prop("checked", false);
+        }
+    });
+
     $('#modal-reject').on('hidden.bs.modal', function () {
         destroyQuill(quillReject, "#editor-reject");
     });

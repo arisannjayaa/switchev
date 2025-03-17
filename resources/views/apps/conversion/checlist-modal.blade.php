@@ -9,6 +9,12 @@
                 <input type="hidden" id="id" name="id" value="{{ $conversion->id }}">
                 <div class="modal-body">
                     <div class="table-responsive" style="max-height: 300px; overflow-y: scroll">
+                        <div>
+                            <label class="form-check">
+                                <input id="check-all" class="form-check-input" type="checkbox">
+                                <span class="form-check-label">Pilih Sesuai Semua</span>
+                            </label>
+                        </div>
                         <table id="table-checklist-equipment" class="table table-vcenter card-table">
                             <thead>
                             <tr>

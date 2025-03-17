@@ -8,7 +8,7 @@ use LaravelEasyRepository\Traits\GenUid;
 
 class Certificate extends Model
 {
-    use HasFactory, GenUid;
+    use HasFactory;
 
     protected $fillable = [
         'conversion_id',
