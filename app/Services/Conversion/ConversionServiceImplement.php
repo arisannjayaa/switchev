@@ -214,10 +214,10 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                                 </p>
                             ';
                 Mail::to($conversion->user->email)->send(new MailSend($mail));
+                $this->certificateRepository->update($conversion->certificate->id, ['status' => 'Selesai']);
             }
 
             $this->mainRepository->update($id, $data);
-            $this->certificateRepository->update($conversion->certificate->id, ['status' => 'Selesai']);
 
             DB::commit();
             return $this->setStatus(true)

@@ -109,7 +109,7 @@
                             </div>
                             @if(@$conversion->type == "Selain Sepeda Motor")
                             <div class="col-lg-6 col-12">
-                                <div class="mb-3" style="display: none;" id="select-wiring-diagram">
+                                <div class="mb-3" id="select-wiring-diagram">
                                     <label class="form-label required">Lampiran Wiring Diagram Kendaraan Bermotor Konversi Selain Sepeda Motor</label>
                                     <input id="wiring_diagram" type="file" class="form-control" name="wiring_diagram">
                                     @if(@$conversion->wiring_diagram) <input type="hidden" class="form-control" name="old_wiring_diagram" value="{{ @$conversion->wiring_diagram }}"> @endif
