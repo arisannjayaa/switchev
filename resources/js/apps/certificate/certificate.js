@@ -11,7 +11,13 @@ import {csrfToken, handleValidation} from "@/app.js";
 import Swal from "sweetalert2";
 
 document.addEventListener('DOMContentLoaded', function() {
+    const isCertificate = $("#is-certificate-ready").val();
     $("#btn-approve").prop('disabled', true);
+
+    if (isCertificate == 1) {
+        $("#btn-approve").prop('disabled', false);
+    }
+
 
     $("#btn-download-sk").click(function () {
         let url = $("#download-sk-url").val();

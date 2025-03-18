@@ -3,6 +3,7 @@
 namespace App\Services\Mechanical;
 
 use App\Repositories\Conversion\ConversionRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
@@ -73,7 +74,7 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
                 ->setMessage("Tenaga ahli berhasil ditambahkan");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -90,7 +91,7 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
                 ->setMessage("Tenaga berhasil diperbaharui");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -114,7 +115,7 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
                 ->setMessage("Minimal satu tenaga ahli harus ada")
                 ->setResult(['button' => 'Selanjutnya']);
         } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 }

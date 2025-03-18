@@ -24,7 +24,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -95,3 +94,5 @@ Route::middleware('auth')->group(function () {
         Route::post('/upload-archive', [\App\Http\Controllers\CertificateController::class, 'upload_archive'])->name('upload.archive');
     });
 });
+
+Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');

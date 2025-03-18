@@ -4,6 +4,7 @@ namespace App\Services\Equipment;
 
 use App\Models\Equipment;
 use App\Repositories\Conversion\ConversionRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
@@ -74,7 +75,7 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
                 ->setMessage("Peralatan berhasil ditambahkan");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -91,7 +92,7 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
                 ->setMessage("Peralatan berhasil diperbaharui");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -116,7 +117,7 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
                 ->setResult(['button' => 'Kirim Pendaftaran'])
                 ->setMessage("Minimal satu peralatan harus ada");
         } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 }

@@ -5,6 +5,9 @@ namespace App\Services\Certificate;
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
 use App\Repositories\Conversion\ConversionRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\Certificate\CertificateRepository;
 use PhpOffice\PhpWord\Element\Table;
@@ -30,7 +33,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
      * don't change $this->mainRepository variable name
      * because used in extends service class
      */
-     protected $mainRepository;
+     protected $mainRepository, $conversionRepository;
 
     public function __construct(CertificateRepository $mainRepository, ConversionRepository $conversionRepository)
     {
@@ -61,7 +64,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
 
             return $this->setResult($result)->setStatus(true)->setCode(200);
         } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -169,7 +172,71 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
 
             return $this->setResult($result)->setStatus(true)->setCode(200);
         } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    public function upload_archive($data)
+    {
+        DB::beginTransaction();
+        try {
+            $certificate = $this->mainRepository->findByUserId($data['user_id']);
+
+            if (@$data['sk_attachment']) {
+                if (@$certificate->sk_attachment) {
+                    if (file_exists(storage_path('app/public/'.@$certificate->sk_attachment))) {
+                        unlink(storage_path('app/public/'.@$certificate->sk_attachment));
+                    }
+                }
+
+                // file surat keterangan
+                $fileSKAttachment = $data['sk_attachment'];
+                $originalNameApplicationLetter = $fileSKAttachment->getClientOriginalName();
+                $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
+                $newFileNameApplicationLetter = 'Surat Keterangan - ' . uniqid() . '.' . $extensionApplicationLetter;
+                $filePathApplicationLetter = $fileSKAttachment->storeAs('certificates', $newFileNameApplicationLetter, 'public');
+                $data['sk_attachment'] = $filePathApplicationLetter;
+            } else {
+                $data['sk_attachment'] = $data['old_sk_attachment'];
+                unset($data['old_sk_attachment']);
+            }
+
+            if (@$data['sft_attachment']) {
+                if (@$certificate->sft_attachment) {
+                    if (file_exists(storage_path('app/public/'.@$certificate->sft_attachment))) {
+                        unlink(storage_path('app/public/'.@$certificate->sft_attachment));
+                    }
+                }
+
+                // file sertifikat
+                $fileSKAttachment = $data['sft_attachment'];
+                $originalNameApplicationLetter = $fileSKAttachment->getClientOriginalName();
+                $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
+                $newFileNameApplicationLetter = 'Sertifikat - ' . uniqid() . '.' . $extensionApplicationLetter;
+                $filePathApplicationLetter = $fileSKAttachment->storeAs('certificates', $newFileNameApplicationLetter, 'public');
+                $data['sft_attachment'] = $filePathApplicationLetter;
+            } else {
+                $data['sft_attachment'] = $data['old_sft_attachment'];
+                unset($data['old_sft_attachment']);
+            }
+
+            if (@$certificate) {
+                $data['id'] = $certificate->id;
+                $this->mainRepository->update($certificate->id, $data);
+            }
+
+            if (!@$certificate) {
+                $result = $this->mainRepository->create($data);
+                $this->conversionRepository->update($result->conversion_id,['certificate_id' => $result->id]);
+            }
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setMessage("Unggah berkas berhasil dilakukan");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
         }
     }
 }

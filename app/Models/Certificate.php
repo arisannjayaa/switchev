@@ -14,13 +14,15 @@ class Certificate extends Model
         'conversion_id',
         'user_id',
         'type',
-        'attachment',
+        'sk_attachment',
+        'sft_attachment',
+        'status'
     ];
 
     protected $table = 'certificates';
 
     public function conversion()
     {
-        return $this->belongsTo(Conversion::class);
+        return $this->hasOne(Conversion::class);
     }
 }

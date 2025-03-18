@@ -55,6 +55,33 @@
         .card-body a:hover {
             text-decoration: underline;
         }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .button.certificate {
+            background-color: #28a745;
+        }
+        .button.certificate:hover {
+            background-color: #218838;
+        }
+        .button.surat {
+            background-color: #007bff;
+        }
+        .button.surat:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
     </style>
 </head>
 <body>

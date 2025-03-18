@@ -15,8 +15,8 @@ class EquipmentSeeder extends Seeder
     public function run(): void
     {
         DB::table('equipments')->truncate();
-        $conversionId = '49r3wy6uxi80sckk';
-        $userId = '6xrdbflbc000wo48';
+        $conversionId = 'g3iu3ywcd3wws4k4';
+        $userId = '12oocs8adhlccskk';
 
         $types = ['Peralatan Khusus Instalasi', 'Peralatan tangan dan peralatan bertenaga', 'Peralatan uji perlindungan sentuh Listrik', 'Fasilitas keamanan dan keselamatan kerja'];
         $brands = ['Bosch', 'Makita', 'Snap-On', 'DeWalt', 'Hitachi', 'Honda', '3M'];

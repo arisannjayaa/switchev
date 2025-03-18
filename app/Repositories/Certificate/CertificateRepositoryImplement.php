@@ -20,4 +20,10 @@ class CertificateRepositoryImplement extends Eloquent implements CertificateRepo
     }
 
     // Write something awesome :)
+    public function findByUserId($user_id)
+    {
+        return $this->model->query()
+            ->where('user_id', $user_id)
+            ->first();
+    }
 }

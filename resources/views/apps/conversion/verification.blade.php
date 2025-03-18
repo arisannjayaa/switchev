@@ -416,9 +416,9 @@
                                     <div class="mb-3">
                                         <label class="form-label required">Surat Keterangan</label>
                                         <input id="sk_attachment" type="file" class="form-control" name="sk_attachment">
-
+                                        @if(@$conversion->certificate->sk_attachment) <input type="hidden" class="form-control" name="old_sk_attachment" value="{{ @$conversion->certificate->sk_attachment }}"> @endif
                                         <small class="form-hint">
-
+                                            @if(@$conversion->certificate->sk_attachment) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sk_attachment)]) }}">lihat disini</a> @endif
                                         </small>
                                     </div>
                                 </div>
@@ -426,8 +426,9 @@
                                     <div class="mb-3">
                                         <label class="form-label required">Sertifikat</label>
                                         <input id="sft_attachment" type="file" class="form-control" name="sft_attachment">
-
+                                        @if(@$conversion->certificate->sft_attachment) <input type="hidden" class="form-control" name="old_sft_attachment" value="{{ @$conversion->certificate->sft_attachment }}"> @endif
                                         <small class="form-hint">
+                                            @if(@$conversion->certificate->sft_attachment) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sft_attachment)]) }}">lihat disini</a> @endif
                                         </small>
                                     </div>
                                 </div>
@@ -490,7 +491,8 @@
 @section('url')
     <input type="hidden" id="step" value="{{ $conversion->step }}">
     <input type="hidden" id="id" value="{{ $conversion->id }}">
-    <input type="hidden" id="user_id" value="{{ $conversion->user_id }}">
+    <input type="hidden" id="user-id" value="{{ $conversion->user_id }}">
+    <input type="hidden" id="is-certificate-ready" value="{{ (@$conversion->certificate->sft_attachment || @$conversion->certificate->sk_attachment) ? true : false }}">
     <input type="hidden" id="table-url" value="{{ route('conversion.table') }}">
     <input type="hidden" id="checklist-url" value="{{ route('conversion.checklist') }}">
     <input type="hidden" id="mail-url" value="{{ route('conversion.send-mail') }}">

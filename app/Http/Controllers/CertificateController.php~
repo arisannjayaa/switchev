@@ -47,4 +47,15 @@ class CertificateController extends Controller
         return $this->certificateService->upload_archive($data)->toJson();
     }
 
+    public function update_status(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['certificate_id']);
+
+        return $this->certificateService->update($data['certificate_id'], ['status' => 'Selesai'])->toJson();
+    }
+
 }

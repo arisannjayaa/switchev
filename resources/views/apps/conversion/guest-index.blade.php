@@ -101,10 +101,10 @@
                         <p class="text-secondary">{!! $conversion->message !!}</p>
                         <div class="row w-100 gap-2">
                             <div class="col-12">
-                                <a href="{{ route('conversion.index') }}" class="btn btn-outline-primary w-100 text-left">Sertifikat</a>
+                                <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sft_attachment)]) }}" class="btn btn-outline-primary w-100 text-left">Sertifikat</a>
                             </div>
                             <div class="col-12">
-                                <a href="{{ route('conversion.index') }}" class="btn btn-outline-primary w-100">Surat Keterangan</a>
+                                <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sk_attachment)]) }}" class="btn btn-outline-primary w-100">Surat Keterangan</a>
                             </div>
                         </div>
                     </div>

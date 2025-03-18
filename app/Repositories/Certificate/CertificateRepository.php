@@ -6,5 +6,5 @@ use LaravelEasyRepository\Repository;
 
 interface CertificateRepository extends Repository{
 
-    // Write something awesome :)
+    public function findByUserId($user_id);
 }

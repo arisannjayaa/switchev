@@ -8,4 +8,6 @@ interface CertificateService extends BaseService{
 
     public function generate_certificate($conversion_id);
     public function generate_sk($conversion_id);
+
+    public function upload_archive($data);
 }
