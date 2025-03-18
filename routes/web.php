@@ -95,4 +95,9 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::prefix('/')->name('home.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('index');
+});
+
+
 Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');
