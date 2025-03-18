@@ -6,6 +6,8 @@ use App\Helpers\Helper;
 use App\Mail\MailSend;
 use App\Mail\VerificationZoom;
 use App\Models\Equipment;
+use App\Repositories\Certificate\CertificateRepository;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -32,11 +34,12 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
      * don't change $this->mainRepository variable name
      * because used in extends service class
      */
-     protected $mainRepository;
+     protected $mainRepository, $certificateRepository;
 
-    public function __construct(ConversionRepository $mainRepository)
+    public function __construct(ConversionRepository $mainRepository, CertificateRepository $certificateRepository)
     {
       $this->mainRepository = $mainRepository;
+      $this->certificateRepository = $certificateRepository;
     }
 
     // Define your custom methods :)
@@ -121,7 +124,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setMessage("Berhasil melakukan pendaftaran");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -192,6 +195,26 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 $data['status'] = 'finished';
                 $data['message'] = 'Semua data terverifikasi';
                 $data['result'] = 'Berhasil melakukan verifikasi semua data';
+                $mail['title'] = 'Selamat! Bengkel Konversi Anda Resmi Terdaftar';
+                $mail['message'] = '
+                                <h2>⚡ Selamat! Bengkel Konversi Anda Resmi Terdaftar ⚡</h2>
+                                <p>
+                                    Terima kasih telah bergabung sebagai bagian dari program konversi kendaraan listrik!
+                                    Bengkel Anda kini telah resmi terdaftar dan siap untuk memberikan layanan konversi kendaraan yang lebih ramah lingkungan.
+                                    Sebagai bukti pendaftaran, silakan unduh dokumen resmi melalui tombol di bawah ini:
+                                </p>
+                                <a href="' . route('secure.file', ['path' => Helper::encrypt($conversion->certificate->sft_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #28a745;">📜 Download Sertifikat</a>
+                                <a href="' . route('secure.file', ['path' => Helper::encrypt($conversion->certificate->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan</a>
+                                <p style="margin-top: 20px; font-size: 14px; color: #777;">
+                                    🚀 Kami berharap bengkel Anda dapat memberikan kontribusi positif dalam percepatan kendaraan listrik di Indonesia.
+                                    Jika ada pertanyaan, silakan hubungi tim kami.
+                                    <br><br>
+                                    Salam hangat,
+                                    <br><strong>Tim Administrasi Program Konversi</strong>
+                                </p>
+                            ';
+                Mail::to($conversion->user->email)->send(new MailSend($mail));
+                $this->certificateRepository->update($conversion->certificate->id, ['status' => 'Selesai']);
             }
 
             $this->mainRepository->update($id, $data);
@@ -204,7 +227,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setMessage($data['result']);
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -273,7 +296,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setMessage("Data berhasil ditolak karena tidak sesuai");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -306,7 +329,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setMessage("Berhasil mengirimkan notifikasi melalui email");
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -319,7 +342,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setCode(200)
                 ->setResult($result);
         } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -351,7 +374,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setResult(['redirect' => $redirect->getTargetUrl()]);
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -495,7 +518,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 ->setResult(['redirect' => $redirect->getTargetUrl()]);
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 
@@ -519,7 +542,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
 
             return $this->approve($data['id']);
         } catch (Exception $e) {
-            return $this->exceptionResponse($exception);
+            return $this->exceptionResponse($e);
         }
     }
 }

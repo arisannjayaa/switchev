@@ -14,15 +14,16 @@ class EquipmentSeeder extends Seeder
      */
     public function run(): void
     {
-        $conversionId = '72h0k3vls8kc88ko';
-        $userId = 'h221cvqljwo4ks40';
+        DB::table('equipments')->truncate();
+        $conversionId = 'g3iu3ywcd3wws4k4';
+        $userId = '12oocs8adhlccskk';
 
-        $types = ['Hand Tool', 'Power Tool', 'Diagnostic Tool', 'Lifting Equipment', 'Safety Equipment'];
+        $types = ['Peralatan Khusus Instalasi', 'Peralatan tangan dan peralatan bertenaga', 'Peralatan uji perlindungan sentuh Listrik', 'Fasilitas keamanan dan keselamatan kerja'];
         $brands = ['Bosch', 'Makita', 'Snap-On', 'DeWalt', 'Hitachi', 'Honda', '3M'];
         $names = ['Wrench Set', 'Impact Drill', 'OBD2 Scanner', 'Hydraulic Lift', 'Safety Goggles'];
 
         $equipments = [];
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             $equipments[] = [
                 'id' => Helper::generate_uuid(),
                 'conversion_id' => $conversionId,
@@ -30,7 +31,8 @@ class EquipmentSeeder extends Seeder
                 'type' => $types[array_rand($types)],
                 'name' => $names[array_rand($names)],
                 'brand' => $brands[array_rand($brands)],
-                'specification' => 'Units: ' . rand(1, 10) . ', Expiry: ' . now()->addYears(rand(1, 5))->toDateString(),
+                'specification' => 'Units: ' . rand(1, 10),
+                'status' => 'Sesuai',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

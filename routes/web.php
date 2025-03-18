@@ -5,6 +5,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MechanicalController;
 use App\Http\Controllers\SecureFileController;
@@ -23,7 +24,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -87,4 +87,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/check-available', [EquipmentController::class, 'checkIsAvailable'])->name('check.available');
         Route::get('/{id}', [EquipmentController::class, 'show'])->name('show');
     });
+
+    Route::prefix('certificate')->name('certificate.')->group(function () {
+        Route::post('/generate-certificate', [\App\Http\Controllers\CertificateController::class, 'generate_certificate'])->name('generate.certificate');
+        Route::post('/generate-sk', [\App\Http\Controllers\CertificateController::class, 'generate_sk'])->name('generate.sk');
+        Route::post('/upload-archive', [\App\Http\Controllers\CertificateController::class, 'upload_archive'])->name('upload.archive');
+    });
 });
+
+Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');

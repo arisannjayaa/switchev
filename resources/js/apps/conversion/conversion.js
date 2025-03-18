@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var quillReject;
 
+    $("#check-all").change(function() {
+        if ($("#check-all:checked").length === $("#check-all").length) {
+            $("input[value='Sesuai']").prop("checked", true);
+        } else {
+            $("input[value='Sesuai']").prop("checked", false);
+        }
+    });
+
     $('#modal-reject').on('hidden.bs.modal', function () {
         destroyQuill(quillReject, "#editor-reject");
     });
@@ -83,44 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // var dataTechnician = [];
-    // var dataTechnicianId = 1;
-
-    $("#btn-add-technician").click(function () {
-        $("#modal-technician").modal('show');
-        $("#form-technician")[0].reset();
-    })
-
-    // $("#btn-save-technician").click(function () {
-    //     let data ={
-    //         'id' : dataTechnicianId,
-    //         'name': $("#technician_name").val(),
-    //         'task': $("#task").val(),
-    //     }
-    //
-    //     loadingScreen()
-    //
-    //     dataTechnicianId++;
-    //     dataTechnician.push(data);
-    //
-    //     $("#table-body-technician").append(`
-    //         <tr data-id="${data.id}">
-    //             <td>${data.name}</td>
-    //             <td>${data.task}</td>
-    //             <td><button type="button" class="btn btn-danger delete" data-id="${data.id}">Hapus</button></td>
-    //         </tr>
-    //     `);
-    //     $("#modal-technician").modal("hide");
-    //     hideLoading(1000);
-    //     console.log(dataTechnician);
-    // })
-
-    // $("#table-technician").on('click', '.delete', function () {
-    //     let id = $(this).data('id');
-    //
-    //     dataTechnician = dataTechnician.filter(item => item.id !== id);
-    //     $(`tr[data-id='${id}'`).remove();
-    // })
 
     $("#application_letter").change(function () {
         if ($('[name="old_application_letter"]').length) {
@@ -308,11 +278,16 @@ document.addEventListener('DOMContentLoaded', function() {
     $("#btn-approve").click(function (){
         let id = $("#id").val();
         let url = $("#approve-url").val();
+        let btn = $("#btn-approve")
+        let step = $("#step").val()
         url = url.replace(":id", id);
         let formData = new FormData();
         formData.append("id", id);
 
-        loadingScreen();
+        $(btn).empty().append(`<div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>`).prop('disabled', true);
+
 
         Swal.fire({
             html: `<svg  xmlns="http://www.w3.org/2000/svg"  width="100"  height="100"  viewBox="0 0 24 24"  fill="currentColor"  class="mb-2 text-info"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2c5.523 0 10 4.477 10 10a10 10 0 0 1 -19.995 .324l-.005 -.324l.004 -.28c.148 -5.393 4.566 -9.72 9.996 -9.72zm0 9h-1l-.117 .007a1 1 0 0 0 0 1.986l.117 .007v3l.007 .117a1 1 0 0 0 .876 .876l.117 .007h1l.117 -.007a1 1 0 0 0 .876 -.876l.007 -.117l-.007 -.117a1 1 0 0 0 -.764 -.857l-.112 -.02l-.117 -.006v-3l-.007 -.117a1 1 0 0 0 -.876 -.876l-.117 -.007zm.01 -3l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007z" /></svg>
@@ -326,11 +301,17 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             showCancelButton: true,
         }).then((result) => {
-            if (result.isConfirmed) {
-                let step = $("#step").val();
+            if (result.isDismissed) {
+                if (step == 4) {
+                    $(btn).empty().append(`Selesai`).prop('disabled', false);
+                } else {
+                    $(btn).empty().append(`Verifikasi`).prop('disabled', false);
+                }
+                return;
+            }
 
+            if (result.isConfirmed) {
                 if (step == 3) {
-                    hideLoading(1000);
                     $("#modal-checklist-equipment").modal('show');
                     return;
                 }
@@ -358,11 +339,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             });
 
-                            $("#btn-approve").prop('disabled', true);
 
                             setTimeout(function() {
                                 location.reload();
                             }, 2000);
+                        }
+
+                        if (step == 4) {
+                            $(btn).empty().append(`Selesai`).prop('disabled', false);
+                        } else {
+                            $(btn).empty().append(`Verifikasi`).prop('disabled', false);
                         }
 
                     })
@@ -370,7 +356,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log('Error:', error);
                     })
                     .finally(() => {
-                        hideLoading();
                     });
             }
             hideLoading(1000);

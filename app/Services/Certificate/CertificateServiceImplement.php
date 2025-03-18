@@ -1,0 +1,242 @@
+<?php
+
+namespace App\Services\Certificate;
+
+use App\Helpers\CertificateHelper;
+use App\Helpers\Helper;
+use App\Repositories\Conversion\ConversionRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use LaravelEasyRepository\ServiceApi;
+use App\Repositories\Certificate\CertificateRepository;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
+use PhpOffice\PhpWord\TemplateProcessor;
+
+class CertificateServiceImplement extends ServiceApi implements CertificateService{
+
+    /**
+     * set title message api for CRUD
+     * @param string $title
+     */
+     protected $title = "";
+     /**
+     * uncomment this to override the default message
+     * protected $create_message = "";
+     * protected $update_message = "";
+     * protected $delete_message = "";
+     */
+
+     /**
+     * don't change $this->mainRepository variable name
+     * because used in extends service class
+     */
+     protected $mainRepository, $conversionRepository;
+
+    public function __construct(CertificateRepository $mainRepository, ConversionRepository $conversionRepository)
+    {
+      $this->mainRepository = $mainRepository;
+      $this->conversionRepository = $conversionRepository;
+    }
+
+    // Define your custom methods :)
+    public function generate_certificate($conversion_id)
+    {
+        try {
+            $conversion = $this->conversionRepository->find($conversion_id);
+            $templatePath = storage_path('app/templates/Certificate_Template.docx');
+            $templateProcessor = new TemplateProcessor($templatePath);
+
+            $templateProcessor->setValue('workshop_name', $conversion->workshop);
+            $templateProcessor->setValue('address', $conversion->address);
+            $templateProcessor->setValue('responsible', $conversion->person_responsible);
+            $templateProcessor->setValue('reference_number', CertificateHelper::generateNomorSurat("STF"));
+
+            $outputPath = storage_path('app/public/certificate/'.CertificateHelper::generateNomorSurat("STF", '-').'.docx');
+            $templateProcessor->saveAs($outputPath);
+
+            $result = [
+                'download' => route('secure.file', ['path' => Helper::encrypt("certificate/".CertificateHelper::generateNomorSurat("STF", '-').'.docx')]),
+                'file_name' => CertificateHelper::generateNomorSurat("STF", '-').'.docx'
+            ];
+
+            return $this->setResult($result)->setStatus(true)->setCode(200);
+        } catch (Exception $e) {
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    public function generate_sk($conversion_id)
+    {
+        try {
+            $conversion = $this->conversionRepository->find($conversion_id);
+            $templatePath = storage_path('app/templates/SK_Template.docx');
+
+            $templateProcessor = new TemplateProcessor($templatePath);
+
+            $tableStyle = [
+                'borderSize' => 4,
+                'borderColor' => '000000',
+                'cellMargin' => 10,
+                'width' => 100,
+            ];
+
+            $fontStyle = [
+                'name' => 'Bookman Old Style',
+                'size' => 12,
+            ];
+
+            $paragraphStyle = ['alignment' => 'center'];
+
+            $tableMechanical = new Table($tableStyle);
+
+
+            $tableMechanical->addRow();
+            $tableMechanical->addCell(1000, ['valign' => 'center'])->addText("NO", array_merge($fontStyle, ['bold' => true]), $paragraphStyle);
+            $tableMechanical->addCell(4000, ['valign' => 'center'])->addText("NAMA", array_merge($fontStyle, ['bold' => true]), $paragraphStyle);
+            $tableMechanical->addCell(10000, ['valign' => 'center'])->addText("URAIAN TUGAS", array_merge($fontStyle, ['bold' => true]), $paragraphStyle);
+
+            $no = 1;
+            foreach ($conversion->mechanicals as $mechanical) {
+                $tableMechanical->addRow();
+                $tableMechanical->addCell(1000)->addText($no, $fontStyle, $paragraphStyle);
+                $tableMechanical->addCell(4000)->addText($mechanical->name, $fontStyle);
+                $tableMechanical->addCell(10000)->addText($mechanical->task, $fontStyle);
+                $no++;
+            }
+
+            $templateProcessor->setComplexBlock('table_mechanical', $tableMechanical);
+
+            $tableEquipment = new Table($tableStyle);
+
+            $tableEquipment->addRow();
+            $tableEquipment->addCell(3000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText("JENIS", array_merge($fontStyle, ['bold' => true]), ['alignment' => 'center']);
+            $tableEquipment->addCell(4000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText("NAMA ALAT", array_merge($fontStyle, ['bold' => true]), ['alignment' => 'center']);
+            $tableEquipment->addCell(2000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText("MEREK", array_merge($fontStyle, ['bold' => true]), $paragraphStyle);
+            $tableEquipment->addCell(4000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText("SPESIFIKASI", array_merge($fontStyle, ['bold' => true]), ['alignment' => 'center']);
+            $tableEquipment->addCell(2000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText("KETERANGAN", array_merge($fontStyle, ['bold' => true]), $paragraphStyle);
+
+            $groupedData = [];
+            foreach ($conversion->equipments as $equipment) {
+                $groupedData[$equipment->type][] = $equipment;
+            }
+
+            foreach ($groupedData as $type => $items) {
+                $rowCount = count($items);
+                $firstRow = true;
+
+                foreach ($items as $equipment) {
+                    $tableEquipment->addRow();
+
+                    if ($firstRow) {
+                        $tableEquipment->addCell(3000, ['valign' => 'center', 'vMerge' => 'restart', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText($type, $fontStyle, ['alignment' => 'left']);
+                        $firstRow = false;
+                    } else {
+                        $tableEquipment->addCell(5000, ['vMerge' => 'continue']);
+                    }
+
+                    $tableEquipment->addCell(4000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText($equipment->name, $fontStyle);
+                    $tableEquipment->addCell(2000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText($equipment->brand, $fontStyle);
+                    $tableEquipment->addCell(4000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText($equipment->specification, $fontStyle);
+                    $tableEquipment->addCell(2000, ['valign' => 'center', 'widthType' => TblWidth::TWIP, 'wrapText' => true])->addText($equipment->status, $fontStyle);
+                }
+            }
+
+//            foreach ($conversion->equipments as $equipment) {
+//                $tableEquipment->addRow();
+//                $tableEquipment->addCell(3000)->addText($equipment->type, $fontStyle);
+//                $tableEquipment->addCell(3000)->addText($equipment->name, $fontStyle);
+//                $tableEquipment->addCell(2000)->addText($equipment->brand, $fontStyle);
+//                $tableEquipment->addCell(4000)->addText($equipment->specification, $fontStyle);
+//                $tableEquipment->addCell(2000)->addText($equipment->status, $fontStyle);
+//            }
+
+            $templateProcessor->setComplexBlock('table_equipment', $tableEquipment);
+
+
+            $templateProcessor->setValue('workshop_name', $conversion->workshop);
+            $templateProcessor->setValue('address', $conversion->address);
+            $templateProcessor->setValue('date', CertificateHelper::formatDateID(date('Y-m-d')));
+            $templateProcessor->setValue('responsible', $conversion->person_responsible);
+            $templateProcessor->setValue('reference_number', CertificateHelper::generateNomorSurat("SK"));
+
+            $outputPath = storage_path('app/public/certificate/'.CertificateHelper::generateNomorSurat("SK", '-').'.docx');
+            $templateProcessor->saveAs($outputPath);
+
+            $result = [
+                'download' => route('secure.file', ['path' => Helper::encrypt("certificate/".CertificateHelper::generateNomorSurat("SK", '-').'.docx')]),
+                'file_name' => CertificateHelper::generateNomorSurat("SK", '-').'.docx'
+            ];
+
+            return $this->setResult($result)->setStatus(true)->setCode(200);
+        } catch (Exception $e) {
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    public function upload_archive($data)
+    {
+        DB::beginTransaction();
+        try {
+            $certificate = $this->mainRepository->findByUserId($data['user_id']);
+
+            if (@$data['sk_attachment']) {
+                if (@$certificate->sk_attachment) {
+                    if (file_exists(storage_path('app/public/'.@$certificate->sk_attachment))) {
+                        unlink(storage_path('app/public/'.@$certificate->sk_attachment));
+                    }
+                }
+
+                // file surat keterangan
+                $fileSKAttachment = $data['sk_attachment'];
+                $originalNameApplicationLetter = $fileSKAttachment->getClientOriginalName();
+                $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
+                $newFileNameApplicationLetter = 'Surat Keterangan - ' . uniqid() . '.' . $extensionApplicationLetter;
+                $filePathApplicationLetter = $fileSKAttachment->storeAs('certificates', $newFileNameApplicationLetter, 'public');
+                $data['sk_attachment'] = $filePathApplicationLetter;
+            } else {
+                $data['sk_attachment'] = $data['old_sk_attachment'];
+                unset($data['old_sk_attachment']);
+            }
+
+            if (@$data['sft_attachment']) {
+                if (@$certificate->sft_attachment) {
+                    if (file_exists(storage_path('app/public/'.@$certificate->sft_attachment))) {
+                        unlink(storage_path('app/public/'.@$certificate->sft_attachment));
+                    }
+                }
+
+                // file sertifikat
+                $fileSKAttachment = $data['sft_attachment'];
+                $originalNameApplicationLetter = $fileSKAttachment->getClientOriginalName();
+                $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
+                $newFileNameApplicationLetter = 'Sertifikat - ' . uniqid() . '.' . $extensionApplicationLetter;
+                $filePathApplicationLetter = $fileSKAttachment->storeAs('certificates', $newFileNameApplicationLetter, 'public');
+                $data['sft_attachment'] = $filePathApplicationLetter;
+            } else {
+                $data['sft_attachment'] = $data['old_sft_attachment'];
+                unset($data['old_sft_attachment']);
+            }
+
+            if (@$certificate) {
+                $data['id'] = $certificate->id;
+                $this->mainRepository->update($certificate->id, $data);
+            }
+
+            if (!@$certificate) {
+                $result = $this->mainRepository->create($data);
+                $this->conversionRepository->update($result->conversion_id,['certificate_id' => $result->id]);
+            }
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setMessage("Unggah berkas berhasil dilakukan");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+}

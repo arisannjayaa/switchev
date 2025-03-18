@@ -29,18 +29,12 @@
                         <label class="form-label required">Merek</label>
                         <div>
                             <input type="text" class="form-control" placeholder="Merek" name="brand" id="brand">
-                            <small class="form-hint">
-                                Contoh : Bosch, Tekiro, dll
-                            </small>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label required">Spesifikasi</label>
                         <div>
                             <input type="text" class="form-control" placeholder="Spesfikasi" name="specification" id="specification">
-                            <small class="form-hint">
-                                Contoh : 3 unit, tanggal produksi, dll
-                            </small>
                         </div>
                     </div>
                 </div>

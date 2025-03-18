@@ -36,6 +36,7 @@ class Conversion extends Model
         'step_2_completed',
         'step_3_completed',
         'step_4_completed',
+        'certificate_id'
     ];
 
     public function user()
@@ -51,5 +52,10 @@ class Conversion extends Model
     public function equipments()
     {
         return $this->hasMany(Equipment::class);
+    }
+
+    public function certificate()
+    {
+        return $this->belongsTo(Certificate::class);
     }
 }
