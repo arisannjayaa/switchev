@@ -1,6 +1,6 @@
 {
-  "_helper-DvTVYjZE.js": {
-    "file": "assets/helper-DvTVYjZE.js",
+  "_helper-BjVJ0fku.js": {
+    "file": "assets/helper-BjVJ0fku.js",
     "name": "helper"
   },
   "resources/css/app.css": {
@@ -9,39 +9,75 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-CgrLtdu5.js",
+    "file": "assets/app-P4Vjmj2s.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_helper-DvTVYjZE.js"
+      "_helper-BjVJ0fku.js"
     ]
   },
   "resources/js/apps/auth/login.js": {
-    "file": "assets/login-BsIu9BS-.js",
+    "file": "assets/login-BJFXrFz-.js",
     "name": "login",
     "src": "resources/js/apps/auth/login.js",
     "isEntry": true,
     "imports": [
-      "_helper-DvTVYjZE.js"
+      "_helper-BjVJ0fku.js"
     ]
   },
   "resources/js/apps/auth/register.js": {
-    "file": "assets/register-CYeqQ9ga.js",
+    "file": "assets/register-bw4g9OiI.js",
     "name": "register",
     "src": "resources/js/apps/auth/register.js",
     "isEntry": true,
     "imports": [
-      "_helper-DvTVYjZE.js"
+      "_helper-BjVJ0fku.js"
+    ]
+  },
+  "resources/js/apps/certificate/certificate.js": {
+    "file": "assets/certificate-hvgpoj8k.js",
+    "name": "certificate",
+    "src": "resources/js/apps/certificate/certificate.js",
+    "isEntry": true,
+    "imports": [
+      "_helper-BjVJ0fku.js"
+    ]
+  },
+  "resources/js/apps/conversion/conversion.js": {
+    "file": "assets/conversion-DgZXq85H.js",
+    "name": "conversion",
+    "src": "resources/js/apps/conversion/conversion.js",
+    "isEntry": true,
+    "imports": [
+      "_helper-BjVJ0fku.js"
+    ]
+  },
+  "resources/js/apps/equipment/equipment.js": {
+    "file": "assets/equipment-DE4AWslW.js",
+    "name": "equipment",
+    "src": "resources/js/apps/equipment/equipment.js",
+    "isEntry": true,
+    "imports": [
+      "_helper-BjVJ0fku.js"
+    ]
+  },
+  "resources/js/apps/mechanical/mechanical.js": {
+    "file": "assets/mechanical-DL3A7VKB.js",
+    "name": "mechanical",
+    "src": "resources/js/apps/mechanical/mechanical.js",
+    "isEntry": true,
+    "imports": [
+      "_helper-BjVJ0fku.js"
     ]
   },
   "resources/js/apps/user/user.js": {
-    "file": "assets/user-D3-KK_H1.js",
+    "file": "assets/user-BfUaUxU7.js",
     "name": "user",
     "src": "resources/js/apps/user/user.js",
     "isEntry": true,
     "imports": [
-      "_helper-DvTVYjZE.js"
+      "_helper-BjVJ0fku.js"
     ]
   }
 }
