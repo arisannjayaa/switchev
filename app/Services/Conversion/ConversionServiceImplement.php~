@@ -150,7 +150,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                                 <a class="dropdown-item verification-zoom" href="'.route('conversion.verification', ['id' => Helper::encrypt( $row->id)]).'" data-id="'.$row->id.'">
                                   Verifikasi
                                 </a>';
-                if (!@$row->certificate && $row->step == 5) {
+                if (!@$row->certificate) {
                     $evaluationMenu = '<a class="dropdown-item detail" href="'.route('certificate.certificate.form', ['conversion_id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                       Penilaian
                                     </a>';

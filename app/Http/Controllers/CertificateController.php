@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\UploadArchiveRequest;
 use App\Services\Certificate\CertificateService;
+use App\Services\Conversion\ConversionService;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
-    public function __construct(CertificateService $certificateService)
+    public function __construct(CertificateService $certificateService, ConversionService $conversionService)
     {
         $this->certificateService = $certificateService;
+        $this->conversionService = $conversionService;
     }
 
     public function generate_certificate(Request $request)
@@ -19,9 +22,8 @@ class CertificateController extends Controller
             return abort(403);
         }
 
-        $data = $request->only(['id']);
-
-        return $this->certificateService->generate_certificate($data['id'])->toJson();
+        $data = $request->only(['id','accreditation_type']);
+        return $this->certificateService->generate_certificate($data['id'], $data['accreditation_type'])->toJson();
     }
 
     public function generate_sk(Request $request)
@@ -30,9 +32,8 @@ class CertificateController extends Controller
             return abort(403);
         }
 
-        $data = $request->only(['id']);
-
-        return $this->certificateService->generate_sk($data['id'])->toJson();
+        $data = $request->only(['id','accreditation_type']);
+        return $this->certificateService->generate_sk($data['id'], $data['accreditation_type'])->toJson();
     }
 
     public function upload_archive(UploadArchiveRequest $request)
@@ -45,6 +46,19 @@ class CertificateController extends Controller
         ,'old_sft_attachment']);
 
         return $this->certificateService->upload_archive($data)->toJson();
+    }
+
+    public function certification_form($conversion_id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data['conversion'] = $this->conversionService->find(Helper::decrypt($conversion_id))->getResult();
+        if (@$data['conversion']->certificate_id) {
+            return redirect()->route('conversion.index');
+        }
+        return view('apps.conversion.certification', $data);
     }
 
 }

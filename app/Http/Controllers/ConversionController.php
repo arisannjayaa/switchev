@@ -35,7 +35,6 @@ class ConversionController extends Controller
     public function formResponsibleWorkshop($step)
     {
 
-
         if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
             if ($this->conversionService->isFormCompleted(auth()->user()->id)) {
                 return redirect()->route('conversion.index');

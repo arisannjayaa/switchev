@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let url = $("#download-sk-url").val();
         let formData = new FormData();
         formData.append("id", $("#id").val());
+        formData.append("accreditation_type", $("#accreditation_type").val());
 
         let btn = "#btn-download-sk";
         $(btn).empty().append(`<div class="spinner-border" role="status">
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let url = $("#download-certificate-url").val();
         let formData = new FormData();
         formData.append("id", $("#id").val());
+        formData.append("accreditation_type", $("#accreditation_type").val());
 
         let btn = "#btn-download-certificate";
         $(btn).empty().append(`<div class="spinner-border" role="status">
@@ -163,9 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     $("#btn-approve").empty().append("Selesai").prop('disabled', false);
-
+                    window.location.href = data.data.redirect;
                 }
-
 
 
                 if (data.errors || data.invalid) {

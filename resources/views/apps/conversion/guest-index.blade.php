@@ -43,34 +43,6 @@
         </div>
         <div class="row">
             <div class="col-lg-8 col-12">
-                @if($conversion->status == 'checking')
-                    <div class="alert alert-important alert-info" role="alert">
-                        <div class="d-flex">
-                            <div>
-                                <!-- Download SVG icon from http://tabler-icons.io/i/info-circle -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
-                            </div>
-                            <div>
-                                <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <div class="text-secondary">{!! @$conversion->message !!} </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if($conversion->status == 'verified_upload')
-                    <div class="alert alert-important alert-info" role="alert">
-                        <div class="d-flex">
-                            <div>
-                                <!-- Download SVG icon from http://tabler-icons.io/i/info-circle -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>
-                            </div>
-                            <div>
-                                <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <div class="text-secondary">{!! @$conversion->message !!}</div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
                 @if($conversion->status == 'rejected')
                     <div class="alert alert-important alert-danger" role="alert">
                         <div class="d-flex">
@@ -85,28 +57,28 @@
                         </div>
                     </div>
                 @endif
-                @if($conversion->step == 4)
-                    <div class="d-flex justify-content-center align-items-center text-center flex-column">
-                        <img width="200" src="{{ asset('assets/dist/img/undraw_completing_gsf8.svg') }}" alt="">
-                        <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
-                        <p class="text-secondary">{!! $conversion->message !!}</p>
-                    </div>
-                @endif
-                @if($conversion->step == 5)
+                @if($conversion->step != 0)
                     <div class="d-flex justify-content-center align-items-center text-center flex-column">
                         <div class="bg-primary-lt w-100 p-4 rounded-3">
-                            <img width="200" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}" alt="">
+                            @if($conversion->step >= 1 && $conversion->step <= 4)
+                                <img width="300" src="{{ asset('assets/dist/img/undraw_in-progress_cdfz.svg') }}" alt="">
+                            @endif
+                            @if($conversion->step == 5)
+                                <img width="200" src="{{ asset('assets/dist/img/undraw_completing_gsf8.svg') }}" alt="">
+                            @endif
                         </div>
                         <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
                         <p class="text-secondary">{!! $conversion->message !!}</p>
-                        <div class="row w-100 gap-2">
-                            <div class="col-12">
-                                <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sft_attachment)]) }}" class="btn btn-outline-primary w-100 text-left">Sertifikat</a>
+                        @if(@$conversion->certificate->sft_attachment)
+                            <div class="row w-100 gap-2">
+                                <div class="col-12">
+                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sft_attachment)]) }}" class="btn btn-outline-primary w-100 text-left">Sertifikat</a>
+                                </div>
+                                <div class="col-12">
+                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sk_attachment)]) }}" class="btn btn-outline-primary w-100">Surat Keterangan</a>
+                                </div>
                             </div>
-                            <div class="col-12">
-                                <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sk_attachment)]) }}" class="btn btn-outline-primary w-100">Surat Keterangan</a>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 @endif
             </div>

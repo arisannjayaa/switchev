@@ -37,12 +37,12 @@
                 <div class="card-body">
                     <div class="row gap-3">
                         <div class="col-12">
-                            <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sft_attachment)]) }}" class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
+                            <a class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
                                 Sertifikat Bengkel Konversi
                             </a>
                         </div>
                         <div class="col-12">
-                            <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sk_attachment)]) }}" class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
+                            <a class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
                                 Surat Keterangan Bengkel Konversi
                             </a>
                         </div>

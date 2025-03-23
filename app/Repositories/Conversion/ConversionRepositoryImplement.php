@@ -35,6 +35,7 @@ class ConversionRepositoryImplement extends Eloquent implements ConversionReposi
     public function table()
     {
         return $this->model->query()
+            ->with(['certificate', 'user'])
             ->orderBy('updated_at', 'desc');
     }
 

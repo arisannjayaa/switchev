@@ -12,9 +12,9 @@
 
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-center align-items-center flex-column">
-            <div class="mb-4">
-                <img class="img-fluid" width="400" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
+        <div class="d-flex justify-content-center align-items-center text-center flex-column">
+            <div class="bg-primary-lt w-100 p-4 rounded-3 mb-3">
+                <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
             </div>
             <div class="text-center">
                 <h1 class="fw-bold">Selamat Datang di Pengajuan Sertifikasi Konversi</h1>

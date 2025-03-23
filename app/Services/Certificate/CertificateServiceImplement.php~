@@ -4,9 +4,12 @@ namespace App\Services\Certificate;
 
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
+use App\Mail\MailSend;
 use App\Repositories\Conversion\ConversionRepository;
+use App\Repositories\User\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\Certificate\CertificateRepository;
@@ -35,18 +38,19 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
      */
      protected $mainRepository, $conversionRepository;
 
-    public function __construct(CertificateRepository $mainRepository, ConversionRepository $conversionRepository)
+    public function __construct(CertificateRepository $mainRepository, ConversionRepository $conversionRepository, UserRepository $userRepository)
     {
       $this->mainRepository = $mainRepository;
       $this->conversionRepository = $conversionRepository;
+      $this->userRepository = $userRepository;
     }
 
     // Define your custom methods :)
-    public function generate_certificate($conversion_id)
+    public function generate_certificate($conversion_id, $accreditation_type)
     {
         try {
             $conversion = $this->conversionRepository->find($conversion_id);
-            $templatePath = storage_path('app/templates/Certificate_Template.docx');
+            $templatePath = ($accreditation_type == 'A' ? storage_path('app/templates/Certificate_A_Template.docx') : storage_path('app/templates/Certificate_B_Template.docx'));
             $templateProcessor = new TemplateProcessor($templatePath);
 
             $templateProcessor->setValue('workshop_name', $conversion->workshop);
@@ -55,7 +59,6 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $templateProcessor->setValue('reference_number', CertificateHelper::generateNomorSurat("STF"));
 
             $outputPath = storage_path('app/public/certificate/'.CertificateHelper::generateNomorSurat("STF", '-').'.docx');
-            dd($outputPath);
             $templateProcessor->saveAs($outputPath);
 
             $result = [
@@ -69,11 +72,11 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
         }
     }
 
-    public function generate_sk($conversion_id)
+    public function generate_sk($conversion_id, $accreditation_type)
     {
         try {
             $conversion = $this->conversionRepository->find($conversion_id);
-            $templatePath = storage_path('app/templates/SK_Template.docx');
+            $templatePath = ($accreditation_type == 'A' ? storage_path('app/templates/SK_A_Template.docx') : storage_path('app/templates/SK_B_Template.docx'));
 
             $templateProcessor = new TemplateProcessor($templatePath);
 
@@ -223,17 +226,42 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
 
             if (@$certificate) {
                 $data['id'] = $certificate->id;
-                $this->mainRepository->update($certificate->id, $data);
+                $result = $this->mainRepository->update($certificate->id, $data);
             }
 
             if (!@$certificate) {
+                $data['status' => 'Selesai']
                 $result = $this->mainRepository->create($data);
                 $this->conversionRepository->update($result->conversion_id,['certificate_id' => $result->id]);
             }
 
+            $user = $this->userRepository->find($result->user_id);
+
+            $mail['title'] = 'Selamat! Bengkel Konversi Anda Resmi Terdaftar. Silahkan Download Dokumen Resmi';
+            $mail['message'] = '
+                            <h2>⚡ Selamat! Bengkel Konversi Anda Resmi Terdaftar ⚡</h2>
+                            <p>
+                                Terima kasih telah bergabung sebagai bagian dari program konversi kendaraan listrik!
+                                Bengkel Anda kini telah resmi terdaftar dan siap untuk memberikan layanan konversi kendaraan yang lebih ramah lingkungan.
+                                Sebagai bukti pendaftaran, silakan unduh dokumen resmi melalui tombol di bawah ini:
+                            </p>
+                            <a href="' . route('secure.file', ['path' => Helper::encrypt($result->sft_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #28a745;">📜 Download Sertifikat</a>
+                            <a href="' . route('secure.file', ['path' => Helper::encrypt($result->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan</a>
+                            <p style="margin-top: 20px; font-size: 14px; color: #777;">
+                                🚀 Kami berharap bengkel Anda dapat memberikan kontribusi positif dalam percepatan kendaraan listrik di Indonesia.
+                                Jika ada pertanyaan, silakan hubungi tim kami.
+                                <br><br>
+                                Salam hangat,
+                                <br><strong>Tim Administrasi Program Konversi</strong>
+                            </p>
+                        ';
+
+            Mail::to($user->email)->send(new MailSend($mail));
+
             DB::commit();
             return $this->setStatus(true)
                 ->setCode(200)
+                ->setResult(['redirect' => route('conversion.index')])
                 ->setMessage("Unggah berkas berhasil dilakukan");
         } catch (Exception $e) {
             DB::rollBack();

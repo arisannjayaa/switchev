@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/generate-certificate', [\App\Http\Controllers\CertificateController::class, 'generate_certificate'])->name('generate.certificate');
         Route::post('/generate-sk', [\App\Http\Controllers\CertificateController::class, 'generate_sk'])->name('generate.sk');
         Route::post('/upload-archive', [\App\Http\Controllers\CertificateController::class, 'upload_archive'])->name('upload.archive');
+        Route::get('/certification-form/{conversion_id}}', [\App\Http\Controllers\CertificateController::class, 'certification_form'])->name('certificate.form');
     });
 });
 
