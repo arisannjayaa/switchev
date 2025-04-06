@@ -98,7 +98,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('pelayanan/sut-srut')->name('test.letter.')->group(function () {
         Route::get('/', [TestLetterController::class, 'index'])->name('index');
-        Route::post('/', [TestLetterController::class, 'create'])->name('create');
+        Route::get('/form/{id?}', [TestLetterController::class, 'form'])->name('form');
+        Route::post('/', [TestLetterController::class, 'upsert_form'])->name('upsert.form');
         Route::get('/table', [TestLetterController::class, 'table'])->name('table');
         Route::post('/update', [TestLetterController::class, 'update'])->name('update');
         Route::post('/delete', [TestLetterController::class, 'delete'])->name('delete');

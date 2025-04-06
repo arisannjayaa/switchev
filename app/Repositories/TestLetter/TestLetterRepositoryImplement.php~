@@ -29,6 +29,6 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
     {
         return $this->model->query()
             ->where('user_id', $user_id)
-            ->paginate(10);
+            ->paginate(1);
     }
 }

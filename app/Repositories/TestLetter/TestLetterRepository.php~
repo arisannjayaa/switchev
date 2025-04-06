@@ -6,5 +6,5 @@ use LaravelEasyRepository\Repository;
 
 interface TestLetterRepository extends Repository{
 
-    public function findAllByUserId($user_id);
+    // Write something awesome :)
 }

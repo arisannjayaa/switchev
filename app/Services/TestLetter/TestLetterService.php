@@ -6,5 +6,7 @@ use LaravelEasyRepository\BaseService;
 
 interface TestLetterService extends BaseService{
 
-    // Write something awesome :)
+    public function upsert_form($data);
+
+    public function findAllByUserId($user_id);
 }

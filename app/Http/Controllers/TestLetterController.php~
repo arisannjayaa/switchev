@@ -18,7 +18,7 @@ class TestLetterController extends Controller
     public function index()
     {
         $data['test_letters'] = $this->testLetterService->findAllByUserId(auth()->user()->id)->getResult();
-        return view('apps.test-letter.index', $data);
+        return view('apps.test-letter.index');
     }
 
     public function form($id = null)

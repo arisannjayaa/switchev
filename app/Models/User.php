@@ -80,5 +80,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Conversion::class);
     }
+
+    public function test_letters()
+    {
+        return $this->hasMany(TestLetter::class);
+    }
 }
 

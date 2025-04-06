@@ -59,7 +59,7 @@
                 @endif
                 @if($conversion->step != 0)
                     <div class="d-flex justify-content-center align-items-center text-center flex-column">
-                        <div class="bg-primary-lt w-100 p-7 rounded-3">
+                        <div class="bg-primary-lt w-100 p-4 rounded-3">
                             @if($conversion->step >= 1 && $conversion->step <= 4)
                                 <img width="300" src="{{ asset('assets/dist/img/undraw_in-progress_cdfz.svg') }}" alt="">
                             @endif

@@ -173,8 +173,6 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
 
             $data['user_id'] = auth()->user()->id;
             $data['code'] = Helper::generateTestLetterCode();
-            $data['is_verified'] = 0;
-            $data['status'] = 'Menunggu Verifikasi';
 
             if (@$data['id']) {
                 $this->mainRepository->update($data['id'], $data);
