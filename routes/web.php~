@@ -9,7 +9,6 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MechanicalController;
 use App\Http\Controllers\SecureFileController;
-use App\Http\Controllers\TestLetterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -96,13 +95,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/certification-form/{conversion_id}}', [\App\Http\Controllers\CertificateController::class, 'certification_form'])->name('certificate.form');
     });
 
-    Route::prefix('pelayanan/sut-srut')->name('test.letter.')->group(function () {
-        Route::get('/', [TestLetterController::class, 'index'])->name('index');
-        Route::post('/', [TestLetterController::class, 'create'])->name('create');
-        Route::get('/table', [TestLetterController::class, 'table'])->name('table');
-        Route::post('/update', [TestLetterController::class, 'update'])->name('update');
-        Route::post('/delete', [TestLetterController::class, 'delete'])->name('delete');
-        Route::get('/{id}', [TestLetterController::class, 'show'])->name('show');
+    Route::prefix('pelayanan/sut-srut')->name('pelayanan.sut-srut.')->group(function () {
+        Route::get('/', [EquipmentController::class, 'index'])->name('index');
+        Route::post('/', [EquipmentController::class, 'create'])->name('create');
+        Route::get('/table', [EquipmentController::class, 'table'])->name('table');
+        Route::post('/update', [EquipmentController::class, 'update'])->name('update');
+        Route::post('/delete', [EquipmentController::class, 'delete'])->name('delete');
+        Route::get('/{id}', [EquipmentController::class, 'show'])->name('show');
     });
 });
 
