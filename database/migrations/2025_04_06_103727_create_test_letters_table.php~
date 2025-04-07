@@ -23,7 +23,10 @@ return new class extends Migration
             $table->string('photocopy_stnk')->nullable();
             $table->string('physical_inspection')->nullable();
             $table->string('test_report')->nullable();
+            $table->string('status')->nullable();
+            $table->boolean('is_verified')->nullable();
             $table->string('physical_testing_bpljskb')->nullable();
+            $table->string('physical test cover letter')->nullable();
             $table->timestamps();
         });
     }

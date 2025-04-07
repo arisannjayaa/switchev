@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .finally(() => {
                 hideLoading(1000);
-                $(btn).empty().append("Upload");
+                $(btn).empty().append("Simpan");
             });
     })
 

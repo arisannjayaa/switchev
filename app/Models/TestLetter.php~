@@ -25,7 +25,7 @@ class TestLetter extends Model
         'photocopy_stnk',
         'physical_inspection',
         'test_report',
-        'physical_test_bpljskb',
+        'physical_testing_bpljskb',
         'status',
         'code',
         'is_verified',

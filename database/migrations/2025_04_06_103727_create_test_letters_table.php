@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('test_report')->nullable();
             $table->string('status')->nullable();
             $table->boolean('is_verified')->nullable();
-            $table->string('physical_testing_bpljskb')->nullable();
+            $table->string('physical_test_bpljskb')->nullable();
+            $table->string('physical_test_cover_letter')->nullable();
             $table->timestamps();
         });
     }

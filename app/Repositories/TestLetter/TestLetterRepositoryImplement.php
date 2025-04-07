@@ -31,4 +31,14 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
             ->where('user_id', $user_id)
             ->paginate(10);
     }
+
+    /**
+     * @return mixed
+     */
+    public function table()
+    {
+        return $this->model->query()
+            ->with(['user'])
+            ->orderBy('updated_at', 'desc');
+    }
 }
