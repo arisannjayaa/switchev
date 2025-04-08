@@ -18,21 +18,21 @@
         </div>
         <div class="row g-4">
             <div class="col-md-3">
-                <form action="./" method="get" autocomplete="off" novalidate="" class="sticky-top">
+                <form action="{{ route('test.letter.index') }}" method="get" autocomplete="off" novalidate="" class="sticky-top">
                     <div class="form-label">Tipe Identitas Bengkel</div>
                     <div class="mb-4">
                         <label class="form-check">
-                            <input type="checkbox" class="form-check-input" name="form-type[]" value="1" checked="">
+                            <input type="checkbox" class="form-check-input" name="type[]" value="A" {{ in_array('A', request()->query('type', [])) ? 'checked' : '' }}>
                             <span class="form-check-label">A</span>
                         </label>
                         <label class="form-check">
-                            <input type="checkbox" class="form-check-input" name="form-type[]" value="2" checked="">
+                            <input type="checkbox" class="form-check-input" name="type[]" value="B" {{ in_array('B', request()->query('type', [])) ? 'checked' : '' }}>
                             <span class="form-check-label">B</span>
                         </label>
                     </div>
                     <div class="mt-5">
-                        <button class="btn btn-primary w-100">Konfirmasi Perubahan</button>
-                        <a href="#" class="btn btn-link w-100"> Reset </a>
+                        <button type="submit" class="btn btn-primary w-100">Konfirmasi Perubahan</button>
+                        <a href="{{ route('test.letter.index') }}" class="btn btn-link w-100"> Reset </a>
                     </div>
                 </form>
             </div>

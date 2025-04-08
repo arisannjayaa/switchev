@@ -25,10 +25,15 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
      * @param $user_id
      * @return mixed
      */
-    public function findAllByUserId($user_id)
+    public function findAllByUserId()
     {
         return $this->model->query()
-            ->where('user_id', $user_id)
+            ->when(request()->input('type'), function ($query, $type) {
+                $query->whereIn('type', $type);
+            })
+            ->when(auth()->user()->isGuest(), function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
             ->paginate(10);
     }
 

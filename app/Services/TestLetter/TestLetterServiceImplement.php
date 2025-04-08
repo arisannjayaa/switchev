@@ -202,10 +202,10 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
         }
     }
 
-    public function findAllByUserId($user_id)
+    public function findAllByUserId()
     {
         try {
-            $result = $this->mainRepository->findAllByUserId($user_id);
+            $result = $this->mainRepository->findAllByUserId();
             return $this->setStatus(true)
                 ->setCode(200)
                 ->setResult($result);

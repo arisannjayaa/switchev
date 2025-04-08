@@ -16,9 +16,10 @@ class TestLetterController extends Controller
         $this->testLetterService = $testLetterService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data['test_letters'] = $this->testLetterService->findAllByUserId(auth()->user()->id)->getResult();
+        $data['test_letters'] = $this->testLetterService->findAllByUserId()->getResult();
+
         return view('apps.test-letter.index', $data);
     }
 

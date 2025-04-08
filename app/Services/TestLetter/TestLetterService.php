@@ -8,7 +8,7 @@ interface TestLetterService extends BaseService{
 
     public function upsert_form($data);
 
-    public function findAllByUserId($user_id);
+    public function findAllByUserId();
 
     public function table();
 
