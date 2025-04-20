@@ -30,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->isGuest();
         });
 
+        Gate::define('isSuperAdmin', function (User $user) {
+            return $user->isSuperAdmin();
+        });
+
         Paginator::useBootstrapFive();
     }
 }

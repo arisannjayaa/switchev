@@ -48,7 +48,7 @@ class UploadArchiveRequest extends FormRequest
             'sft_attachment.mimes' => 'Sertifikat harus berupa pdf.',
             'sft_attachment.required' => 'Sertifikat wajib diisi.',
             'sk_attachment.file' => 'Surat Keterangan harus berupa file.',
-            'sk_attachment.mimes' => 'Surat Keterangan harus berupa pdf.',
+            'sk_attachment.mimes' => 'Sertifikat harus berupa pdf.',
         ];
     }
 }

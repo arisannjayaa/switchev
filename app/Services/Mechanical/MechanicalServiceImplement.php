@@ -2,6 +2,7 @@
 
 namespace App\Services\Mechanical;
 
+use App\Helpers\Helper;
 use App\Repositories\Conversion\ConversionRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -38,9 +39,9 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
       $this->conversionRepository = $conversionRepository;
     }
 
-    public function table()
+    public function table($conversion_id)
     {
-        return DataTables::of($this->mainRepository->table())
+        return DataTables::of($this->mainRepository->table($conversion_id))
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $html = '<span class="dropdown">
@@ -104,7 +105,7 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
                 $data['step'] = 0;
                 unset($data['id']);
                 $this->conversionRepository->update($id, $data);
-                $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1]));
+                $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1, 'id' => Helper::encrypt($id)]));
                 return $this->setStatus(true)
                     ->setCode(200)
                     ->setResult(['redirect' => $redirect->getTargetUrl()]);

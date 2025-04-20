@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\MechanicalRequest;
 use App\Services\Mechanical\MechanicalService;
 use Illuminate\Http\Request;
@@ -17,9 +18,9 @@ class MechanicalController extends Controller
         return view('apps.user.index');
     }
 
-    public function table()
+    public function table($conversion_id)
     {
-        return $this->mechanicalService->table();
+        return $this->mechanicalService->table(Helper::decrypt($conversion_id));
     }
 
     public function create(MechanicalRequest $request)

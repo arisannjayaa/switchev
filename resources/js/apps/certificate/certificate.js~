@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let fileSk = document.getElementById('sk_attachment').files[0];
         let fileCertificate = document.getElementById('sft_attachment').files[0];
         let conversionId = $("#id").val();
-        let id = $("#certificate_id").val();
+        let id = $("#id").val();
         let userId = $("#user-id").val();
         let btn = "#btn-upload-archive";
         formData.append('sk_attachment', fileSk);

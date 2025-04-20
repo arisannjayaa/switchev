@@ -5,18 +5,21 @@ namespace App\Services\Certificate;
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
 use App\Mail\MailSend;
+use App\Models\Certificate;
 use App\Repositories\Conversion\ConversionRepository;
 use App\Repositories\User\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\Certificate\CertificateRepository;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Yajra\DataTables\Facades\DataTables;
 
 class CertificateServiceImplement extends ServiceApi implements CertificateService{
 
@@ -63,7 +66,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
 
             $result = [
                 'download' => route('secure.file', ['path' => Helper::encrypt("certificate/".CertificateHelper::generateNomorSurat("STF", '-').'.docx')]),
-                'file_name' => CertificateHelper::generateNomorSurat("STF", '-').'.docx'
+                'file_name' => Str::after($outputPath, 'certificate/')
             ];
 
             return $this->setResult($result)->setStatus(true)->setCode(200);
@@ -171,7 +174,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
 
             $result = [
                 'download' => route('secure.file', ['path' => Helper::encrypt("certificate/".CertificateHelper::generateNomorSurat("SK", '-').'.docx')]),
-                'file_name' => CertificateHelper::generateNomorSurat("SK", '-').'.docx'
+                'file_name' => Str::after($outputPath, 'certificate/')
             ];
 
             return $this->setResult($result)->setStatus(true)->setCode(200);
@@ -184,10 +187,10 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
     {
         DB::beginTransaction();
         try {
-            $certificate = $this->mainRepository->findByUserId($data['user_id']);
+            $certificate = $this->mainRepository->find($data['id']);
 
             if (@$data['sk_attachment']) {
-                if (@$certificate->sk_attachment) {
+                if (@$certificate->sk_attachment && str_contains($certificate->sk_attachment, 'certificate')) {
                     if (file_exists(storage_path('app/public/'.@$certificate->sk_attachment))) {
                         unlink(storage_path('app/public/'.@$certificate->sk_attachment));
                     }
@@ -206,7 +209,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             }
 
             if (@$data['sft_attachment']) {
-                if (@$certificate->sft_attachment) {
+                if (@$certificate->sft_attachment && str_contains($certificate->sft_attachment, 'certificate')) {
                     if (file_exists(storage_path('app/public/'.@$certificate->sft_attachment))) {
                         unlink(storage_path('app/public/'.@$certificate->sft_attachment));
                     }
@@ -225,17 +228,21 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             }
 
             if (@$certificate) {
-                $data['id'] = $certificate->id;
-                $result = $this->mainRepository->update($certificate->id, $data);
+                $certificate->sft_attachment = $data['sft_attachment'];
+                $certificate->sk_attachment = $data['sk_attachment'];
+                $certificate->status = 'Selesai';
+                $certificate->save();
+                $this->conversionRepository->update($certificate->conversion_id,['certificate_id' => $certificate->id, 'message' => 'Bengkel Konversi Anda Resmi Terdaftar. Silahkan Download Dokumen Resmi']);
             }
 
-            if (!@$certificate) {
-                $data['status'] = 'Selesai';
-                $result = $this->mainRepository->create($data);
-                $this->conversionRepository->update($result->conversion_id,['certificate_id' => $result->id, 'message' => 'Bengkel Konversi Anda Resmi Terdaftar. Silahkan Download Dokumen Resmi']);
-            }
+//            if (!@$certificate) {
+//                $data['status'] = 'Selesai';
+//                $result = $this->mainRepository->create($data);
+//                $this->conversionRepository->update($result->conversion_id,['certificate_id' => $result->id, 'message' => 'Bengkel Konversi Anda Resmi Terdaftar. Silahkan Download Dokumen Resmi']);
+//            }
 
-            $user = $this->userRepository->find($result->user_id);
+
+            $user = $this->userRepository->find($certificate->user_id);
 
             $mail['title'] = 'Selamat! Bengkel Konversi Anda Resmi Terdaftar. Silahkan Download Dokumen Resmi';
             $mail['message'] = '
@@ -245,8 +252,8 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
                                 Bengkel Anda kini telah resmi terdaftar dan siap untuk memberikan layanan konversi kendaraan yang lebih ramah lingkungan.
                                 Sebagai bukti pendaftaran, silakan unduh dokumen resmi melalui tombol di bawah ini:
                             </p>
-                            <a href="' . route('secure.file', ['path' => Helper::encrypt($result->sft_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #28a745;">📜 Download Sertifikat</a>
-                            <a href="' . route('secure.file', ['path' => Helper::encrypt($result->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan</a>
+                            <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->sft_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #28a745;">📜 Download Sertifikat</a>
+                            <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan</a>
                             <p style="margin-top: 20px; font-size: 14px; color: #777;">
                                 🚀 Kami berharap bengkel Anda dapat memberikan kontribusi positif dalam percepatan kendaraan listrik di Indonesia.
                                 Jika ada pertanyaan, silakan hubungi tim kami.
@@ -267,5 +274,99 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             DB::rollBack();
             return $this->exceptionResponse($e);
         }
+    }
+
+    public function verify_draft($id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $id = Helper::decrypt($id);
+            $result = $this->mainRepository->find($id);
+            $result->status = 'Terverifikasi';
+            $result->save();
+
+            $redirect = redirect()->intended(URL::route('certificate.index'));
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult(['redirect' => $redirect->getTargetUrl()])
+                ->setMessage("Berhasil memverifikasi draft");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    public function send_draft($conversion_id, $accreditation_type)
+    {
+        DB::beginTransaction();
+        try {
+            $certificate = $this->generate_certificate($conversion_id, $accreditation_type)->getResult();
+            $sk = $this->generate_sk($conversion_id, $accreditation_type)->getResult();
+            $result = $this->mainRepository->findByConversionId($conversion_id);
+            $conversion = $this->conversionRepository->find($conversion_id);
+
+            if ($result) {
+                $result->sft_attachment = 'certificate/'. $certificate['file_name'];
+                $result->sk_attachment = 'certificate/'. $sk['file_name'];
+                $result->status = 'Draft';
+                $result->save();
+            }
+
+            if (!$result) {
+                $crtf =$this->mainRepository->create([
+                    'user_id' => $conversion->user_id,
+                    'conversion_id' => $conversion_id,
+                    'sft_attachment' => 'certificate/'. $certificate['file_name'],
+                    'sk_attachment' => 'certificate/'. $sk['file_name'],
+                    'status' => 'Draft'
+                ]);
+
+                $conversion->certificate_id = $crtf->id;
+                $conversion->save();
+            }
+
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setMessage("Berhasil membuat dan mengirimkan draft");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function table()
+    {
+        return DataTables::of($this->mainRepository->table())
+            ->addIndexColumn()
+            ->addColumn('sk_file_name', function ($row) {
+                $file =  Str::after($row->sk_attachment, 'certificate/');
+                return preg_replace('/\.[^.]+$/', '', $file);
+            })
+            ->addColumn('sft_file_name', function ($row) {
+                $file = Str::after($row->sft_attachment, 'certificate/');
+                return preg_replace('/\.[^.]+$/', '', $file);
+            })
+            ->addColumn('action', function ($row) {
+                $html = '<span class="dropdown">
+                              <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
+                                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-circle-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 12l0 .01" /><path d="M12 12l0 .01" /><path d="M16 12l0 .01" /></svg></button>
+                              <div class="dropdown-menu dropdown-menu-end" style="">
+                                <a class="dropdown-item" href="'.route('certificate.verification.form', ['id' => Helper::encrypt($row->id)]).'">
+                                  Verifikasi
+                                </a>
+                              </div>
+                            </span>';
+                return $html;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

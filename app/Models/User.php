@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->role->id == Role::GUEST;
     }
 
+    public function isSuperAdmin()
+    {
+        return $this->role->id == Role::SUPERADMIN;
+    }
+
     public function isVerified()
     {
         return $this->status == "verified";

@@ -39,9 +39,9 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
       $this->conversionRepository = $conversionRepository;
     }
 
-    public function table()
+    public function table($conversion_id)
     {
-        return DataTables::of($this->mainRepository->table())
+        return DataTables::of($this->mainRepository->table($conversion_id))
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $html = '<span class="dropdown">

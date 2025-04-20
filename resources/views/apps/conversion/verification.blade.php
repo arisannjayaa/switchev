@@ -374,7 +374,7 @@
                         </div>
                         <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
                         <p class="text-secondary">Semua verifikasi telah selesai.</p>
-                        @if(!@$conversion->certificate_id)
+                        @if(@$conversion->certificate->status == 'Draft' || @$conversion->certificate->status == 'Terverifikasi' || @$conversion->certificate == null)
                             <a href="{{ route('certificate.certificate.form', ['conversion_id' => \App\Helpers\Helper::encrypt($conversion->id)]) }}" class="btn btn-outline-primary">Buat Sertifikat dan Surat Keterangan</a>
                         @endif
                     </div>

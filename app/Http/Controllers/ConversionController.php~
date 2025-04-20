@@ -166,6 +166,7 @@ class ConversionController extends Controller
         }
 
         $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();
+        dd(Helper::decrypt($id));
         $data['attachments'][] = $data['conversion']->application_letter;
         $data['attachments'][] = $data['conversion']->equipment;
         $data['attachments'][] = $data['conversion']->technician_competency;

@@ -36,72 +36,48 @@
 
 @section('content')
     <div class="container">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2>Proses Sertifikasi Verifikasi Berkas</h2>
+        <div class="page-header d-print-none mb-2">
+            <div>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h1 class="page-title">
+                            Daftar Permohonan Bengkel Konversi
+                        </h1>
+                    </div>
+                    <!-- Page title actions -->
+                    <div class="col-auto ms-auto d-print-none">
+                                                <a id="btn-add" href="{{ route('conversion.form', ['step' => "step-1"]) }}" class="btn btn-primary">
+                                                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+                                                    Ajukan Permohonan
+                                                </a>
+                        {{--                        <a id="btn-import" href="javascript:void(0)" class="btn btn-outline-green">--}}
+                        {{--                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->--}}
+                        {{--                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-table-import"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8" /><path d="M3 10h18" /><path d="M10 3v18" /><path d="M19 22v-6" /><path d="M22 19l-3 -3l-3 3" /></svg>--}}
+                        {{--                            Import Excel--}}
+                        {{--                        </a>--}}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8 col-12">
-                @if($conversion->status == 'rejected')
-                    <div class="alert alert-important alert-danger" role="alert">
-                        <div class="d-flex">
-                            <div>
-                                <!-- Download SVG icon from http://tabler-icons.io/i/alert-circle -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 8v4" /><path d="M12 16h.01" /></svg>
-                            </div>
-                            <div>
-                                <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <span class="text-secondary"> {!! @$conversion->message !!}<span class="">Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['step' => 1]) }}">Perbaiki data</a></span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if($conversion->step != 0)
-                    <div class="d-flex justify-content-center align-items-center text-center flex-column">
-                        <div class="bg-primary-lt w-100 p-7 rounded-3">
-                            @if($conversion->step >= 1 && $conversion->step <= 4)
-                                <img width="300" src="{{ asset('assets/dist/img/undraw_in-progress_cdfz.svg') }}" alt="">
-                            @endif
-                            @if($conversion->step == 5)
-                                <img width="200" src="{{ asset('assets/dist/img/undraw_completing_gsf8.svg') }}" alt="">
-                            @endif
-                        </div>
-                        <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
-                        <p class="text-secondary">{!! $conversion->message !!}</p>
-                        @if(@$conversion->certificate->sft_attachment)
-                            <div class="row w-100 gap-2">
-                                <div class="col-12">
-                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sft_attachment)]) }}" class="btn btn-outline-primary w-100 text-left">Sertifikat</a>
-                                </div>
-                                <div class="col-12">
-                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($conversion->certificate->sk_attachment)]) }}" class="btn btn-outline-primary w-100">Surat Keterangan</a>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                @endif
-            </div>
-            <div class="col-lg-4 col-12">
+            <div class="col-12">
                 <div class="card">
-                    <div class="card-body">
-                        <ul class="steps steps-counter steps-vertical">
-                            <li class="step-item {{ $conversion->step == 0 ? 'active' : '' }}">
-                                <div>Upload Berkas</div>
-                            </li>
-                            <li class="step-item {{ $conversion->step == 1 ? 'active' : '' }}">
-                                <div>Verifikasi Data Upload</div>
-                            </li>
-                            <li class="step-item {{ $conversion->step == 2 ? 'active' : '' }}">
-                                <div>Verifikasi Zoom</div>
-                            </li>
-                            <li class="step-item {{ $conversion->step == 3 ? 'active' : '' }}">
-                                <div>Verifikasi Lapangan</div>
-                            </li>
-                            <li class="step-item {{ $conversion->step == 4 ? 'active' : '' }}">
-                                <div>Selesai</div>
-                            </li>
-                        </ul>
+                    <div class="table">
+                        <table id="table" class="table table-vcenter card-table">
+                            <thead>
+                            <tr>
+                                <th class="w-1">No.</th>
+                                <th>Penanggung Jawab</th>
+                                <th>Bengkel</th>
+                                <th>WhatsApp</th>
+                                <th>Jenis</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -110,6 +86,7 @@
 @endsection
 
 @section('url')
+    <input type="hidden" id="table-url" value="{{ route('conversion.table') }}">
 @endsection
 
 @section('script')

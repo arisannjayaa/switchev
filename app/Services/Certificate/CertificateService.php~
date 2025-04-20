@@ -11,7 +11,7 @@ interface CertificateService extends BaseService{
 
     public function upload_archive($data);
 
-    public function verify_draft($id);
+    public function verify_draft();
 
     public function table();
 

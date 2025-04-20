@@ -8,7 +8,7 @@ interface ConversionRepository extends Repository{
 
     public function checkIsConversion();
 
-    public function findByUserId($userId);
+    public function findByUserId($userId, $id);
 
     public function table();
 }

@@ -62,8 +62,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/approve', [ConversionController::class, 'approve'])->name('approve');
         Route::post('/reject', [ConversionController::class, 'reject'])->name('reject');
         Route::post('/send-mail', [ConversionController::class, 'sendMail'])->name('send-mail');
-        Route::get('/form/step/{step}', [ConversionController::class, 'formResponsibleWorkshop'])->name('form');
+        Route::get('/form/step/{step}/{id?}', [ConversionController::class, 'formResponsibleWorkshop'])->name('form');
         Route::get('/verification/{id}', [ConversionController::class, 'verification'])->name('verification');
+        Route::get('/proses-detail/{id}', [ConversionController::class, 'process_detail'])->name('process.detail');
         Route::get('/{id}', [ConversionController::class, 'show'])->name('show');
     });
 
@@ -71,7 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('mechanical')->name('mechanical.')->group(function () {
         Route::get('/', [MechanicalController::class, 'index'])->name('index');
         Route::post('/', [MechanicalController::class, 'create'])->name('create');
-        Route::get('/table', [MechanicalController::class, 'table'])->name('table');
+        Route::get('/table/{conversion_id}', [MechanicalController::class, 'table'])->name('table');
         Route::post('/update', [MechanicalController::class, 'update'])->name('update');
         Route::post('/delete', [MechanicalController::class, 'delete'])->name('delete');
         Route::post('/check-available', [MechanicalController::class, 'checkIsAvailable'])->name('check.available');
@@ -82,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('equipment')->name('equipment.')->group(function () {
         Route::get('/', [EquipmentController::class, 'index'])->name('index');
         Route::post('/', [EquipmentController::class, 'create'])->name('create');
-        Route::get('/table', [EquipmentController::class, 'table'])->name('table');
+        Route::get('/table/{conversion_id}', [EquipmentController::class, 'table'])->name('table');
         Route::post('/update', [EquipmentController::class, 'update'])->name('update');
         Route::post('/delete', [EquipmentController::class, 'delete'])->name('delete');
         Route::post('/check-available', [EquipmentController::class, 'checkIsAvailable'])->name('check.available');
@@ -90,9 +91,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('certificate')->name('certificate.')->group(function () {
+        Route::get('/daftar-permohonan', [\App\Http\Controllers\CertificateController::class, 'index'])->name('index');
+        Route::post('/verifikasi', [\App\Http\Controllers\CertificateController::class, 'verify_draft'])->name('verification');
+        Route::get('/table', [\App\Http\Controllers\CertificateController::class, 'table'])->name('table');
         Route::post('/generate-certificate', [\App\Http\Controllers\CertificateController::class, 'generate_certificate'])->name('generate.certificate');
         Route::post('/generate-sk', [\App\Http\Controllers\CertificateController::class, 'generate_sk'])->name('generate.sk');
         Route::post('/upload-archive', [\App\Http\Controllers\CertificateController::class, 'upload_archive'])->name('upload.archive');
+        Route::post('/send-draft', [\App\Http\Controllers\CertificateController::class, 'send_draft'])->name('send.draft');
+        Route::get('/verifikasi/{id}', [\App\Http\Controllers\CertificateController::class, 'verify_draft_view'])->name('verification.form');
         Route::get('/certification-form/{conversion_id}}', [\App\Http\Controllers\CertificateController::class, 'certification_form'])->name('certificate.form');
     });
 

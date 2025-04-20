@@ -6,7 +6,7 @@ use LaravelEasyRepository\Repository;
 
 interface MechanicalRepository extends Repository{
 
-    public function table();
+    public function table($conversion_id);
 
     public function checkIsAvailable();
 }

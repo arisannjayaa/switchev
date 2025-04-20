@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'guest'
         ]);
 
+        Role::create([
+            'name' => 'superadmin'
+        ]);
+
         User::factory()->create([
             'name' => 'Administrator',
             'email' => 'admin@mail.com',
@@ -37,6 +41,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'member@mail.com',
             'password' => bcrypt('password1'),
             'role_id' => 2,
+            'status' => 'verified'
+        ]);
+
+        User::factory()->create([
+            'name' => 'Ari Sanjaya',
+            'email' => 'wayanarisanjaya01@gmail.com',
+            'password' => bcrypt('password1'),
+            'role_id' => 2,
+            'status' => 'verified'
+        ]);
+
+        User::factory()->create([
+            'name' => 'Superadmin',
+            'email' => 'superadmin@mail.com',
+            'password' => bcrypt('password1'),
+            'role_id' => 3,
             'status' => 'verified'
         ]);
     }

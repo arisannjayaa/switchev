@@ -160,6 +160,10 @@
             @can('isGuest')
                 @include('partials.menu-guest')
             @endcan
+
+            @can('isSuperAdmin')
+                @include('partials.menu-superadmin')
+            @endcan
         </ul>
     </div>
 </div>

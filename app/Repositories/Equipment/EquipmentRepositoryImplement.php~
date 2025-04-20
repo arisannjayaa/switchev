@@ -28,7 +28,9 @@ class EquipmentRepositoryImplement extends Eloquent implements EquipmentReposito
             })
             ->when(auth()->user()->isGuest(), function ($query) use ($conversion_id) {
                 $query->where('user_id', auth()->user()->id);
-                $query->where('conversion_id', $conversion_id);
+                $query->when($id, function ($query) use ($conversion_id) {
+                    $query->where('conversion_id', $conversion_id);
+                });
             })
             ->orderBy('updated_at', 'desc');
     }
