@@ -12,6 +12,32 @@
 
 @section('content')
     <div class="container">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('conversion.index') }}">Daftar Permohonan</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Verifikasi Draft</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Verifikasi Draft</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                </div>
+            </div>
+        </div>
         <input type="hidden" id="id" value="{{ \App\Helpers\Helper::encrypt($certificate->id) }}">
         <div class="row">
             <div class="col-lg-8 col-12">
