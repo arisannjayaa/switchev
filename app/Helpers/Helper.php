@@ -51,7 +51,7 @@ class Helper
             case 'is_being_uploaded':
                 return 'Data Sedang Di Upload';
             default:
-                return 'Ditolak';
+                return 'Di Tolak';
         }
     }
 

@@ -191,7 +191,6 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         DB::beginTransaction();
         try {
             $conversion = $this->mainRepository->find($id);
-            dd($conversion);
 
             if ($conversion->step == 1) {
                 $data['step'] = 2;
@@ -357,6 +356,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 $result->address = $data['address'];
                 $result->person_responsible = $data['person_responsible'];
                 $result->whatapp_responsible = $data['whatapp_responsible'];
+                $result->step_1_complete = $data['step_1_completed'];
                 $result->save();
             }
 

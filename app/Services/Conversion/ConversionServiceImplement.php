@@ -356,6 +356,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 $result->address = $data['address'];
                 $result->person_responsible = $data['person_responsible'];
                 $result->whatapp_responsible = $data['whatapp_responsible'];
+                $result->step_1_completed = $data['step_1_completed'];
                 $result->save();
             }
 

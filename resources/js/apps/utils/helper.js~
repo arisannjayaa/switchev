@@ -121,7 +121,7 @@ export function conversionStatus(status) {
     }
 
     if (status == 'rejected') {
-        result = 'Di Tolak';
+        result = 'Ditolak';
     }
 
     return result;

@@ -45,18 +45,44 @@
 
 @section('content')
     <div class="container">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2>Proses Sertifikasi Verifikasi</h2>
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('conversion.index') }}">Daftar Bengkel Konversi</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Proses Sertifikasi Verifikasi</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Proses Sertifikasi Verifikasi</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-8 col-12">
                 @if($conversion->step == 0)
                     <div class="d-flex justify-content-center align-items-center text-center flex-column">
-                        <img width="300" src="{{ asset('assets/dist/img/undraw_cancel_7zdh.svg') }}" alt="">
-                        <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
-                        <p class="text-secondary">Tunggu pendaftar untuk melakukan perbaikan data</p>
+                        <div class="bg-primary-lt w-100 p-5 rounded-3 mb-3">
+                            <img width="300" src="{{ asset('assets/dist/img/undraw_cancel_7zdh.svg') }}" alt="">
+                        </div>
+                        <div class="text-center">
+                            <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
+                            <p class="text-secondary">Tunggu pendaftar untuk melakukan perbaikan data</p>
+                        </div>
                     </div>
                 @endif
                 @if($conversion->step == 1)
