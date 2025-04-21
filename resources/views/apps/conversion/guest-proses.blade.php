@@ -64,6 +64,20 @@
         </div>
         <div class="row">
             <div class="col-lg-8 col-12">
+                @if($conversion->status == 'is_being_uploaded')
+                    <div class="d-flex justify-content-center align-items-center text-center flex-column">
+                        <div class="bg-primary-lt w-100 p-7 rounded-3">
+                            <img width="300" src="{{ asset('assets/dist/img/undraw_in-progress_cdfz.svg') }}" alt="">
+                        </div>
+                        <h1 class="mt-4">{{ \App\Helpers\Helper::check_status_conversion($conversion->status) }}</h1>
+                        <p class="text-secondary">{!! $conversion->message !!}</p>
+                        <div class="row w-100 gap-2">
+                            <div class="col-12">
+                                <a href="{{ route('conversion.form', ['step' => 1, 'id' =>  \App\Helpers\Helper::encrypt(@$conversion->id)]) }}" class="btn btn-outline-primary w-100 text-left">Lanjutkan Mengisi Form</a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 @if($conversion->status == 'rejected')
                     <div class="alert alert-important alert-danger" role="alert">
                         <div class="d-flex">

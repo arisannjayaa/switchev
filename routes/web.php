@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/physical-test', [TestLetterController::class, 'upload_physical_test_letter'])->name('upload_physical_test_letter');
         Route::get('/{id}', [TestLetterController::class, 'show'])->name('show');
         Route::get('verification/{id}', [TestLetterController::class, 'verification'])->name('verification');
+        Route::get('sertifikat/{id}', [TestLetterController::class, 'certificate'])->name('certificate');
         Route::get('/physical-test/{id}', [TestLetterController::class, 'show_physical_test_letter'])->name('show_physical_test_letter');
     });
 });

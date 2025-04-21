@@ -227,7 +227,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
 
                 if ($row->physical_test_bpljskb != null) {
                     $menuCertificate = '
-                        <a class="dropdown-item generate" href="'.route('test.letter.certificate', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                        <a class="dropdown-item generate" href="'.route('test.letter.verification', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Buat Surat dan Sertifikat
                                 </a>
                     ';

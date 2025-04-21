@@ -42,7 +42,7 @@ class ConversionController extends Controller
 
             $totalSteps = 4;
             $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();
-           
+
             if ($step < 1 || $step > $totalSteps) {
                 return redirect()->route('conversion.form', ['step' => 1]);
             }
