@@ -145,6 +145,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 $evaluationMenu = '';
                 $verificationMenu = '';
                 $menuGuest = '';
+                $menuAdmin = '';
                 if (auth()->user()->isAdmin()) {
                     $verificationMenu = '<a class="dropdown-item detail" href="'.route('conversion.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                       Lihat
@@ -154,6 +155,12 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                                     </a>';
                     if (!@$row->certificate && $row->step == 5) {
                         $evaluationMenu = '<a class="dropdown-item detail" href="'.route('certificate.certificate.form', ['conversion_id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                          Penilaian
+                                        </a>';
+                    }
+
+                    if (@$row->certificate->status == 'Draft' || @$row->certificate->status == 'Terverifikasi' || @$row->certificate == null) {
+                        $menuAdmin = '<a class="dropdown-item detail" href="'.route('certificate.certificate.form', ['conversion_id' => \App\Helpers\Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                           Penilaian
                                         </a>';
                     }
@@ -172,6 +179,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                               '.$verificationMenu.'
                               '.$evaluationMenu.'
                               '.$menuGuest.'
+                              '.$menuAdmin.'
                               </div>
                             </span>';
                 return $html;
@@ -358,7 +366,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             }
 
 
-            $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1, 'id' => $result->id]));
+            $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1, 'id' => Helper::encrypt($result->id)]));
 
             DB::commit();
             return $this->setStatus(true)

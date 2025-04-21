@@ -11,7 +11,37 @@
 @endsection
 
 @section('content')
+    @php
+        $previous_step = $form > 1 ? $form - 1 : null;
+        $next_step = $form < 4 ? $form + 1 : null;
+    @endphp
     <div class="container">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('conversion.index') }}">Daftar Permohonan</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Form Pendaftaran</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Daftar Permohonan Sertifikat Bengkel Konversi</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                </div>
+            </div>
+        </div>
         <form id="form-conversion">
             <input type="hidden" id="id" name="id" value="{{ @$conversion->id }}">
             <div class="card card-md">
@@ -181,10 +211,6 @@
                     </div>
                 </div>
                 <div class="col">
-                    @php
-                        $previous_step = $form > 1 ? $form - 1 : null;
-                        $next_step = $form < 4 ? $form + 1 : null;
-                    @endphp
                     <div class="btn-list justify-content-end">
                         @if($previous_step)
                         <a id="btn-previous" class="btn btn-primary" href="{{ route('conversion.form', ['step' => $previous_step, 'id' => \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">
@@ -218,12 +244,12 @@
     <input type="hidden" id="form-document-url" value="{{ route('conversion.upsertFormDocument') }}">
     <input type="hidden" id="form-mechanical-url" value="{{ route('mechanical.check.available') }}">
     <input type="hidden" id="form-equipment-url" value="{{ route('equipment.check.available') }}">
-    <input type="hidden" id="table-mechanical-url" value="{{ route('mechanical.table', ['id' => \App\Helpers\Helper::encrypt($conversion->id)]) }}">
+    <input type="hidden" id="table-mechanical-url" value="{{ route('mechanical.table', ['conversion_id' => \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">
     <input type="hidden" id="create-mechanical-url" value="{{ route('mechanical.create') }}">
     <input type="hidden" id="update-mechanical-url" value="{{ route('mechanical.update') }}">
     <input type="hidden" id="delete-mechanical-url" value="{{ route('mechanical.delete') }}">
     <input type="hidden" id="edit-mechanical-url" value="{{ route('mechanical.show', ['id' => ':id']) }}">
-    <input type="hidden" id="table-equipment-url" value="{{ route('equipment.table', ['id' => \App\Helpers\Helper::encrypt($conversion->id)]) }}">
+    <input type="hidden" id="table-equipment-url" value="{{ route('equipment.table', ['conversion_id' => \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">
     <input type="hidden" id="create-equipment-url" value="{{ route('equipment.create') }}">
     <input type="hidden" id="update-equipment-url" value="{{ route('equipment.update') }}">
     <input type="hidden" id="delete-equipment-url" value="{{ route('equipment.delete') }}">

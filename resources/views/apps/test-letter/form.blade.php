@@ -12,6 +12,32 @@
 
 @section('content')
     <div class="container">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Form Penerbitan</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Form Pendaftaran</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                </div>
+            </div>
+        </div>
         <form id="form-test-letter">
             <div class="card card-md">
                 <div class="card-body text-center py-4 p-sm-5">

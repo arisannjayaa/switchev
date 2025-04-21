@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function table()
     {
-        if (!auth()->user()->isAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             return abort(403);
         }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        if (!auth()->user()->isAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             return abort(403);
         }
 
@@ -49,7 +49,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request)
     {
-        if (!auth()->user()->isAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             return abort(403);
         }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        if (!auth()->user()->isAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             return abort(404);
         }
 

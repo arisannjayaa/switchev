@@ -28,32 +28,6 @@
 
 @section('content')
     <div class="container">
-        <div class="page-header mb-3">
-            <div class="row align-items-center">
-                <div class="col">
-                    <div class="mb-1">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('dashboard') }}">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('conversion.index') }}">Daftar Bengkel Konversi</a>
-                            </li>
-                            <li class="breadcrumb-item active">
-                                <a href="#">Penilaian</a>
-                            </li>
-                        </ol>
-                    </div>
-                    <h2 class="page-title">
-        <span class="text-truncate"
-        >Penilaian</span
-        >
-                    </h2>
-                </div>
-                <div class="col-auto ms-auto d-print-none">
-                </div>
-            </div>
-        </div>
         <input id="id" type="hidden" value="{{ $conversion->id }}">
         <div class="mb-3">
             <label class="form-label required">Akreditasi Bengkel</label>

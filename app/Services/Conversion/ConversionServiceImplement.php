@@ -145,6 +145,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 $evaluationMenu = '';
                 $verificationMenu = '';
                 $menuGuest = '';
+                $menuAdmin = '';
                 if (auth()->user()->isAdmin()) {
                     $verificationMenu = '<a class="dropdown-item detail" href="'.route('conversion.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                       Lihat
@@ -172,6 +173,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                               '.$verificationMenu.'
                               '.$evaluationMenu.'
                               '.$menuGuest.'
+                              '.$menuAdmin.'
                               </div>
                             </span>';
                 return $html;

@@ -11,9 +11,28 @@
     </div>
 @else
     <div>
-        <div class="d-flex justify-content-end mb-3">
-            <div>
-                <a href="{{ route('test.letter.form') }}" class="btn btn-outline-primary">Ajukan Penerbitan Lainnya</a>
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Daftar Penerbitan</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <a href="{{ route('test.letter.form') }}" class="btn btn-outline-primary">Ajukan Penerbitan Lainnya</a>
+                </div>
             </div>
         </div>
         <div class="row g-4">

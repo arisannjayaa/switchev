@@ -64,5 +64,5 @@
 @endsection
 
 @section('script')
-    @vite(['resources/js/apps/user/user.js'])
+    @vite(['resources/js/apps/certificate/certificate.js'])
 @endsection

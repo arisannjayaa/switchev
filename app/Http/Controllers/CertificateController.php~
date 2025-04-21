@@ -56,7 +56,7 @@ class CertificateController extends Controller
         }
 
         $data['conversion'] = $this->conversionService->find(Helper::decrypt($conversion_id))->getResult();
-        if (!@$data['conversion']->certificate->status == 'Terverifikasi') {
+        if (@$data['conversion']->certificate->status == 'Selesai') {
             return redirect()->route('conversion.index');
         }
 

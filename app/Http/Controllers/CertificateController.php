@@ -65,6 +65,10 @@ class CertificateController extends Controller
 
     public function index()
     {
+        if (!auth()->user()->isSuperAdmin()) {
+            return abort(403);
+        }
+
         return view('apps.certificate.index');
     }
 
