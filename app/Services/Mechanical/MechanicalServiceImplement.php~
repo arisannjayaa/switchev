@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Services\Equipment;
+namespace App\Services\Mechanical;
 
 use App\Helpers\Helper;
-use App\Models\Equipment;
 use App\Repositories\Conversion\ConversionRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use LaravelEasyRepository\ServiceApi;
-use App\Repositories\Equipment\EquipmentRepository;
+use App\Repositories\Mechanical\MechanicalRepository;
 use Yajra\DataTables\Facades\DataTables;
 
-class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
+class MechanicalServiceImplement extends ServiceApi implements MechanicalService{
 
     /**
      * set title message api for CRUD
@@ -34,7 +33,7 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
      */
      protected $mainRepository;
 
-    public function __construct(EquipmentRepository $mainRepository, ConversionRepository $conversionRepository)
+    public function __construct(MechanicalRepository $mainRepository, ConversionRepository $conversionRepository)
     {
       $this->mainRepository = $mainRepository;
       $this->conversionRepository = $conversionRepository;
@@ -73,7 +72,7 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
             DB::commit();
             return $this->setStatus(true)
                 ->setCode(200)
-                ->setMessage("Peralatan berhasil ditambahkan");
+                ->setMessage("Tenaga ahli berhasil ditambahkan");
         } catch (Exception $e) {
             DB::rollBack();
             return $this->exceptionResponse($e);
@@ -90,7 +89,7 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
             DB::commit();
             return $this->setStatus(true)
                 ->setCode(200)
-                ->setMessage("Peralatan berhasil diperbaharui");
+                ->setMessage("Tenaga berhasil diperbaharui");
         } catch (Exception $e) {
             DB::rollBack();
             return $this->exceptionResponse($e);
@@ -100,14 +99,14 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
     public function checkIsAvailable($data)
     {
         try {
+            dd($data['id']);
             if ($this->mainRepository->checkIsAvailable($data['id'])) {
+                $step = $data['step'];
                 $id = $data['id'];
-                $data['step'] = 1;
-                $data['status'] = "checking";
-                $data['message'] = "Tim kami saat ini sedang memeriksa dan memverifikasi berkas yang telah Anda unggah untuk memastikan kelengkapannya. Proses ini mungkin membutuhkan waktu, dan kami akan memberi kabar lebih lanjut setelah verifikasi selesai.";
+                $data['step'] = 0;
                 unset($data['id']);
                 $this->conversionRepository->update($id, $data);
-                $redirect = redirect()->intended(URL::route('conversion.process.detail', ['id' => Helper::encrypt($id)]));
+                $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1, 'id' => Helper::encrypt($id)]));
                 return $this->setStatus(true)
                     ->setCode(200)
                     ->setResult(['redirect' => $redirect->getTargetUrl()]);
@@ -115,8 +114,8 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
 
             return $this->setStatus(false)
                 ->setCode(403)
-                ->setResult(['button' => 'Kirim Pendaftaran'])
-                ->setMessage("Minimal satu peralatan harus ada");
+                ->setMessage("Minimal satu tenaga ahli harus ada")
+                ->setResult(['button' => 'Selanjutnya']);
         } catch (Exception $e) {
             return $this->exceptionResponse($e);
         }

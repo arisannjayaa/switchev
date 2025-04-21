@@ -57,19 +57,19 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label required">Nama</label>
-                                    <input type="text" class="form-control" placeholder="Nama penanggung jawab" name="person_responsible" value="{{ @$conversion->person_responsible }}">
+                                    <input type="text" class="form-control" placeholder="Nama penanggung jawab" id="person_responsible" name="person_responsible" value="{{ @$conversion->person_responsible }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label required">No Whatsapp</label>
-                                    <input type="text" class="form-control" placeholder="No Whatsapp" name="whatapp_responsible" value="{{ @$conversion->whatapp_responsible }}">
+                                    <input type="text" class="form-control" placeholder="No Whatsapp" id="whatapp_responsible" name="whatapp_responsible" value="{{ @$conversion->whatapp_responsible }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label required">Nama Bengkel Konversi</label>
-                                    <input type="text" class="form-control" placeholder="Nama Bengkel Konversi" name="workshop" value="{{ @$conversion->workshop }}">
+                                    <input type="text" class="form-control" placeholder="Nama Bengkel Konversi" id="workshop" name="workshop" value="{{ @$conversion->workshop }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -85,7 +85,7 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Alamat Bengkel</label>
-                                    <textarea class="form-control" name="address" rows="6" placeholder="Alamat..">{{ @$conversion->address }}</textarea>
+                                    <textarea class="form-control" name="address"  id="address" rows="6" placeholder="Alamat..">{{ @$conversion->address }}</textarea>
                                 </div>
                             </div>
                         @endif
@@ -137,6 +137,7 @@
                                     </small>
                                 </div>
                             </div>
+                            <input type="hidden" id="type_wiring" name="type_wiring" value="{{ @$conversion->type }}">
                             @if(@$conversion->type == "Selain Sepeda Motor")
                             <div class="col-lg-6 col-12">
                                 <div class="mb-3" id="select-wiring-diagram">
@@ -204,9 +205,14 @@
             </div>
             <div class="row align-items-center mt-3">
                 <div class="col-4">
+                    @php
+                        $totalSteps = 4;
+                        $currentStep = $form;
+                        $progress = ($currentStep / $totalSteps) * 100;
+                    @endphp
                     <div class="progress">
-                        <div class="progress-bar" style="width: {{ @$conversion->form_progress ?? 0 }}%" role="progressbar" aria-valuenow="{{ @$conversion->form_progress ?? 0 }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ @$conversion->form_progress ?? 0 }}% Complete">
-                            <span class="visually-hidden">{{ @$conversion->form_progress ?? 0 }}% Complete</span>
+                        <div class="progress-bar" style="width: {{ @$progress ?? 0 }}%" role="progressbar" aria-valuenow="{{ @$progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ @$progress }}% Complete">
+                            <span class="visually-hidden">{{ @$progress }}% Complete</span>
                         </div>
                     </div>
                 </div>

@@ -33,9 +33,10 @@ class MechanicalRepositoryImplement extends Eloquent implements MechanicalReposi
             ->orderBy('updated_at', 'desc');
     }
 
-    public function checkIsAvailable()
+    public function checkIsAvailable($coonversion_id)
     {
         return $this->model->query()
+            ->where('conversion_id', $coonversion_id)
             ->where('user_id', auth()->user()->id)->exists();
     }
 }

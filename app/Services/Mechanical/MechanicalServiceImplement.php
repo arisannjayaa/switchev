@@ -99,7 +99,7 @@ class MechanicalServiceImplement extends ServiceApi implements MechanicalService
     public function checkIsAvailable($data)
     {
         try {
-            if ($this->mainRepository->checkIsAvailable()) {
+            if ($this->mainRepository->checkIsAvailable($data['id'])) {
                 $step = $data['step'];
                 $id = $data['id'];
                 $data['step'] = 0;

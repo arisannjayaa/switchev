@@ -3,10 +3,10 @@ import {csrfToken, handleValidation} from "@/app.js";
 import Swal from "sweetalert2";
 
 document.addEventListener('DOMContentLoaded', function() {
-    const tableUrl = $('#table-equipment-url').val();
+    const tableUrl = $('#table-mechanical-url').val();
     const asset = $("#asset-url").val();
 
-    $("#table-equipment").DataTable({
+    $("#table-mechanical").DataTable({
         order: [[0, 'desc']],
         ordering: true,
         serverSide: true,
@@ -39,10 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 orderable: false,
                 searchable: false,
             },
-            { data: 'type', name: 'type', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'name', name: 'name', className: 'text-nowrap', orderable: false, searchable: true},
-            { data: 'brand', name: 'brand', className: 'text-nowrap', orderable: false, searchable: true},
-            { data: 'specification', name: 'specification', className: 'text-nowrap', orderable: false, searchable: true},
+            { data: 'task', name: 'task', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'action', name: 'action', className: 'text-nowrap', orderable: false, searchable: false},
         ],
         columnDefs: [
@@ -51,42 +49,38 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
     });
 
-    $('#btn-equipment-add').click(function () {
+    $('#btn-mechanical-add').click(function () {
         $('.container form').each(function() {
-            this.reset();
+            this.reset(); // Mereset semua form di dalam container
         });
-        $("#equipment_id").val('');
-        $("#modal-equipment").modal('show');
-        $('.modal-title').empty().append('Tambah Peralatan');
+        $("#id_mechanical").val('');
+        $("#modal-mechanical").modal('show');
+        $('.modal-title').empty().append('Tambah Tenaga Ahli');
         resetValidation();
     });
 
-    $("#btn-save-equipment").click(function (e) {
+    $("#btn-save-mechanical").click(function (e) {
         e.preventDefault();
 
         let formData = new FormData();
-        let btn = "#btn-save-equipment";
-        let table = "#table-equipment";
-        let modal = "#modal-equipment";
+        let btn = "#btn-save-mechanical";
+        let table = "#table-mechanical";
+        let modal = "#modal-mechanical";
 
-        let id = $("#equipment_id").val();
+        let id = $("#mechanical_id").val();
         let name = $("#name").val();
-        let type = $("#type").val();
-        let brand = $("#brand").val();
-        let specification = $("#specification").val();
+        let task = $("#task").val();
         let conversion_id = $("#id").val();
 
         formData.append("id", id);
         formData.append("name", name);
-        formData.append("type", type);
-        formData.append("brand", brand);
-        formData.append("specification", specification);
+        formData.append("task", task);
         formData.append("conversion_id", conversion_id);
 
         if (id !== "") {
-            var url = $("#update-equipment-url").val();
+            var url = $("#update-mechanical-url").val();
         } else {
-            var url = $("#create-equipment-url").val();
+            var url = $("#create-mechanical-url").val();
         }
 
         $(btn).empty().append(`<div class="spinner-border" role="status">
@@ -139,9 +133,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
 
-    $("#table-equipment").on("click", ".edit", function () {
+    $("#table-mechanical").on("click", ".edit", function () {
         let id = $(this).data("id");
-        let url = $("#edit-equipment-url").val();
+        let url = $("#edit-mechanical-url").val();
         url = url.replace(":id", id);
         loadingScreen();
 
@@ -154,14 +148,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(res => {
                 if(res.code == 200) {
-                    $(".modal-title").empty().append("Edit Peralatan");
-                    $("#equipment_id").val(res.data.id);
+                    $(".modal-title").empty().append("Edit Tenaga Ahli");
+                    $("#mechanical_id").val(res.data.id);
                     $("#name").val(res.data.name);
-                    $("#type").val(res.data.type);
-                    $("#brand").val(res.data.brand);
-                    $("#specification").val(res.data.specification);
+                    $("#task").val(res.data.task);
 
-                    $("#modal-equipment").modal("show");
+                    $("#modal-mechanical").modal("show");
                     resetValidation();
                 }
 
@@ -175,10 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    $("#table-equipment").on("click", ".delete", function () {
+    $("#table-mechanical").on("click", ".delete", function () {
         let id = $(this).data("id");
-        let url = $("#delete-equipment-url").val();
-        let table = "#table-equipment";
+        let url = $("#delete-mechanical-url").val();
+        let table = "#table-mechanical";
         let formData = new FormData();
         formData.append("id", id);
         loadingScreen();

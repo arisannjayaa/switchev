@@ -8,5 +8,5 @@ interface MechanicalRepository extends Repository{
 
     public function table($conversion_id);
 
-    public function checkIsAvailable($conversion_id);
+    public function checkIsAvailable();
 }

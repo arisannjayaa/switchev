@@ -82,9 +82,10 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append("brand", brand);
         formData.append("specification", specification);
         formData.append("conversion_id", conversion_id);
-
+        
         if (id !== "") {
             var url = $("#update-equipment-url").val();
+
         } else {
             var url = $("#create-equipment-url").val();
         }

@@ -33,9 +33,10 @@ class EquipmentRepositoryImplement extends Eloquent implements EquipmentReposito
             ->orderBy('updated_at', 'desc');
     }
 
-    public function checkIsAvailable()
+    public function checkIsAvailable($conversion_id)
     {
         return $this->model->query()
+            ->where('conversion_id', $conversion_id)
             ->where('user_id', auth()->user()->id)->exists();
     }
 }
