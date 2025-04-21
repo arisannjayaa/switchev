@@ -48,6 +48,8 @@ class Helper
                 return 'Verifikasi Lapangan Terverifikasi';
             case 'finished':
                 return 'Di Terima';
+            case 'is_being_uploaded':
+                return 'Data Sedang Di Upload';
             default:
                 return 'Ditolak';
         }

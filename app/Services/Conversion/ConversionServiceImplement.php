@@ -149,10 +149,14 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                 if (auth()->user()->isAdmin()) {
                     $verificationMenu = '<a class="dropdown-item detail" href="'.route('conversion.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                       Lihat
-                                    </a>
-                                    <a class="dropdown-item verification-zoom" href="'.route('conversion.verification', ['id' => Helper::encrypt( $row->id)]).'" data-id="'.$row->id.'">
+                                    </a>';
+
+                    if ($row->status != 'is_being_uploaded') {
+                        $verificationMenu .= '<a class="dropdown-item verification-zoom" href="'.route('conversion.verification', ['id' => Helper::encrypt( $row->id)]).'" data-id="'.$row->id.'">
                                       Verifikasi
                                     </a>';
+                    }
+
                     if (!@$row->certificate && $row->step == 5) {
                         $evaluationMenu = '<a class="dropdown-item detail" href="'.route('certificate.certificate.form', ['conversion_id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                           Penilaian

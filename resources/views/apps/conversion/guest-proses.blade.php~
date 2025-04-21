@@ -73,7 +73,7 @@
                             </div>
                             <div>
                                 <h4 class="alert-title">{{ \App\Helpers\Helper::check_status_conversion(@$conversion->status) }}</h4>
-                                <span class="text-secondary"> {!! @$conversion->message !!}<span class="">Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['step' => 1, 'id' =>  \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">Perbaiki data</a></span>
+                                <span class="text-secondary"> {!! @$conversion->message !!}<span class="">Silahkan perbaiki data pada link berikut ini.</span> <a href="{{ route('conversion.form', ['step' => 1, 'id' => Helper::encrypt(@$conversion->id)]) }}">Perbaiki data</a></span>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         @if($conversion->status == 'is_being_uploaded')
                             <div class="row w-100 gap-2">
                                 <div class="col-12">
-                                    <a href="{{ route('conversion.form', ['step' => 1, 'id' =>  \App\Helpers\Helper::encrypt(@$conversion->id)]) }}" class="btn btn-outline-primary w-100 text-left">Lanjutkan Mengisi Form</a>
+                                    <a href="{{ route('conversion.form', ['step' => 1, 'id' => Helper::encrypt(@$conversion->id)]) }}" class="btn btn-outline-primary w-100 text-left">Lanjutkan Mengisi Form</a>
                                 </div>
                             </div>
                         @endif

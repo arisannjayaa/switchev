@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Role;
+use App\Models\TestLetter;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
@@ -45,6 +46,8 @@ class Helper
                 return 'Verifikasi Zoom Terverifikasi';
             case 'verified_field':
                 return 'Verifikasi Lapangan Terverifikasi';
+            case 'finished':
+                return 'Di Terima';
             case 'finished':
                 return 'Di Terima';
             default:

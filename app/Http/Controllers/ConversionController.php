@@ -166,6 +166,11 @@ class ConversionController extends Controller
         }
 
         $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();
+
+        if (@$data['conversion']->status == 'is_being_uploaded') {
+            return redirect()->route('conversion.index');
+        }
+
         $data['attachments'][] = $data['conversion']->application_letter;
         $data['attachments'][] = $data['conversion']->equipment;
         $data['attachments'][] = $data['conversion']->technician_competency;
