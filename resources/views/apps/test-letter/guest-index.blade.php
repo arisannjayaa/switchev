@@ -31,7 +31,7 @@
                     </h2>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
-                    <a href="{{ route('test.letter.form') }}" class="btn btn-outline-primary">Ajukan Penerbitan Lainnya</a>
+                    <a href="{{ route('test.letter.form') . '?form-step=1' }}" class="btn btn-outline-primary">Ajukan Penerbitan Lainnya</a>
                 </div>
             </div>
         </div>

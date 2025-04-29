@@ -67,10 +67,10 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="alert-heading text-left">{{ $test_letter->status }}</div>
-                            @if($test_letter->is_verified)
+                            <div class="alert-heading text-left">{{ @$test_letter->status }}</div>
+                            @if(@$test_letter->is_verified)
                                 <span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.
-                                     <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($test_letter->physical_test_cover_letter)]) }}">Unduh Surat Pengantar Uji di sini</a></span>
+                                     <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->physical_test_cover_letter)]) }}">Unduh Surat Pengantar Uji di sini</a></span>
                             @else
                                 <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Pengantar Uji akan tersedia setelah proses verifikasi selesai.</span>
                             @endif
@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
-                @if($test_letter->is_verified)
+                @if(@$test_letter->is_verified)
                     <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
                 @else
                     <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_loading_65y2.svg') }}">

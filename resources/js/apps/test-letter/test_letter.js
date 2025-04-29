@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (data.errors || data.invalid) {
                     new handleValidation(data.errors || data.invalid)
-                    $(btn).empty().append('Kirim Pengajuan').prop('disabled', false);
+                    $(btn).empty().append('Selanjutnya').prop('disabled', false);
                 }
 
             })

@@ -80,8 +80,7 @@ class TestLetterController extends Controller
             'power_max_drive_motor',
             'rotation_drive_motor',
             'conversion_voltage_fuel_system','electrical_voltage_fuel_system','battery_capacity_fuel_system',
-            'total_length_vehicle_dimension','total_width_vehicle_dimension','total_height_vehicle_dimension','axis_distance_vehicle_dimension',
-            'front_over_vehicle_dimension','rear_over_vehicle_dimension','ground_clearance_vehicle_dimension',]);
+            'total_length_vehicle_dimension','']);
         return $this->testLetterService->upsert_form($data)->toJson();
     }
 
