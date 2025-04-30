@@ -1307,7 +1307,7 @@
                                     <small class="form-hint">
                                         @if(@$test_letter->conversion_type_test_application_letter) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->conversion_type_test_application_letter)]) }}">lihat disini</a>
                                         <br> @endif
-                                            Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/SURAT_PERMOHONAN_UJI_TIPE_KONVERSI.docx')]) }}">Disini</a>
+                                            Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => storage_path(\App\Helpers\Helper::encrypt("templates\SURAT_PERMOHONAN_UJI_TIPE_KONVERSI.docx"))]) }}">Disini</a>
                                     </small>
                                 </div>
                             </div>

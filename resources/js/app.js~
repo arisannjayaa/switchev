@@ -167,9 +167,3 @@ $(document).on('keyup', '.convert-unit', function () {
     let formattedValue = formatVolt(value, ' unit');
     $(this).val(formattedValue);
 });
-
-$(document).on('keyup', '.convert-watt', function () {
-    let value = this.value;
-    let formattedValue = formatVolt(value, ' watt');
-    $(this).val(formattedValue);
-});

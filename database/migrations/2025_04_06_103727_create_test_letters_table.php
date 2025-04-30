@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('is_verified')->nullable();
             $table->string('physical_test_bpljskb')->nullable();
             $table->string('physical_test_cover_letter')->nullable();
+            $table->string('conversion_type_test_application_letter')->nullable();
             $table->string('responsible_person')->nullable();
             $table->string('telephone')->nullable();
             $table->string('workshop')->nullable();
@@ -60,6 +61,7 @@ return new class extends Migration
             $table->json('braking_system')->nullable();
             $table->json('suspension_system')->nullable();
             $table->json('other')->nullable();
+            $table->boolean('is_form_completed')->default(0)->nullable()
             $table->timestamps();
         });
     }

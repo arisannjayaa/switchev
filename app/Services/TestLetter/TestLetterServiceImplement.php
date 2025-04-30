@@ -355,6 +355,25 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             }
 
             if ($data['form_step'] == 12) {
+                $data['steering_system'] = [
+                    'type' => $data['type_steering_system'] ?? '-',
+                    'placement' => $data['placement_steering_system'] ?? '-',
+                    'wheel' => $data['wheel_steering_system'] ?? '-',
+                    'amount_wheel' => $data['amount_wheel_steering_system'] ?? '-',
+                    'setting_wheel' => $data['setting_wheel_steering_system'] ?? '-',
+                ];
+
+                unset(
+                    $data['type_steering_system'],
+                    $data['placement_steering_system'],
+                    $data['wheel_steering_system'],
+                    $data['amount_wheel_steering_system'],
+                    $data['setting_wheel_steering_system'],
+                );
+            }
+
+
+            if ($data['form_step'] == 13) {
                 $data['other'] = [
                     'body_and_frame_arrangement' => $data['body_and_frame_arrangement_other'] ?? '-',
                     'main_light' => $data['main_light_other'] ?? '-',

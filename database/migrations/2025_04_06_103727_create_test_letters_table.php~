@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('code')->nullable();
-            $table->string('type_')->nullable();
+            $table->string('workshop_type')->nullable();
             $table->string('sop_component_installation')->nullable();
             $table->string('technical_drawing')->nullable();
             $table->string('conversion_workshop_certificate')->nullable();
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('is_verified')->nullable();
             $table->string('physical_test_bpljskb')->nullable();
             $table->string('physical_test_cover_letter')->nullable();
+            $table->string('conversion_type_test_application_letter')->nullable();
             $table->string('responsible_person')->nullable();
             $table->string('telephone')->nullable();
             $table->string('workshop')->nullable();

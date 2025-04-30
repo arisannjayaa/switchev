@@ -1,6 +1,28 @@
 import Swal from "sweetalert2";
 import {csrfToken} from "@/app.js";
 
+export function formatVolt(angka, suffix = " Volt") {
+    angka = angka.replace(',', '.');
+
+    let formattedValue = angka.replace(/[^0-9.]/g, '');
+
+    let decimalCount = formattedValue.split('.').length - 1;
+    if (decimalCount > 1) {
+        formattedValue = formattedValue.substring(0, formattedValue.lastIndexOf('.'));
+    }
+
+    if (formattedValue.indexOf('.') !== -1) {
+        formattedValue = formattedValue.replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    }
+
+    return formattedValue ? formattedValue + suffix : '';
+}
+
+export function reverseFormatVolt(angka) {
+    // Hilangkan semua karakter kecuali angka
+    return parseInt(angka.toString().replace(/[^\d]/g, "")) || 0;
+}
+
 export function resetValidation() {
     $(".form-control").removeClass("is-invalid");
     $(".form-select").removeClass("is-invalid");

@@ -74,7 +74,7 @@ class Helper
             case 13:
                 $form_step_name = 'Lain-Lain';
                 break;
-            case 14:
+            case 13:
                 $form_step_name = 'Persyaratan Berkas';
                 break;
             default:
