@@ -95,6 +95,67 @@ class FormTestLetterRequest extends FormRequest
             $rules['ground_clearance_vehicle_dimension'] = ['required'];
         }
 
+        if ($this->input('form_step') == 7) {
+            $rules['axis_1_tire_size'] = ['required'];
+            $rules['axis_2_tire_size'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 8) {
+            $rules['axis_1_empty_vehicle_weight'] = ['required'];
+            $rules['axis_2_empty_vehicle_weight'] = ['required'];
+            $rules['axis_1_axis_design_strength'] = ['required'];
+            $rules['axis_2_axis_design_strength'] = ['required'];
+            $rules['axis_1_jbb'] = ['required'];
+            $rules['axis_2_jbb'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 9) {
+            $rules['transmission_type_power_forwarder'] = ['required'];
+            $rules['transmission_control_system_power_forwarder'] = ['required'];
+            $rules['clutch_type_power_forwarder'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 10) {
+            $rules['control_braking_system'] = ['required'];
+            $rules['front_brake_type_braking_system'] = ['required'];
+            $rules['rear_brake_type_braking_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 11) {
+            $rules['front_type_suspension_system'] = ['required'];
+            $rules['front_spring_type_suspension_system'] = ['required'];
+            $rules['front_shock_absorber_type_suspension_system'] = ['required'];
+            $rules['rear_type_suspension_system'] = ['required'];
+            $rules['rear_spring_type_suspension_system'] = ['required'];
+            $rules['rear_shock_absorber_type_suspension_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 12) {
+            $rules['body_and_frame_arrangement_other'] = ['required'];
+            $rules['main_light_other'] = ['required'];
+            $rules['main_light_amount_other'] = ['required'];
+            $rules['main_light_color_other'] = ['required'];
+            $rules['main_light_power_other'] = ['required'];
+            $rules['stop_light_other'] = ['required'];
+            $rules['stop_light_amount_other'] = ['required'];
+            $rules['stop_light_color_other'] = ['required'];
+            $rules['stop_light_power_other'] = ['required'];
+            $rules['front_turn_signal_light_other'] = ['required'];
+            $rules['front_turn_signal_light_amount_other'] = ['required'];
+            $rules['front_turn_signal_light_color_other'] = ['required'];
+            $rules['front_turn_signal_light_power_other'] = ['required'];
+            $rules['rear_turn_signal_light_other'] = ['required'];
+            $rules['rear_turn_signal_light_amount_other'] = ['required'];
+            $rules['rear_turn_signal_light_color_other'] = ['required'];
+            $rules['rear_turn_signal_light_power_other'] = ['required'];
+            $rules['speedometer_other'] = ['required'];
+            $rules['drive_type_speedometer_other'] = ['required'];
+            $rules['method_speedometer_other'] = ['required'];
+            $rules['horn_other'] = ['required'];
+            $rules['amount_horn_other'] = ['required'];
+            $rules['type_horn_other'] = ['required'];
+        }
+
         if ($this->has('old_sop_component_installation') && $this->input('old_sop_component_installation')) {
             unset($rules['sop_component_installation']);
         }
@@ -170,6 +231,51 @@ class FormTestLetterRequest extends FormRequest
             'front_over_vehicle_dimension.required' => 'Julur depan total wajib diisi.',
             'rear_over_vehicle_dimension.required' => 'Julur belakang total wajib diisi.',
             'ground_clearance_vehicle_dimension.required' => 'Julur bebas total wajib diisi.',
+            'axis_1_tire_size.required' => 'Sumbu I wajib diisi.',
+            'axis_2_tire_size.required' => 'Sumbu II wajib diisi.',
+            'axis_1_empty_vehicle_weight.required' => 'Sumbu I wajib diisi.',
+            'axis_2_empty_vehicle_weight.required' => 'Sumbu II wajib diisi.',
+            'axis_1_axis_design_strength.required' => 'Sumbu I wajib diisi.',
+            'axis_2_axis_design_strength.required' => 'Sumbu II wajib diisi.',
+            'axis_1_jbb.required' => 'Sumbu I wajib diisi.',
+            'axis_2_jbb.required' => 'Sumbu II wajib diisi.',
+            'transmission_type_power_forwarder.required' => 'Tipe transmisi wajib diisi.',
+            'transmission_control_system_power_forwarder.required' => 'Sistem kendali transmisi wajib diisi.',
+            'clutch_type_power_forwarder.required' => 'Tipe kopling wajib diisi.',
+            'control_braking_system.required' => 'Pengendalian wajib diisi.',
+            'front_brake_type_braking_system.required' => 'Tipe rem depan wajib diisi.',
+            'rear_brake_type_braking_system.required' => 'Tipe rem belakang wajib diisi.',
+            'front_type_suspension_system.required' => 'Tipe suspensi wajib diisi.',
+            'front_spring_type_suspension_system.required' => 'Tipe pegas wajib diisi.',
+            'front_shock_absorber_type_suspension_system.required' => 'Jenis peredam kejut wajib diisi.',
+            'front_stabilizer_system_suspension_system.required' => 'JSistem stabilizer wajib diisi.',
+            'rear_type_suspension_system.required' => 'Tipe suspensi wajib diisi.',
+            'rear_spring_type_suspension_system.required' => 'Tipe pegas wajib diisi.',
+            'rear_shock_absorber_type_suspension_system.required' => 'Jenis peredam kejut wajib diisi.',
+            'rear_stabilizer_system_suspension_system.required' => 'Sistem stabilizer wajib diisi.',
+            'body_and_frame_arrangement_other.required' => 'Susunan body dan frame wajib diisi.',
+            'main_light_other.required' => 'Lampu utama wajib diisi.',
+            'main_light_amount_other.required' => 'Jumlah lampu wajib diisi.',
+            'main_light_color_other.required' => 'Warna lampu wajib diisi.',
+            'main_light_power_other.required' => 'Daya lampu wajib diisi.',
+            'stop_light_other.required' => 'Lampu berhenti wajib diisi.',
+            'stop_light_amount_other.required' => 'Jumlah lampu wajib diisi.',
+            'stop_light_color_other.required' => 'Warna lampu wajib diisi.',
+            'stop_light_power_other.required' => 'Daya lampu wajib diisi.',
+            'front_turn_signal_light_other.required' => 'Lampu sein depan berhenti wajib diisi.',
+            'front_turn_signal_light_amount_other.required' => 'Jumlah lampu wajib diisi.',
+            'front_turn_signal_light_color_other.required' => 'Warna lampu wajib diisi.',
+            'front_turn_signal_light_power_other.required' => 'Daya lampu wajib diisi.',
+            'rear_turn_signal_light_other.required' => 'Lampu sein belakang berhenti wajib diisi.',
+            'rear_turn_signal_light_amount_other.required' => 'Jumlah lampu wajib diisi.',
+            'rear_turn_signal_light_color_other.required' => 'Warna lampu wajib diisi.',
+            'rear_turn_signal_light_power_other.required' => 'Daya lampu wajib diisi.',
+            'speedometer_other.required' => 'Speedometer wajib diisi.',
+            'drive_type_speedometer_other.required' => 'Tipe penggerak wajib diisi.',
+            'method_speedometer_other.required' => 'Unjuk kerja wajib diisi.',
+            'horn_other.required' => 'Klakson wajib diisi.',
+            'amount_horn_other.required' => 'Jumlah klakson wajib diisi.',
+            'type_horn_other.required' => 'Tipe klakson wajib diisi.',
             'sop_component_installation.required' => 'Sop pemasangan komponen konversi wajib diisi.',
             'sop_component_installation.file' => 'Sop pemasangan komponen konversi harus berupa file.',
             'sop_component_installation.mimes' => 'Sop pemasangan komponen konversi wajib berformat pdf.',

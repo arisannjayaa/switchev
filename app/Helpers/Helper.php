@@ -9,6 +9,56 @@ use Illuminate\Support\Carbon;
 
 class Helper
 {
+
+    public static function title_sut_srut_form($form_step)
+    {
+        switch ($form_step) {
+            case 1:
+                $form_step_name = 'General';
+                break;
+            case 2:
+                $form_step_name = 'Identitas Kendaraan';
+                break;
+            case 3:
+                $form_step_name = 'Nomor dan Tempat Penomoran Landasan/Chassis, Engine, dan Motor Kendaraan Uji';
+                break;
+            case 4:
+                $form_step_name = 'Motor Penggerak';
+                break;
+            case 5:
+                $form_step_name = 'Sistem Bahan Bakar';
+                break;
+            case 6:
+                $form_step_name = 'Dimensi Kendaraan';
+                break;
+            case 7:
+                $form_step_name = 'Ukuran Ban dan Lingkar Roda';
+                break;
+            case 8:
+                $form_step_name = 'Berat Kendaraan';
+                break;
+            case 9:
+                $form_step_name = 'Penerus Daya (Tranmisi / Kopling)';
+                break;
+            case 10:
+                $form_step_name = 'Sistem Pengereman';
+                break;
+            case 11:
+                $form_step_name = 'Sistem Suspensi';
+                break;
+            case 11:
+                $form_step_name = 'Sistem Kemudi';
+                break;
+            case 12:
+                $form_step_name = 'Lain-Lain';
+                break;
+            default:
+                $form_step_name = 'Lain-Lain';
+        }
+
+        return $form_step_name;
+    }
+
     public static function generateTestLetterCode()
     {
         $date = Carbon::now()->format('Ymd');

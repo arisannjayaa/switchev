@@ -50,7 +50,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
         try {
             $testLetter = $this->mainRepository->find($data['id']);
 
-            if ($data['form_step'] == 9) {
+            if ($data['form_step'] == 19) {
                 if (!@$data['old_sop_component_installation']) {
                     if (@$testLetter->sop_component_installation) {
                         if (file_exists(storage_path('app/public/'.@$testLetter->sop_component_installation))) {
@@ -240,6 +240,241 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                     $data['front_over_vehicle_dimension'],
                     $data['rear_over_vehicle_dimension'],
                     $data['ground_clearance_vehicle_dimension'],
+                );
+            }
+
+            if ($data['form_step'] == 7) {
+                $data['tire_size'] = [
+                    'axis_1' => $data['axis_1_tire_size'],
+                    'axis_2' => $data['axis_2_tire_size'],
+                ];
+
+                unset(
+                    $data['axis_1_tire_size'],
+                    $data['axis_2_tire_size'],
+                );
+            }
+
+            if ($data['form_step'] == 8) {
+                $data['vehicle_weight'] = [
+                    'axis_1_empty_vehicle_weight' => $data['axis_1_empty_vehicle_weight'],
+                    'axis_2_empty_vehicle_weight' => $data['axis_2_empty_vehicle_weight'],
+                    'axis_empty_vehicle_weight_total' => $data['axis_1_empty_vehicle_weight'] + $data['axis_2_empty_vehicle_weight'],
+                    'axis_1_axis_design_strength' => $data['axis_1_axis_design_strength'],
+                    'axis_2_axis_design_strength' => $data['axis_2_axis_design_strength'],
+                    'axis_axis_design_strength_total' => $data['axis_1_axis_design_strength'] + $data['axis_2_axis_design_strength'],
+                    'axis_1_jbb' => $data['axis_1_jbb'],
+                    'axis_2_jbb' => $data['axis_2_jbb'],
+                    'axis_jbb_total' => $data['axis_1_jbb'] + $data['axis_2_jbb'],
+                ];
+
+                unset(
+                    $data['axis_1_empty_vehicle_weight'],
+                    $data['axis_2_empty_vehicle_weight'],
+                    $data['axis_1_axis_design_strength'],
+                    $data['axis_2_axis_design_strength'],
+                    $data['axis_1_jbb'],
+                    $data['axis_2_jbb'],
+                );
+            }
+
+            if ($data['form_step'] == 9) {
+                $data['power_forwarder'] = [
+                    'transmission_type' => $data['transmission_type_power_forwarder'],
+                    'transmission_control_system' => $data['transmission_control_system_power_forwarder'],
+                    'clutch_type' => $data['clutch_type_power_forwarder'],
+                    'gear_1' => $data['gear_1_power_forwarder'] ?? '-',
+                    'gear_2' => $data['gear_2_power_forwarder'] ?? '-',
+                    'gear_3' => $data['gear_3_power_forwarder'] ?? '-',
+                    'gear_4' => $data['gear_4_power_forwarder'] ?? '-',
+                    'gear_5' => $data['gear_5_power_forwarder'] ?? '-',
+                    'gear_6' => $data['gear_6_power_forwarder'] ?? '-',
+                    'gear_7' => $data['gear_7_power_forwarder'] ?? '-',
+                    'reverse_gear' => $data['reverse_gear_power_forwarder'] ?? '-',
+                    'final_gear' => $data['final_gear_power_forwarder'] ?? '-',
+                ];
+
+                unset(
+                    $data['transmission_type_power_forwarder'],
+                    $data['transmission_control_system_power_forwarder'],
+                    $data['clutch_type_power_forwarder'],
+                    $data['gear_1_power_forwarder'],
+                    $data['gear_2_power_forwarder'],
+                    $data['gear_3_power_forwarder'],
+                    $data['gear_4_power_forwarder'],
+                    $data['gear_5_power_forwarder'],
+                    $data['gear_6_power_forwarder'],
+                    $data['gear_7_power_forwarder'],
+                    $data['reverse_gear_power_forwarder'],
+                    $data['final_gear_power_forwarder'],
+                );
+            }
+
+            if ($data['form_step'] == 10) {
+                $data['braking_system'] = [
+                    'control' => $data['control_braking_system'],
+                    'front_brake_type' => $data['front_brake_type_braking_system'],
+                    'rear_brake_type' => $data['rear_brake_type_braking_system'],
+                    'main_brake' => $data['main_brake_braking_system'] ?? '-',
+                    'type_operation' => $data['type_operation_braking_system'] ?? '-',
+                    'work_on_operation' => $data['work_on_operation_braking_system'] ?? '-',
+                ];
+
+                unset(
+                    $data['control_braking_system'],
+                    $data['front_brake_type_braking_system'],
+                    $data['rear_brake_type_braking_system'],
+                    $data['main_brake_braking_system'],
+                    $data['type_operation_braking_system'],
+                    $data['work_on_operation_braking_system'],
+                );
+            }
+
+            if ($data['form_step'] == 11) {
+                $data['suspension_system'] = [
+                    'front_type' => $data['front_type_suspension_system'],
+                    'front_spring_type' => $data['front_spring_type_suspension_system'],
+                    'front_shock_absorber_type' => $data['front_shock_absorber_type_suspension_system'],
+                    'front_stabilizer_system' => $data['front_stabilizer_system_suspension_system'] ?? '-',
+                    'rear_type' => $data['rear_type_suspension_system'],
+                    'rear_spring_type' => $data['rear_spring_type_suspension_system'],
+                    'rear_shock_absorber_type' => $data['rear_shock_absorber_type_suspension_system'],
+                    'rear_stabilizer_system' => $data['rear_stabilizer_system_suspension_system'] ?? '-',
+                ];
+
+                unset(
+                    $data['front_type_suspension_system'],
+                    $data['front_spring_type_suspension_system'],
+                    $data['front_shock_absorber_type_suspension_system'],
+                    $data['front_stabilizer_system_suspension_system'],
+                    $data['rear_type_suspension_system'],
+                    $data['rear_spring_type_suspension_system'],
+                    $data['rear_shock_absorber_type_suspension_system'],
+                    $data['rear_stabilizer_system_suspension_system'],
+                );
+            }
+
+            if ($data['form_step'] == 12) {
+                $data['other'] = [
+                    'body_and_frame_arrangement' => $data['body_and_frame_arrangement_other'] ?? '-',
+                    'main_light' => $data['main_light_other'] ?? '-',
+                    'main_light_amount' => $data['main_light_amount_other'] ?? '-',
+                    'main_light_color' => $data['main_light_color_other'] ?? '-',
+                    'main_light_power' => $data['main_light_power_other'] ?? '-',
+                    'center_light' => $data['center_light_other'] ?? '-',
+                    'center_light_amount' => $data['center_light_amount_other'] ?? '-',
+                    'center_light_color' => $data['center_light_color_other'] ?? '-',
+                    'center_light_power' => $data['center_light_power_other'] ?? '-',
+                    'side_light' => $data['side_light_other'] ?? '-',
+                    'side_light_amount' => $data['side_light_amount_other'] ?? '-',
+                    'side_light_color' => $data['side_light_color_other'] ?? '-',
+                    'side_light_power' => $data['side_light_power_other'] ?? '-',
+                    'number_plate_light' => $data['number_plate_light_other'] ?? '-',
+                    'number_plate_light_amount' => $data['number_plate_light_amount_other'] ?? '-',
+                    'number_plate_light_color' => $data['number_plate_light_color_other'] ?? '-',
+                    'number_plate_light_power' => $data['number_plate_light_power_other'] ?? '-',
+                    'stop_light' => $data['stop_light_other'] ?? '-',
+                    'stop_light_amount' => $data['stop_light_amount_other'] ?? '-',
+                    'stop_light_color' => $data['stop_light_color_other'] ?? '-',
+                    'stop_light_power' => $data['stop_light_power_other'] ?? '-',
+                    'reverse_light' => $data['reverse_light_other'] ?? '-',
+                    'reverse_light_amount' => $data['reverse_light_amount_other'] ?? '-',
+                    'reverse_light_color' => $data['reverse_light_color_other'] ?? '-',
+                    'reverse_light_power' => $data['reverse_light_power_other'] ?? '-',
+                    'front_turn_signal_light' => $data['front_turn_signal_light_other'] ?? '-',
+                    'front_turn_signal_light_amount' => $data['front_turn_signal_light_amount_other'] ?? '-',
+                    'front_turn_signal_light_color' => $data['front_turn_signal_light_color_other'] ?? '-',
+                    'front_turn_signal_light_power' => $data['front_turn_signal_light_power_other'] ?? '-',
+                    'rear_turn_signal_light' => $data['rear_turn_signal_light_other'] ?? '-',
+                    'rear_turn_signal_light_amount' => $data['rear_turn_signal_light_amount_other'] ?? '-',
+                    'rear_turn_signal_light_color' => $data['rear_turn_signal_light_color_other'] ?? '-',
+                    'rear_turn_signal_light_power' => $data['rear_turn_signal_light_power_other'] ?? '-',
+                    'side_turn_signal_light' => $data['side_turn_signal_light_other'] ?? '-',
+                    'side_turn_signal_light_amount' => $data['side_turn_signal_light_amount_other'] ?? '-',
+                    'side_turn_signal_light_color' => $data['side_turn_signal_light_color_other'] ?? '-',
+                    'side_turn_signal_light_power' => $data['side_turn_signal_light_power_other'] ?? '-',
+                    'additional_light' => $data['additional_light_other'] ?? '-',
+                    'additional_light_amount' => $data['additional_light_amount_other'] ?? '-',
+                    'additional_light_color' => $data['additional_light_color_other'] ?? '-',
+                    'additional_light_power' => $data['additional_light_power_other'] ?? '-',
+                    'reflector_light' => $data['reflector_light_other'] ?? '-',
+                    'reflector_light_amount' => $data['reflector_light_amount_other'] ?? '-',
+                    'reflector_light_color' => $data['reflector_light_color_other'] ?? '-',
+                    'reflector_light_power' => $data['reflector_light_power_other'] ?? '-',
+                    'fog_light' => $data['fog_light_other'] ?? '-',
+                    'fog_light_amount' => $data['fog_light_amount_other'] ?? '-',
+                    'fog_light_color' => $data['fog_light_color_other'] ?? '-',
+                    'fog_light_power' => $data['fog_light_power_other'] ?? '-',
+                    'wiper' => $data['wiper_other'] ?? '-',
+                    'wiper_type' => $data['wiper_type_other'] ?? '-',
+                    'wiper_amount' => $data['wiper_amount_other'] ?? '-',
+                    'speedometer' => $data['speedometer_other'] ?? '-',
+                    'drive_type_speedometer' => $data['drive_type_speedometer_other'] ?? '-',
+                    'method_speedometer' => $data['method_speedometer_other'] ?? '-',
+                    'horn' => $data['horn_other'] ?? '-',
+                    'type_horn' => $data['type_horn_other'] ?? '-',
+                    'amount_horn' => $data['amount_horn_other'] ?? '-',
+                ];
+
+                unset(
+                    $data['body_and_frame_arrangement_other'],
+                    $data['main_light_other'],
+                    $data['main_light_amount_other'],
+                    $data['main_light_color_other'],
+                    $data['main_light_power_other'],
+                    $data['center_light_other'],
+                    $data['center_light_amount_other'],
+                    $data['center_light_color_other'],
+                    $data['center_light_power_other'],
+                    $data['side_light_other'],
+                    $data['side_light_amount_other'],
+                    $data['side_light_color_other'],
+                    $data['side_light_power_other'],
+                    $data['number_plate_light_other'],
+                    $data['number_plate_light_amount_other'],
+                    $data['number_plate_light_color_other'],
+                    $data['number_plate_light_power_other'],
+                    $data['stop_light_other'],
+                    $data['stop_light_amount_other'],
+                    $data['stop_light_color_other'],
+                    $data['stop_light_power_other'],
+                    $data['reverse_light_other'],
+                    $data['reverse_light_amount_other'],
+                    $data['reverse_light_color_other'],
+                    $data['reverse_light_power_other'],
+                    $data['front_turn_signal_light_other'],
+                    $data['front_turn_signal_light_amount_other'],
+                    $data['front_turn_signal_light_color_other'],
+                    $data['front_turn_signal_light_power_other'],
+                    $data['rear_turn_signal_light_other'],
+                    $data['rear_turn_signal_light_amount_other'],
+                    $data['rear_turn_signal_light_color_other'],
+                    $data['rear_turn_signal_light_power_other'],
+                    $data['side_turn_signal_light_other'],
+                    $data['side_turn_signal_light_amount_other'],
+                    $data['side_turn_signal_light_color_other'],
+                    $data['side_turn_signal_light_power_other'],
+                    $data['additional_light_other'],
+                    $data['additional_light_amount_other'],
+                    $data['additional_light_color_other'],
+                    $data['additional_light_power_other'],
+                    $data['reflector_light_other'],
+                    $data['reflector_light_amount_other'],
+                    $data['reflector_light_color_other'],
+                    $data['reflector_light_power_other'],
+                    $data['fog_light_other'],
+                    $data['fog_light_amount_other'],
+                    $data['fog_light_color_other'],
+                    $data['fog_light_power_other'],
+                    $data['wiper_other'],
+                    $data['wiper_type_other'],
+                    $data['wiper_amount_other'],
+                    $data['speedometer_other'],
+                    $data['drive_type_speedometer_other'],
+                    $data['method_speedometer_other'],
+                    $data['horn_other'],
+                    $data['type_horn_other'],
+                    $data['amount_horn_other'],
                 );
             }
 

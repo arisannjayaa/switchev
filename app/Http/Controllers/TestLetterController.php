@@ -81,7 +81,16 @@ class TestLetterController extends Controller
             'rotation_drive_motor',
             'conversion_voltage_fuel_system','electrical_voltage_fuel_system','battery_capacity_fuel_system',
             'total_length_vehicle_dimension','total_width_vehicle_dimension','total_height_vehicle_dimension','axis_distance_vehicle_dimension',
-            'front_over_vehicle_dimension','rear_over_vehicle_dimension','ground_clearance_vehicle_dimension',]);
+            'front_over_vehicle_dimension','rear_over_vehicle_dimension','ground_clearance_vehicle_dimension',
+            'axis_1_tire_size','axis_2_tire_size',
+            'axis_1_empty_vehicle_weight','axis_2_empty_vehicle_weight','axis_1_axis_design_strength','axis_2_axis_design_strength','axis_1_jbb','axis_2_jbb',
+            'transmission_type_power_forwarder','transmission_control_system_power_forwarder','clutch_type_power_forwarder',
+            'gear_1_power_forwarder','gear_2_power_forwarder','gear_3_power_forwarder','gear_4_power_forwarder','gear_5_power_forwarder',
+            'gear_6_power_forwarder','gear_7_power_forwarder','reverse_gear_power_forwarder','final_gear_power_forwarder',
+            'control_braking_system','front_brake_type_braking_system','rear_brake_type_braking_system','type_operation_braking_system','work_on_operation_braking_system',
+            'front_type_suspension_system','front_spring_type_suspension_system','front_shock_absorber_type_suspension_system','front_stabilizer_system_suspension_system','rear_type_suspension_system','rear_spring_type_suspension_system','rear_shock_absorber_type_suspension_system','rear_stabilizer_system_suspension_system',
+            'body_and_frame_arrangement_other','main_light_other','main_light_amount_other','main_light_color_other','main_light_power_other','center_light_other','center_light_amount_other','center_light_color_other','center_light_power_other','side_light_other','side_light_amount_other','side_light_color_other','side_light_power_other','number_plate_light_other','number_plate_light_amount_other','number_plate_light_color_other','number_plate_light_power_other','stop_light_other','stop_light_amount_other','stop_light_color_other','stop_light_power_other','reverse_light_other','reverse_light_amount_other','reverse_light_color_other','reverse_light_power_other','front_turn_signal_light_other','front_turn_signal_light_amount_other','front_turn_signal_light_color_other','front_turn_signal_light_power_other','rear_turn_signal_light_other','rear_turn_signal_light_amount_other','rear_turn_signal_light_color_other','rear_turn_signal_light_power_other','side_turn_signal_light_other','side_turn_signal_light_amount_other','side_turn_signal_light_color_other','side_turn_signal_light_power_other','additional_light_other','additional_light_amount_other','additional_light_color_other','additional_light_power_other','reflector_light_other','reflector_light_amount_other','reflector_light_color_other','reflector_light_power_other','fog_light_other','fog_light_amount_other','fog_light_color_other','fog_light_power_other','wiper_other','wiper_type_other','wiper_amount_other','speedometer_other','drive_type_speedometer_other','method_speedometer_other','horn_other','type_horn_other','amount_horn_other'
+        ]);
         return $this->testLetterService->upsert_form($data)->toJson();
     }
 
