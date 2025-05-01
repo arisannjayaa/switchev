@@ -146,6 +146,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (data.errors || data.invalid) {
                     new handleValidation(data.errors || data.invalid)
+                    let hasScrolled = false;
+
+                    $.each(data.errors, function(fieldName) {
+                        const $input = $(`[name="${fieldName}"]`);
+
+                        if ($input.length) {
+                            if (!hasScrolled) {
+                                const $rowCards = $('.row-cards'); // targetkan div row-cards
+                                const offset = $input.offset().top - $rowCards.offset().top - 100; // offset dari row-cards
+                                $rowCards.animate({ scrollTop: $rowCards.scrollTop() + offset }, 500);
+                                $input.focus();
+                                hasScrolled = true;
+                            }
+                        }
+                    });
                     $(btn).empty().append('Selanjutnya').prop('disabled', false);
                 }
 

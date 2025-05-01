@@ -6,7 +6,7 @@
         <div class="text-center">
             <h1 class="fw-bold">Selamat Datang di Penerbitan Surat SUT dan SRUT</h1>
             <p class="text-muted">Silahkan mulai mengisi form di bawah ini</p>
-            <a href="{{ route('test.letter.form') }}" class="btn btn-primary">Mulai</a>
+            <a href="{{ route('test.letter.form') . '?form-step=1' }}" class="btn btn-primary">Mulai</a>
         </div>
     </div>
 @else
@@ -100,7 +100,7 @@
                                                 </div>
                                                 <div class="col-md-auto">
                                                     <div class="mt-3 badges">
-                                                        <a href="#" class="badge badge-outline text-secondary fw-normal badge-pill">Tipe {{ $test_letter->type }}</a>
+                                                        <a href="#" class="badge badge-outline text-secondary fw-normal badge-pill">Tipe {{ $test_letter->workshop_type }}</a>
                                                     </div>
                                                 </div>
                                             </div>

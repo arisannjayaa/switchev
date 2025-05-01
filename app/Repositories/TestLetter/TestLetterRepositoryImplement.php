@@ -33,6 +33,7 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
             })
             ->when(auth()->user()->isGuest(), function ($query) {
                 $query->where('user_id', auth()->user()->id);
+                $query->where('is_form_completed', 1);
             })
             ->paginate(10);
     }

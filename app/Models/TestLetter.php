@@ -24,6 +24,7 @@ class TestLetter extends Model
         'electrical_diagram',
         'photocopy_stnk',
         'physical_inspection',
+        'conversion_type_test_application_letter',
         'test_report',
         'physical_test_bpljskb',
         'status',
@@ -61,7 +62,8 @@ class TestLetter extends Model
         'power_forwarder',
         'braking_system',
         'suspension_system',
-        'other'
+        'other',
+        'is_form_completed',
     ];
 
     public function user()

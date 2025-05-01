@@ -203,6 +203,10 @@ class FormTestLetterRequest extends FormRequest
             unset($rules['test_report']);
         }
 
+        if ($this->has('old_conversion_type_test_application_letter') && $this->input('old_conversion_type_test_application_letter')) {
+            unset($rules['conversion_type_test_application_letter']);
+        }
+
         return $rules;
     }
 

@@ -319,6 +319,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             confirmButton: 'btn btn-success w-100'
                         }
                     });
+
+                    window.location.reload()
                 }
 
                 if (data.errors || data.invalid) {

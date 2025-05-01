@@ -61,7 +61,7 @@ return new class extends Migration
             $table->json('braking_system')->nullable();
             $table->json('suspension_system')->nullable();
             $table->json('other')->nullable();
-            $table->boolean('is_form_completed')->default(0)->nullable()
+            $table->boolean('is_form_completed')->default(0)->nullable();
             $table->timestamps();
         });
     }

@@ -49,137 +49,201 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
         DB::beginTransaction();
         try {
             $testLetter = $this->mainRepository->find($data['id']);
+//            if (!@$data['old_sop_component_installation']) {
+//                if (@$testLetter->sop_component_installation) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->sop_component_installation))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->sop_component_installation));
+//                    }
+//                }
+//                // file application letter
+//                $fileSopComponentInstallation = $data['sop_component_installation'];
+//                $originalNameSopComponentInstallation = $fileSopComponentInstallation->getClientOriginalName();
+//                $extensionSopComponentInstallation = $fileSopComponentInstallation->getClientOriginalExtension();
+//                $newFileNameSopComponentInstallation = 'SOP_Pemasangan_Komponen_Konversi_' . uniqid() . '.' . $extensionSopComponentInstallation;
+//                $filePathSopComponentInstallation = $fileSopComponentInstallation->storeAs('documents', $newFileNameSopComponentInstallation, 'public');
+//                $data['sop_component_installation'] = $filePathSopComponentInstallation;
+//            } else {
+//                $data['sop_component_installation'] = $data['old_sop_component_installation'];
+//                unset($data['old_sop_component_installation']);
+//            }
+//
+//            if (!@$data['old_technical_drawing']) {
+//                if (@$testLetter->technical_drawing) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->technical_drawing))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->technical_drawing));
+//                    }
+//                }
+//                // file technical_drawing
+//                $fileTechnicalDrawing = $data['technical_drawing'];
+//                $originalNameTechnicalDrawing = $fileTechnicalDrawing->getClientOriginalName();
+//                $extensionTechnicalDrawing = $fileTechnicalDrawing->getClientOriginalExtension();
+//                $newFileNameTechnicalDrawing = 'Gambar_Teknik_' . uniqid() . '.' . $extensionTechnicalDrawing;
+//                $filePathTechnicalDrawing = $fileTechnicalDrawing->storeAs('documents', $newFileNameTechnicalDrawing, 'public');
+//                $data['technical_drawing'] = $filePathTechnicalDrawing;
+//            } else {
+//                $data['technical_drawing'] = $data['old_technical_drawing'];
+//                unset($data['old_technical_drawing']);
+//            }
+//
+//            if (!@$data['old_conversion_workshop_certificate']) {
+//                if (@$testLetter->conversion_workshop_certificate) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->conversion_workshop_certificate))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->conversion_workshop_certificate));
+//                    }
+//                }
+//                // file conversion_workshop_certificate
+//                $fileConversionWorkshopCertificate = $data['conversion_workshop_certificate'];
+//                $originalNameConversionWorkshopCertificate = $fileConversionWorkshopCertificate->getClientOriginalName();
+//                $extensionConversionWorkshopCertificate = $fileConversionWorkshopCertificate->getClientOriginalExtension();
+//                $newFileNameConversionWorkshopCertificate = 'Sertifikat_Bengkel_Konversi_' . uniqid() . '.' . $extensionConversionWorkshopCertificate;
+//                $filePathConversionWorkshopCertificate = $fileConversionWorkshopCertificate->storeAs('documents', $newFileNameConversionWorkshopCertificate, 'public');
+//                $data['conversion_workshop_certificate'] = $filePathConversionWorkshopCertificate;
+//            } else {
+//                $data['conversion_workshop_certificate'] = $data['old_conversion_workshop_certificate'];
+//                unset($data['old_conversion_workshop_certificate']);
+//            }
+//
+//            if (!@$data['old_electrical_diagram']) {
+//                if (@$testLetter->electrical_diagram) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->electrical_diagram))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->electrical_diagram));
+//                    }
+//                }
+//                // file electrical_diagram
+//                $fileElectricalDiagram = $data['electrical_diagram'];
+//                $originalNameElectricalDiagram = $fileElectricalDiagram->getClientOriginalName();
+//                $extensionElectricalDiagram = $fileElectricalDiagram->getClientOriginalExtension();
+//                $newFileNameElectricalDiagram = 'Elektrikal_Diagram_' . uniqid() . '.' . $extensionElectricalDiagram;
+//                $filePathElectricalDiagram = $fileElectricalDiagram->storeAs('documents', $newFileNameElectricalDiagram, 'public');
+//                $data['electrical_diagram'] = $filePathElectricalDiagram;
+//            } else {
+//                $data['electrical_diagram'] = $data['old_electrical_diagram'];
+//                unset($data['old_electrical_diagram']);
+//            }
+//
+//            if (!@$data['old_photocopy_stnk']) {
+//                if (@$testLetter->photocopy_stnk) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->photocopy_stnk))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->photocopy_stnk));
+//                    }
+//                }
+//                // file photocopy_stnk
+//                $filePhotoCopySTNK = $data['photocopy_stnk'];
+//                $originalNamePhotoCopySTNK = $filePhotoCopySTNK->getClientOriginalName();
+//                $extensionPhotoCopySTNK = $filePhotoCopySTNK->getClientOriginalExtension();
+//                $newFileNamePhotoCopySTNK = 'Fotokopi_STNK_' . uniqid() . '.' . $extensionPhotoCopySTNK;
+//                $filePathPhotoCopySTNK = $filePhotoCopySTNK->storeAs('documents', $newFileNamePhotoCopySTNK, 'public');
+//                $data['photocopy_stnk'] = $filePathPhotoCopySTNK;
+//            } else {
+//                $data['photocopy_stnk'] = $data['old_photocopy_stnk'];
+//                unset($data['old_photocopy_stnk']);
+//            }
+//
+//            if (!@$data['old_physical_inspection']) {
+//                if (@$testLetter->physical_inspection) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->physical_inspection))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->physical_inspection));
+//                    }
+//                }
+//                // file physical_inspection
+//                $filePhysicalInspection = $data['physical_inspection'];
+//                $originalNamePhysicalInspection = $filePhysicalInspection->getClientOriginalName();
+//                $extensionPhysicalInspection = $filePhysicalInspection->getClientOriginalExtension();
+//                $newFileNamePhysicalInspection = 'Fisik_Inspeksi_' . uniqid() . '.' . $extensionPhysicalInspection;
+//                $filePathPhysicalInspection = $filePhysicalInspection->storeAs('documents', $newFileNamePhysicalInspection, 'public');
+//                $data['physical_inspection'] = $filePathPhysicalInspection;
+//            } else {
+//                $data['physical_inspection'] = $data['old_physical_inspection'];
+//                unset($data['old_physical_inspection']);
+//            }
+//
+//            if (!@$data['old_test_report']) {
+//                if (@$testLetter->test_report) {
+//                    if (file_exists(storage_path('app/public/'.@$testLetter->test_report))) {
+//                        unlink(storage_path('app/public/'.@$testLetter->test_report));
+//                    }
+//                }
+//                // file test_report
+//                $fileTestReport = $data['test_report'];
+//                $originalNameTestReport = $fileTestReport->getClientOriginalName();
+//                $extensionTestReport = $fileTestReport->getClientOriginalExtension();
+//                $newFileNameTestReport = 'Laporan_Pengujian_' . uniqid() . '.' . $extensionTestReport;
+//                $filePathTestReport = $fileTestReport->storeAs('documents', $newFileNameTestReport, 'public');
+//                $data['test_report'] = $filePathTestReport;
+//            } else {
+//                $data['test_report'] = $data['old_test_report'];
+//                unset($data['old_test_report']);
+//            }
+//
+//
+            if ($data['form_step'] == 14) {
+                $data['is_form_completed'] = 1;
+                $attachments = [
+                    'sop_component_installation' => @$data['sop_component_installation'],
+                    'technical_drawing' => @$data['technical_drawing'],
+                    'conversion_workshop_certificate' => @$data['conversion_workshop_certificate'],
+                    'electrical_diagram' => @$data['electrical_diagram'],
+                    'photocopy_stnk' => @$data['photocopy_stnk'],
+                    'physical_inspection' => @$data['physical_inspection'],
+                    'test_report' => @$data['test_report'],
+                    'conversion_type_test_application_letter' => @$data['conversion_type_test_application_letter'],
+                ];
 
-            if ($data['form_step'] == 19) {
-                if (!@$data['old_sop_component_installation']) {
-                    if (@$testLetter->sop_component_installation) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->sop_component_installation))) {
-                            unlink(storage_path('app/public/'.@$testLetter->sop_component_installation));
-                        }
+                foreach ($attachments as $key => $value) {
+                    $fileName = $key;
+                    switch ($fileName) {
+                        case 'sop_component_installation':
+                            $fileName = "SOP_Pemasangan_Komponen_Konversi_";
+                            break;
+                        case 'technical_drawing':
+                            $fileName = "Gambar_Teknik_";
+                            break;
+                        case 'conversion_workshop_certificate':
+                            $fileName = "Sertifikat_Bengkel_Konversi_";
+                            break;
+                        case 'electrical_diagram':
+                            $fileName = "Elektrikal_Diagram_";
+                            break;
+                        case 'photocopy_stnk':
+                            $fileName = "Fotokopi_STNK_";
+                            break;
+                        case 'physical_inspection':
+                            $fileName = "Fisik_Inspeksi_";
+                            break;
+                        case 'test_report':
+                            $fileName = "Laporan_Pengujian_";
+                            break;
+                        case 'conversion_type_test_application_letter':
+                            $fileName = "Surat_Permohonan_Uji_Tipe_Konversi_";
+                            break;
+                        default:
+                            break;
                     }
-                    // file application letter
-                    $fileSopComponentInstallation = $data['sop_component_installation'];
-                    $originalNameSopComponentInstallation = $fileSopComponentInstallation->getClientOriginalName();
-                    $extensionSopComponentInstallation = $fileSopComponentInstallation->getClientOriginalExtension();
-                    $newFileNameSopComponentInstallation = 'SOP_Pemasangan_Komponen_Konversi_' . uniqid() . '.' . $extensionSopComponentInstallation;
-                    $filePathSopComponentInstallation = $fileSopComponentInstallation->storeAs('documents', $newFileNameSopComponentInstallation, 'public');
-                    $data['sop_component_installation'] = $filePathSopComponentInstallation;
-                } else {
-                    $data['sop_component_installation'] = $data['old_sop_component_installation'];
-                    unset($data['old_sop_component_installation']);
-                }
 
-                if (!@$data['old_technical_drawing']) {
-                    if (@$testLetter->technical_drawing) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->technical_drawing))) {
-                            unlink(storage_path('app/public/'.@$testLetter->technical_drawing));
+                    if (@$data[$key]) {
+                        if (@$testLetter->$key) {
+                            if (file_exists(storage_path('app/public/'.@$testLetter->$key))) {
+                                unlink(storage_path('app/public/'.@$testLetter->$key));
+                            }
                         }
-                    }
-                    // file technical_drawing
-                    $fileTechnicalDrawing = $data['technical_drawing'];
-                    $originalNameTechnicalDrawing = $fileTechnicalDrawing->getClientOriginalName();
-                    $extensionTechnicalDrawing = $fileTechnicalDrawing->getClientOriginalExtension();
-                    $newFileNameTechnicalDrawing = 'Gambar_Teknik_' . uniqid() . '.' . $extensionTechnicalDrawing;
-                    $filePathTechnicalDrawing = $fileTechnicalDrawing->storeAs('documents', $newFileNameTechnicalDrawing, 'public');
-                    $data['technical_drawing'] = $filePathTechnicalDrawing;
-                } else {
-                    $data['technical_drawing'] = $data['old_technical_drawing'];
-                    unset($data['old_technical_drawing']);
-                }
 
-                if (!@$data['old_conversion_workshop_certificate']) {
-                    if (@$testLetter->conversion_workshop_certificate) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->conversion_workshop_certificate))) {
-                            unlink(storage_path('app/public/'.@$testLetter->conversion_workshop_certificate));
-                        }
+                        // file application letter
+                        $file = $data[$key];
+                        $originalName = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $newFileName = $fileName . uniqid() . '.' . $extension;
+                        $filePath = $file->storeAs('documents', $newFileName, 'public');
+                        $data[$key] = $filePath;
                     }
-                    // file conversion_workshop_certificate
-                    $fileConversionWorkshopCertificate = $data['conversion_workshop_certificate'];
-                    $originalNameConversionWorkshopCertificate = $fileConversionWorkshopCertificate->getClientOriginalName();
-                    $extensionConversionWorkshopCertificate = $fileConversionWorkshopCertificate->getClientOriginalExtension();
-                    $newFileNameConversionWorkshopCertificate = 'Sertifikat_Bengkel_Konversi_' . uniqid() . '.' . $extensionConversionWorkshopCertificate;
-                    $filePathConversionWorkshopCertificate = $fileConversionWorkshopCertificate->storeAs('documents', $newFileNameConversionWorkshopCertificate, 'public');
-                    $data['conversion_workshop_certificate'] = $filePathConversionWorkshopCertificate;
-                } else {
-                    $data['conversion_workshop_certificate'] = $data['old_conversion_workshop_certificate'];
-                    unset($data['old_conversion_workshop_certificate']);
-                }
 
-                if (!@$data['old_electrical_diagram']) {
-                    if (@$testLetter->electrical_diagram) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->electrical_diagram))) {
-                            unlink(storage_path('app/public/'.@$testLetter->electrical_diagram));
-                        }
+                    if (@$data['old_'.$key]) {
+                        $data[$key] = $data['old_'.$key];
+                        unset($data['old_'.$key]);
                     }
-                    // file electrical_diagram
-                    $fileElectricalDiagram = $data['electrical_diagram'];
-                    $originalNameElectricalDiagram = $fileElectricalDiagram->getClientOriginalName();
-                    $extensionElectricalDiagram = $fileElectricalDiagram->getClientOriginalExtension();
-                    $newFileNameElectricalDiagram = 'Elektrikal_Diagram_' . uniqid() . '.' . $extensionElectricalDiagram;
-                    $filePathElectricalDiagram = $fileElectricalDiagram->storeAs('documents', $newFileNameElectricalDiagram, 'public');
-                    $data['electrical_diagram'] = $filePathElectricalDiagram;
-                } else {
-                    $data['electrical_diagram'] = $data['old_electrical_diagram'];
-                    unset($data['old_electrical_diagram']);
-                }
-
-                if (!@$data['old_photocopy_stnk']) {
-                    if (@$testLetter->photocopy_stnk) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->photocopy_stnk))) {
-                            unlink(storage_path('app/public/'.@$testLetter->photocopy_stnk));
-                        }
-                    }
-                    // file photocopy_stnk
-                    $filePhotoCopySTNK = $data['photocopy_stnk'];
-                    $originalNamePhotoCopySTNK = $filePhotoCopySTNK->getClientOriginalName();
-                    $extensionPhotoCopySTNK = $filePhotoCopySTNK->getClientOriginalExtension();
-                    $newFileNamePhotoCopySTNK = 'Fotokopi_STNK_' . uniqid() . '.' . $extensionPhotoCopySTNK;
-                    $filePathPhotoCopySTNK = $filePhotoCopySTNK->storeAs('documents', $newFileNamePhotoCopySTNK, 'public');
-                    $data['photocopy_stnk'] = $filePathPhotoCopySTNK;
-                } else {
-                    $data['photocopy_stnk'] = $data['old_photocopy_stnk'];
-                    unset($data['old_photocopy_stnk']);
-                }
-
-                if (!@$data['old_physical_inspection']) {
-                    if (@$testLetter->physical_inspection) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->physical_inspection))) {
-                            unlink(storage_path('app/public/'.@$testLetter->physical_inspection));
-                        }
-                    }
-                    // file physical_inspection
-                    $filePhysicalInspection = $data['physical_inspection'];
-                    $originalNamePhysicalInspection = $filePhysicalInspection->getClientOriginalName();
-                    $extensionPhysicalInspection = $filePhysicalInspection->getClientOriginalExtension();
-                    $newFileNamePhysicalInspection = 'Fisik_Inspeksi_' . uniqid() . '.' . $extensionPhysicalInspection;
-                    $filePathPhysicalInspection = $filePhysicalInspection->storeAs('documents', $newFileNamePhysicalInspection, 'public');
-                    $data['physical_inspection'] = $filePathPhysicalInspection;
-                } else {
-                    $data['physical_inspection'] = $data['old_physical_inspection'];
-                    unset($data['old_physical_inspection']);
-                }
-
-                if (!@$data['old_test_report']) {
-                    if (@$testLetter->test_report) {
-                        if (file_exists(storage_path('app/public/'.@$testLetter->test_report))) {
-                            unlink(storage_path('app/public/'.@$testLetter->test_report));
-                        }
-                    }
-                    // file test_report
-                    $fileTestReport = $data['test_report'];
-                    $originalNameTestReport = $fileTestReport->getClientOriginalName();
-                    $extensionTestReport = $fileTestReport->getClientOriginalExtension();
-                    $newFileNameTestReport = 'Laporan_Pengujian_' . uniqid() . '.' . $extensionTestReport;
-                    $filePathTestReport = $fileTestReport->storeAs('documents', $newFileNameTestReport, 'public');
-                    $data['test_report'] = $filePathTestReport;
-                } else {
-                    $data['test_report'] = $data['old_test_report'];
-                    unset($data['old_test_report']);
                 }
             }
 
             $data['user_id'] = auth()->user()->id;
-            $data['code'] = Helper::generateTestLetterCode();
             $data['is_verified'] = 0;
             $data['status'] = 'Menunggu Verifikasi';
 
@@ -503,10 +567,16 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
 
             if (!@$data['id']) {
                 unset($data['id']);
+                $data['code'] = Helper::generateTestLetterCode();
                 $testLetter = $this->mainRepository->create($data);
             }
 
-            $redirect = redirect()->intended(URL::route('test.letter.form', ['id' => Helper::encrypt($testLetter->id)]) . '?form-step=' . $data['form_step']+1);
+            if ($data['form_step'] == 14) {
+                $redirect = redirect()->intended(URL::route('test.letter.index'));
+            } else {
+                $redirect = redirect()->intended(URL::route('test.letter.form', ['id' => Helper::encrypt($testLetter->id)]) . '?form-step=' . $data['form_step']+1);
+            }
+
 
             DB::commit();
             return $this->setStatus(true)

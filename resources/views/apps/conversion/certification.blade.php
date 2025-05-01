@@ -151,8 +151,8 @@
                                 <input id="sk_attachment" type="file" class="form-control" name="sk_attachment">
                                 @if(@$conversion->certificate->sk_attachment) <input type="hidden" class="form-control" name="old_sk_attachment" value="{{ @$conversion->certificate->sk_attachment }}"> @endif
                                 <small class="form-hint">
-                                    @if(@$conversion->certificate->sk_attachment) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sk_attachment)]) }}">lihat disini</a> @endif
-                                    Upload file dalam bentuk pdf hasil dari surat keterangan
+                                    @if(@$conversion->certificate->sk_attachment) Sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sk_attachment)]) }}">lihat disini</a> @endif
+                                        <br>Upload file dalam bentuk pdf hasil dari surat keterangan
                                 </small>
                             </div>
                         </div>
@@ -162,8 +162,8 @@
                                 <input id="sft_attachment" type="file" class="form-control" name="sft_attachment">
                                 @if(@$conversion->certificate->sft_attachment) <input type="hidden" class="form-control" name="old_sft_attachment" value="{{ @$conversion->certificate->sft_attachment }}"> @endif
                                 <small class="form-hint">
-                                    @if(@$conversion->certificate->sft_attachment) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sft_attachment)]) }}">lihat disini</a> @endif
-                                    Upload file dalam bentuk pdf hasil dari sertifikat
+                                    @if(@$conversion->certificate->sft_attachment) Sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sft_attachment)]) }}">lihat disini</a> @endif
+                                        <br>Upload file dalam bentuk pdf hasil dari sertifikat
                                 </small>
                             </div>
                         </div>
