@@ -1,0 +1,268 @@
+@extends('theme.panel')
+
+@section('title', 'Generate Surat Pengantar Uji')
+
+@section('style')
+    <style>
+        #table_wrapper {
+            padding: 20px !important;
+        }
+
+        .alert-info {
+            background-color: #fff !important;
+            border: 1px solid #0054a6 !important;
+            color: #0054a6 !important;
+        }
+
+        .alert-success {
+            background-color: #fff !important;
+            border: 1px solid #2fb344 !important;
+            color: #2fb344 !important;
+        }
+
+        .img-border {
+            border: 1px solid #0054a6 !important;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <div class="container">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Generate Surat Pengantar Uji</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Generate Surat Pengantar Uji</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <button class="btn btn-outline-primary">Kirim Surat Pengantar Uji</button>
+                </div>
+            </div>
+        </div>
+        <form id="form-test-letter">
+            <div class="card">
+                <div class="card-body">
+                    <input type="hidden" id="id" name="id" value="{{ @$test_letter->id }}">
+                    <div class="row row-cards">
+                        <div class="form-label">A. Identitas Bengkel</div>
+                        <div class="col-md-12 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Nama Bengkel Perusahaan</label>
+                                <input type="text" class="form-control" placeholder="Nama Bengkel Perusahaan" id="workshop" name="workshop" value="{{ @$test_letter->workshop }}">
+                                <small class="form-hint">
+                                    Nama bengkel perusahaan.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-label">B. Kendaraan Konversi</div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Nama Motor Konversi</label>
+                                <input type="text" class="form-control" placeholder="Nama Motor Konversi" id="vehicle_name" name="vehicle_name" value="{{ old('vehicle_name') }}">
+                                <small class="form-hint">
+                                    Nama Motor Konversi.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Merk/Tipe</label>
+                                <input type="text" class="form-control" placeholder="Merk/Tipe" id="brand_type" name="brand_type" value="{{ old('brand_type') }}">
+                                <small class="form-hint">
+                                    Merk/Tipe.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Jenis</label>
+                                <input type="text" class="form-control" placeholder="Jenis" id="type" name="type" value="{{ old('type') }}">
+                                <small class="form-hint">
+                                    Jenis.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">VIN/NIK</label>
+                                <input type="text" class="form-control" placeholder="VIN/NIK" id="vin_nik" name="vin_nik" value="{{ old('vin_nik') }}">
+                                <small class="form-hint">
+                                    VIN/NIK.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Kode Motor</label>
+                                <input type="text" class="form-control" placeholder="Kode Motor" id="vehicle_code" name="vehicle_code" value="{{ old('vehicle_code') }}">
+                                <small class="form-hint">
+                                    Kode Motor.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Bahan Bakar</label>
+                                <input type="text" class="form-control" placeholder="Bahan Bakar" id="fuel" name="fuel" value="{{ old('fuel') }}">
+                                <small class="form-hint">
+                                    Bahan Bakar.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-label">C. Jumlah Biaya Uji</div>
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                <tr>
+                                    <th>JENIS ITEM YANG DIUJI</th>
+                                    <th>TARIF/ITEM (Rp)</th>
+                                    <th>VOL</th>
+                                    <th>TARIF/Rp</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" readonly class="form-control" name="name_pengujian_rem" value="Uji rem">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control convert-currency" name="name_pengujian_rem" value="890000">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="200">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-select">
+                                            <option value="STATUS_CODE">Status code</option>
+                                            <option value="JSON_BODY" selected="">JSON body</option>
+                                            <option value="HEADERS">Headers</option>
+                                            <option value="TEXT_BODY">Text body</option>
+                                            <option value="RESPONSE_TIME">Response time</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="parameters.alt.type">
+                                    </td>
+                                    <td>
+                                        <select class="form-select">
+                                            <option value="EQUALS">Equals</option>
+                                            <option value="NOT_EQUALS">Not equals</option>
+                                            <option value="HAS_KEY">Has key</option>
+                                            <option value="NOT_HAS_KEY">Not has key</option>
+                                            <option value="HAS_VALUE" selected="">Has value</option>
+                                            <option value="NOT_HAS_VALUE">Not has value</option>
+                                            <option value="IS_EMPTY">Is empty</option>
+                                            <option value="NOT_EMPTY">Is not empty</option>
+                                            <option value="GREATER_THAN">Greater than</option>
+                                            <option value="LESS_THAN">Less than</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="string">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-select">
+                                            <option value="STATUS_CODE">Status code</option>
+                                            <option value="JSON_BODY">JSON body</option>
+                                            <option value="HEADERS">Headers</option>
+                                            <option value="TEXT_BODY">Text body</option>
+                                            <option value="RESPONSE_TIME" selected="">Response time</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control">
+                                    </td>
+                                    <td>
+                                        <select class="form-select">
+                                            <option value="EQUALS">Equals</option>
+                                            <option value="NOT_EQUALS">Not equals</option>
+                                            <option value="HAS_KEY">Has key</option>
+                                            <option value="NOT_HAS_KEY">Not has key</option>
+                                            <option value="HAS_VALUE">Has value</option>
+                                            <option value="NOT_HAS_VALUE">Not has value</option>
+                                            <option value="IS_EMPTY">Is empty</option>
+                                            <option value="NOT_EMPTY">Is not empty</option>
+                                            <option value="GREATER_THAN">Greater than</option>
+                                            <option value="LESS_THAN" selected="">Less than</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="500">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-select">
+                                            <option value="STATUS_CODE">Status code</option>
+                                            <option value="JSON_BODY">JSON body</option>
+                                            <option value="HEADERS" selected="">Headers</option>
+                                            <option value="TEXT_BODY">Text body</option>
+                                            <option value="RESPONSE_TIME">Response time</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="content-type">
+                                    </td>
+                                    <td>
+                                        <select class="form-select">
+                                            <option value="EQUALS" selected="">Equals</option>
+                                            <option value="NOT_EQUALS">Not equals</option>
+                                            <option value="HAS_KEY">Has key</option>
+                                            <option value="NOT_HAS_KEY">Not has key</option>
+                                            <option value="HAS_VALUE">Has value</option>
+                                            <option value="NOT_HAS_VALUE">Not has value</option>
+                                            <option value="IS_EMPTY">Is empty</option>
+                                            <option value="NOT_EMPTY">Is not empty</option>
+                                            <option value="GREATER_THAN">Greater than</option>
+                                            <option value="LESS_THAN">Less than</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="application/json; charset=UTF-8">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-between mt-3">
+                <div class="col-12 text-end">
+                    <button id="btn-submit" type="submit" class="btn btn-primary text-end">Ajukan Penerbitan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+@endsection
+
+@section('url')
+
+@endsection
+
+@section('script')
+    @vite(['resources/js/apps/test-letter/test_letter.js'])
+@endsection

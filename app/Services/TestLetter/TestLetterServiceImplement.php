@@ -172,6 +172,12 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                     ';
                 }
 
+                if ($row->step == 'create_spu') {
+                    $menuCertificate .= '<a class="dropdown-item generate" href="'.route('test.letter.generate.spu', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                  Buat Surat Pengantar Uji
+                                </a>';
+                }
+
                 $html = '<span class="dropdown">
                               <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                   <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-circle-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 12l0 .01" /><path d="M12 12l0 .01" /><path d="M16 12l0 .01" /></svg></button>
@@ -198,6 +204,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             $id = $data['id'];
             unset($data['id']);
             $data['status'] = "Terverifikasi";
+            $data['step'] = "create_spu";
             $path = $this->generate_physical_test_cover_letter();
             $data['physical_test_cover_letter']  = $path;
 

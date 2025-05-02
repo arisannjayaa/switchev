@@ -1,4 +1,4 @@
-@if($test_letters->count() == 0 && request()->input(''))
+@if($test_letters->total() == 0 && request()->input('workshop_type'))
     <div class="d-flex justify-content-center align-items-center text-center flex-column">
         <div class="bg-primary-lt w-100 p-7 rounded-3 mb-3">
             <img class="img-fluid" width="400" src="{{ asset('assets/dist/img/undraw_hello_ccwj.svg') }}">

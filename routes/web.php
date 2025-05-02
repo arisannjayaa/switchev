@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/approve', [TestLetterController::class, 'approve'])->name('approve');
         Route::post('/physical-test', [TestLetterController::class, 'upload_physical_test_letter'])->name('upload_physical_test_letter');
         Route::get('/form-registration/{id?}', [TestLetterController::class, 'form'])->name('form');
+        Route::get('/generate-surat-spu/{id}', [TestLetterController::class, 'generate_spu'])->name('generate.spu');
         Route::get('verification/{id}', [TestLetterController::class, 'verification'])->name('verification');
         Route::get('sertifikat/{id}', [TestLetterController::class, 'certificate'])->name('certificate');
         Route::get('/physical-test/{id}', [TestLetterController::class, 'show_physical_test_letter'])->name('show_physical_test_letter');

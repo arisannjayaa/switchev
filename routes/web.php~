@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
@@ -36,17 +35,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/update', [UserController::class, 'update'])->name('update');
         Route::post('/delete', [UserController::class, 'delete'])->name('delete');
         Route::get('/{id}', [UserController::class, 'show'])->name('show');
-    });
-
-    // candidate
-    Route::prefix('candidate')->name('candidate.')->group(function () {
-        Route::get('/', [CandidateController::class, 'index'])->name('index');
-        Route::post('/', [CandidateController::class, 'create'])->name('create');
-        Route::post('/update', [CandidateController::class, 'update'])->name('update');
-        Route::post('/delete', [CandidateController::class, 'delete'])->name('delete');
-        Route::get('/edit/{id}', [CandidateController::class, 'edit'])->name('edit');
-        Route::get('/{id}', [CandidateController::class, 'show'])->name('show');
-        Route::get('/form/{id}', [CandidateController::class, 'form'])->name('form');
     });
 
     // conversion
