@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchable: false,
             },
             { data: 'code', name: 'code', className: 'text-nowrap', orderable: false, searchable: true},
-            { data: 'type', name: 'type', className: 'text-nowrap', orderable: false, searchable: true},
+            { data: 'workshop_type', name: 'workshop_type', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'status', name: 'status', className: 'text-nowrap', orderable: false, searchable: true, render: function (data) { return '<span class="">'+capitalizeFirstLetter(data).status} },
             { data: 'action', name: 'action', className: 'text-nowrap', orderable: false, searchable: false},
         ],
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         }
                     });
-                    $(btn).empty().append('Selanjutnya').prop('disabled', false);
+                    $(btn).empty().append('Ajukan Pendaftaran').prop('disabled', false);
                 }
 
             })
@@ -183,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $(".modal-pyhsical-test").click(function () {
         let id = $(this).data("id");
         let url = $("#show-physical-test-url").val();
-        console.log(url)
         url = url.replace(":id", id);
 
         // send data

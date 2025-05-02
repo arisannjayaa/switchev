@@ -1,4 +1,4 @@
-@if($test_letters->count() == 0)
+@if($test_letters->count() == 0 && request()->input(''))
     <div class="d-flex justify-content-center align-items-center text-center flex-column">
         <div class="bg-primary-lt w-100 p-7 rounded-3 mb-3">
             <img class="img-fluid" width="400" src="{{ asset('assets/dist/img/undraw_hello_ccwj.svg') }}">
@@ -6,7 +6,7 @@
         <div class="text-center">
             <h1 class="fw-bold">Selamat Datang di Penerbitan Surat SUT dan SRUT</h1>
             <p class="text-muted">Silahkan mulai mengisi form di bawah ini</p>
-            <a href="{{ route('test.letter.form') . '?form-step=1' }}" class="btn btn-primary">Mulai</a>
+            <a href="{{ route('test.letter.form')}}" class="btn btn-primary">Mulai</a>
         </div>
     </div>
 @else
@@ -31,7 +31,7 @@
                     </h2>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
-                    <a href="{{ route('test.letter.form') . '?form-step=1' }}" class="btn btn-outline-primary">Ajukan Penerbitan Lainnya</a>
+                    <a href="{{ route('test.letter.form')}}" class="btn btn-outline-primary">Ajukan Penerbitan Lainnya</a>
                 </div>
             </div>
         </div>
@@ -41,11 +41,11 @@
                     <div class="form-label">Tipe Identitas Bengkel</div>
                     <div class="mb-4">
                         <label class="form-check">
-                            <input type="checkbox" class="form-check-input" name="type[]" value="A" {{ in_array('A', request()->query('type', [])) ? 'checked' : '' }}>
+                            <input type="checkbox" class="form-check-input" name="workshop_type[]" value="A" {{ in_array('A', request()->query('workshop_type', [])) ? 'checked' : '' }}>
                             <span class="form-check-label">A</span>
                         </label>
                         <label class="form-check">
-                            <input type="checkbox" class="form-check-input" name="type[]" value="B" {{ in_array('B', request()->query('type', [])) ? 'checked' : '' }}>
+                            <input type="checkbox" class="form-check-input" name="workshop_type[]" value="B" {{ in_array('B', request()->query('workshop_type', [])) ? 'checked' : '' }}>
                             <span class="form-check-label">B</span>
                         </label>
                     </div>

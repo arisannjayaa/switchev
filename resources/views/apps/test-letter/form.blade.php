@@ -42,1368 +42,156 @@
             <div class="card card-md">
                 <div class="card-body text-center py-4 p-sm-5">
                     <h1 class="mt-5">Form Penerbitan SUT dan SRUT</h1>
-                    <span class="text-muted">{{ ucwords(\App\Helpers\Helper::title_sut_srut_form($form_step)) }}</span>
                 </div>
                 <div class="hr-text hr-text-center hr-text-spaceless"></div>
                 <div class="card-body">
                     <input type="hidden" id="id" name="id" value="{{ @$test_letter->id }}">
-                    <input type="hidden" id="form-step" name="form_step" value="{{ $form_step }}">
-                    @if($form_step == 1)
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Identitas Bengkel</label>
-                                    <select id="workshop_type" class="form-select" name="workshop_type">
-                                        <option value="">Pilih Tipe Identitas Bengkel</option>
-                                        <option value="A" {{ @$test_letter->workshop_type == 'A' ? 'selected' : '' }}>A</option>
-                                        <option value="B" {{ @$test_letter->workshop_type == 'B' ? 'selected' : '' }}>B</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Nama Penanggung Jawab</label>
-                                    <input type="text" class="form-control" placeholder="Nama penanggung jawab" id="responsible_person" name="responsible_person" value="{{ @$test_letter->responsible_person }}">
-                                    <small class="form-hint">
-                                        Nama penanggung jawab bengkel perusahaan.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Nama Bengkel</label>
-                                    <input type="text" class="form-control" placeholder="Nama bengkel" id="workshop" name="workshop" value="{{ @$test_letter->workshop }}">
-                                    <small class="form-hint">
-                                        Nama bengkel perusahaan.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">No Telepon</label>
-                                    <input type="text" class="form-control" placeholder="No Telepon" id="telephone" name="telephone" value="{{ @$test_letter->telephone }}">
-                                    <small class="form-hint">
-                                        No. telepon perusahaan
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Alamat</label>
-                                    <textarea class="form-control" name="address"  id="address" rows="6" placeholder="Alamat..">{{ @$test_letter->address }}</textarea>
-                                    <small class="form-hint">
-                                        Alamat bengkel perusahaan.
-                                    </small>
-                                </div>
+                    <div class="row row-cards">
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Tipe Identitas Bengkel</label>
+                                <select id="workshop_type" class="form-select" name="workshop_type">
+                                    <option value="">Pilih Tipe Identitas Bengkel</option>
+                                    <option value="A" {{ @$test_letter->workshop_type == 'A' ? 'selected' : '' }}>A</option>
+                                    <option value="B" {{ @$test_letter->workshop_type == 'B' ? 'selected' : '' }}>B</option>
+                                </select>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 2)
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Merek</label>
-                                    <input type="text" class="form-control" placeholder="Merek" id="brand" name="brand" value="{{ @$test_letter->brand }}">
-                                    <small class="form-hint">
-                                        Merek kendaraan, contoh: Kawasaki
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Kendaraan</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Kendaraan" id="type" name="type" value="{{ @$test_letter->type }}">
-                                    <small class="form-hint">
-                                        Tipe kendaraan, contoh : LX 150F Varian 1
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jenis Kendaraan</label>
-                                    <input type="text" class="form-control" placeholder="Jenis Kendaraan" id="type_vehicle" name="type_vehicle" value="{{ @$test_letter->type_vehicle }}">
-                                    <small class="form-hint">
-                                        Jenis kendaraan, contoh : Sepeda Motor
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Merek Dagang</label>
-                                    <input type="text" class="form-control" placeholder="Merek Dagang" id="trademark" name="trademark" value="{{ @$test_letter->trademark }}">
-                                    <small class="form-hint">
-                                        Merek dagang, contoh : KLX 150
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Negara Asal</label>
-                                    <input type="text" class="form-control" placeholder="Negara Asal" id="country_of_origin" name="country_of_origin" value="{{ @$test_letter->country_of_origin }}">
-                                    <small class="form-hint">
-                                        Tipe kendaraan, contoh : Indonesia, Italia
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Varian</label>
-                                    <input type="text" class="form-control" placeholder="Varian" id="variant" name="variant" value="{{ @$test_letter->variant }}">
-                                    <small class="form-hint">
-                                        Varian kendaraan, contoh : LX 150F Varian 1
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Peruntukan</label>
-                                    <input type="text" class="form-control" placeholder="Peruntukan" id="allotment" name="allotment" value="{{ @$test_letter->allotment }}">
-                                    <small class="form-hint">
-                                        Peruntukan, contoh : Angkutan orang
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tranmisi</label>
-                                    <input type="text" class="form-control" placeholder="Tranmisi" id="transmission" name="transmission" value="{{ @$test_letter->transmission }}">
-                                    <small class="form-hint">
-                                        Transmisi kendaraan, contoh : Otomatis
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sistem Penggerak</label>
-                                    <input type="text" class="form-control" placeholder="Sistem Penggerak" id="drive_system" name="drive_system" value="{{ @$test_letter->drive_system }}">
-                                    <small class="form-hint">
-                                        Sistem penggerak, contoh : Dinamo elektrik
-                                    </small>
-                                </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Nama Penanggung Jawab</label>
+                                <input type="text" class="form-control" placeholder="Nama penanggung jawab" id="responsible_person" name="responsible_person" value="{{ @$test_letter->responsible_person }}">
+                                <small class="form-hint">
+                                    Nama penanggung jawab bengkel perusahaan.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 3)
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Nomor Rangka</label>
-                                    <input type="text" class="form-control" placeholder="Nomor Rangka" id="chassis" name="chassis" value="{{ @$test_letter->chassis }}">
-                                    <small class="form-hint">
-                                        No Rangka pada kendaraan, contoh : MH4LXXXXXXXXXXXXX
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tempat Penomoran Rangka</label>
-                                    <input type="text" class="form-control" placeholder="Tempat Penomoran Rangka" id="chassis_place_number" name="chassis_place_number" value="{{ @$test_letter->chassis_place_number }}">
-                                    <small class="form-hint">
-                                        Tempat penomoran rangka, contoh: Rangka depan.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Cara Penomoraan Rangka</label>
-                                    <input type="text" class="form-control" placeholder="Cara Penomoraan" id="chassis_method_number" name="chassis_method_number" value="{{ @$test_letter->chassis_method_number }}">
-                                    <small class="form-hint">
-                                        Cara penomoran, contoh : Sesuai produsen.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">No Mesin (Pra-Konversi)</label>
-                                    <input type="text" class="form-control" placeholder="No Mesin (Pra-Konversi)" id="pre_conversion_engine" name="pre_conversion_engine" value="{{ @$test_letter->pre_conversion_engine }}">
-                                    <small class="form-hint">
-                                        No Rangka pada kendaraan, contoh : LXXXXXXXXXX
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tempat Penomoran Mesin Pra Konversi</label>
-                                    <input type="text" class="form-control" placeholder="Tempat Penomoran Mesin Pra Konversi" id="pre_conversion_engine_place_number" name="pre_conversion_engine_place_number" value="{{ @$test_letter->pre_conversion_engine_place_number }}">
-                                    <small class="form-hint">
-                                        Tempat penomoran rangka, contoh: Mesin kiri.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Cara Penomoraan Mesin Pra Konversi</label>
-                                    <input type="text" class="form-control" placeholder="Cara Penomoraan Mesin Pra Konversi" id="pre_conversion_engine_method_number" name="pre_conversion_engine_method_number" value="{{ @$test_letter->pre_conversion_engine_method_number }}">
-                                    <small class="form-hint">
-                                        Cara penomoran, contoh : Sesuai produsen.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">No Motor (Pasca-Konversi)</label>
-                                    <input type="text" class="form-control" placeholder="No Motor (Pasca-Konversi)" id="post_conversion_engine" name="post_conversion_engine" value="{{ @$test_letter->post_conversion_engine }}">
-                                    <small class="form-hint">
-                                        No Motor pasca konversi, contoh : QS72V300XXXXXXXXXXXX
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tempat Penomoran Motor Pasca Konversi</label>
-                                    <input type="text" class="form-control" placeholder="Tempat Penomoran Motor Pasca Konversi" id="post_conversion_engine_place_number" name="post_conversion_engine_place_number" value="{{ @$test_letter->post_conversion_engine_place_number }}">
-                                    <small class="form-hint">
-                                        Tempat penomoran motor, contoh: Blok mesin kanan.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Cara Penomoraan Mesin Pasca Konversi</label>
-                                    <input type="text" class="form-control" placeholder="Cara Penomoraan Mesin Pasca Konversi"  id="post_conversion_engine_method_number" name="post_conversion_engine_method_number" value="{{ @$test_letter->post_conversion_engine_method_number }}">
-                                    <small class="form-hint">
-                                        Cara penomoran, contoh : Sesuai produsen.
-                                    </small>
-                                </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Nama Bengkel</label>
+                                <input type="text" class="form-control" placeholder="Nama bengkel" id="workshop" name="workshop" value="{{ @$test_letter->workshop }}">
+                                <small class="form-hint">
+                                    Nama bengkel perusahaan.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 4)
-                        @php
-                            $drive_motor = json_decode(@$test_letter->drive_motor);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Merek</label>
-                                    <input type="text" class="form-control" placeholder="Merek" id="brand_drive_motor" name="brand_drive_motor" value="{{ @$drive_motor->brand }}">
-                                    <small class="form-hint">
-                                        Merek motor penggerak, contoh : QS Motor, Golden Motor, Bosch eBike Systems.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jenis Motor Penggerak</label>
-                                    <input type="text" class="form-control" placeholder="Jenis Motor Penggerak" id="type_drive_motor" name="type_drive_motor" value="{{ @$drive_motor->type }}">
-                                    <small class="form-hint">
-                                        Jenis motor penggerak, contoh : Mid-Drive BLDC (Brushless DC).
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Letak Motor Penggerak</label>
-                                    <input type="text" class="form-control" placeholder="Letak Motor Penggerak" id="location_drive_motor" name="location_drive_motor" value="{{ @$drive_motor->location }}">
-                                    <small class="form-hint">
-                                        Letak motor penggerak, contoh : Tengah rangka (mid-drive).
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tegangan Kerja Motor (Volt)</label>
-                                    <input type="text" class="form-control convert-volt" placeholder="Tegangan Kerja Motor (Volt)" id="voltage_drive_motor" name="voltage_drive_motor" value="{{ \App\Helpers\Helper::formatVolt(@$drive_motor->voltage) }}">
-                                    <small class="form-hint">
-                                        Tegangan(volt) motor penggerak, contoh : 72V.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Arus Maksimum Motor (Ampere)</label>
-                                    <input type="text" class="form-control convert-ampere" placeholder="Arus Maksimum Motor (Ampere)" id="ampere_drive_motor" name="ampere_drive_motor" value="{{ \App\Helpers\Helper::formatVolt(@$drive_motor->ampere, " A") }}">
-                                    <small class="form-hint">
-                                        Ampere maksimum motor penggerak, contoh : 180A.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Daya Motor (kW)</label>
-                                    <input type="text" class="form-control convert-kw" placeholder="Daya Motor (kW)" id="power_drive_motor" name="power_drive_motor" value="{{ \App\Helpers\Helper::formatVolt(@$drive_motor->power," kW") }}">
-                                    <small class="form-hint">
-                                        Daya motor (kW) motor penggerak, contoh : 3kW.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Daya Motor Maksimum (kW)</label>
-                                    <input type="text" class="form-control convert-kw" placeholder="Daya Motor Maksimum (kW)" id="power_max_drive_motor" name="power_max_drive_motor" value="{{ \App\Helpers\Helper::formatVolt(@$drive_motor->power_max, " kW") }}">
-                                    <small class="form-hint">
-                                        Daya motor maksimum (kW) motor penggerak, contoh : 30kW.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Putaran Maksimum Motor (rpm)</label>
-                                    <input type="text" class="form-control convert-rpm" placeholder="Putaran Maksimum Motor (rpm)" id="rotation_drive_motor" name="rotation_drive_motor" value="{{ \App\Helpers\Helper::formatVolt(@$drive_motor->rotation, " rpm") }}">
-                                    <small class="form-hint">
-                                        Putaran maksumum motor penggerak, contoh : 8000 rpm.
-                                    </small>
-                                </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">No Telepon</label>
+                                <input type="text" class="form-control" placeholder="No Telepon" id="telephone" name="telephone" value="{{ @$test_letter->telephone }}">
+                                <small class="form-hint">
+                                    No. telepon perusahaan
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 5)
-                        @php
-                            $fuel_system = json_decode(@$test_letter->fuel_system);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tegangan Kerja Sistem Konversi (Volt)</label>
-                                    <input type="text" class="form-control convert-volt" placeholder="Tegangan Kerja Sistem Konversi (Volt)" id="conversion_voltage_fuel_system" name="conversion_voltage_fuel_system" value="{{ \App\Helpers\Helper::formatVolt(@$fuel_system->conversion_voltage) }}">
-                                    <small class="form-hint">
-                                        Tegangan kerja sistem konversi, contoh : 72 Volt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tegangan Kerja Kelistrikan Kendaraan (Volt)</label>
-                                    <input type="text" class="form-control convert-volt" placeholder="Tegangan Kerja Kelistrikan Kendaraan (Volt)" id="electrical_voltage_fuel_system" name="electrical_voltage_fuel_system" value="{{ \App\Helpers\Helper::formatVolt(@$fuel_system->electrical_voltage) }}">
-                                    <small class="form-hint">
-                                        Tegangan kerja kelistrikan kendaraan, contoh : 10 Volt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Kapasitas Baterai (kWh)</label>
-                                    <input type="text" class="form-control convert-kwh" placeholder="Kapasitas Baterai (kWh)" id="battery_capacity_fuel_system" name="battery_capacity_fuel_system" value="{{ \App\Helpers\Helper::formatVolt(@$fuel_system->battery_capacity, " kWh") }}">
-                                    <small class="form-hint">
-                                        Kapasitas baterai, contoh : 2.98 kWh.
-                                    </small>
-                                </div>
+                        <div class="col-md-12 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Alamat</label>
+                                <textarea class="form-control" name="address"  id="address" rows="6" placeholder="Alamat..">{{ @$test_letter->address }}</textarea>
+                                <small class="form-hint">
+                                    Alamat bengkel perusahaan.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 6)
-                        @php
-                            $vehicle_dimension = json_decode(@$test_letter->vehicle_dimension);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Panjang Total (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Panjang Total (mm)" id="total_length_vehicle_dimension" name="total_length_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->total_length, " mm") }}">
-                                    <small class="form-hint">
-                                        Panjang total dimensi kendaraan, contoh : 2100 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lebar Total (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Lebar Total (mm)" id="total_width_vehicle_dimension" name="total_width_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->total_width, " mm") }}">
-                                    <small class="form-hint">
-                                        Lebar total dimensi kendaraan, contoh : 980 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tinggi Total (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Tinggi Total (mm)" id="total_height_vehicle_dimension" name="total_height_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->total_height, " mm") }}">
-                                    <small class="form-hint">
-                                        Tinggi total dimensi kendaraan, contoh : 1200 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jarak Sumbu I-II (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Jarak Sumbu I-II (mm)" id="axis_distance_vehicle_dimension" name="axis_distance_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->axis_distance, " mm") }}">
-                                    <small class="form-hint">
-                                        Jarak sumbu I-II, contoh : 1290 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Julur Depan (Front Over Hang) (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Julur Depan (Front Over Hang) (mm)" id="front_over_vehicle_dimension" name="front_over_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->front_over, " mm") }}">
-                                    <small class="form-hint">
-                                        Julur depan, contoh : 210 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Julur Belakang (Front Over Hang) (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Julur Belakang (Front Over Hang) (mm)" id="rear_over_vehicle_dimension" name="rear_over_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->rear_over, " mm") }}">
-                                    <small class="form-hint">
-                                        Julur belakang, contoh : 910 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Julur Bebas (Ground Clearance) (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Julur Bebas (Ground Clearance) (mm)"  id="ground_clearance_vehicle_dimension" name="ground_clearance_vehicle_dimension" value="{{ \App\Helpers\Helper::formatVolt(@$vehicle_dimension->ground_clearance, " mm") }}">
-                                    <small class="form-hint">
-                                        Julur bebas, contoh : 410 mm.
-                                    </small>
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Surat Permohonan Uji Tipe Konversi</label>
+                                <input id="conversion_type_test_application_letter" type="file" class="form-control" name="conversion_type_test_application_letter">
+                                @if(@$test_letter->conversion_type_test_application_letter) <input type="hidden" class="form-control" name="old_conversion_type_test_application_letter" value="{{ @$test_letter->conversion_type_test_application_letter }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->conversion_type_test_application_letter) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->conversion_type_test_application_letter)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/SURAT_PERMOHONAN_UJI_TIPE_KONVERSI.docx')]) }}">Disini</a>
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 7)
-                        @php
-                            $tireSize = json_decode(@$test_letter->tire_size);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu I</label>
-                                    <input type="text" class="form-control" placeholder="Sumbu I" id="axis_1_tire_size" name="axis_1_tire_size" value="{{ @$tireSize->axis_1 }}">
-                                    <small class="form-hint">
-                                        Sumbu I, contoh : 185 mm , 2,75 – 45P.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu II</label>
-                                    <input type="text" class="form-control" placeholder="Sumbu II" id="axis_2_tire_size" name="axis_2_tire_size" value="{{ @$tireSize->axis_2 }}">
-                                    <small class="form-hint">
-                                        Sumbu II, contoh : 192 mm, 4,10 – 18 59P.
-                                    </small>
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran SOP Pemasangan Konversi</label>
+                                <input id="sop_component_installation" type="file" class="form-control" name="sop_component_installation">
+                                @if(@$test_letter->sop_component_installation) <input type="hidden" class="form-control" name="old_sop_component_installation" value="{{ @$test_letter->sop_component_installation }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->sop_component_installation) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->sop_component_installation)]) }}">lihat disini</a>
+                                    <br> @endif
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 8)
-                        @php
-                            $vehicleWeight = json_decode(@$test_letter->vehicle_weight);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="form-label">A. Berat Kendaraan Kosong (kg) :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu I</label>
-                                    <input type="text" class="form-control convert-kg" placeholder="Sumbu I" id="axis_1_empty_vehicle_weight" name="axis_1_empty_vehicle_weight" value="{{ \App\Helpers\Helper::formatVolt(@$vehicleWeight->axis_1_empty_vehicle_weight, " kg") }}">
-                                    <small class="form-hint">
-                                        Berat sumbu I, contoh : 44 Kg.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu II</label>
-                                    <input type="text" class="form-control convert-kg" placeholder="Sumbu II" id="axis_2_empty_vehicle_weight" name="axis_2_empty_vehicle_weight" value="{{ \App\Helpers\Helper::formatVolt(@$vehicleWeight->axis_2_empty_vehicle_weight, " kg") }}">
-                                    <small class="form-hint">
-                                        Berat sumbu II, contoh : 78 Kg.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">B. Kekuatan Rancang Sumbu (kg) :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu I</label>
-                                    <input type="text" class="form-control convert-kg" placeholder="Sumbu I" id="axis_1_axis_design_strength" name="axis_1_axis_design_strength" value="{{ \App\Helpers\Helper::formatVolt(@$vehicleWeight->axis_1_axis_design_strength, " kg") }}">
-                                    <small class="form-hint">
-                                        Kekuatan rancang sumbu I, contoh : 94 Kg.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu II</label>
-                                    <input type="text" class="form-control convert-kg" placeholder="Sumbu II" id="axis_2_axis_design_strength" name="axis_2_axis_design_strength" value="{{ \App\Helpers\Helper::formatVolt(@$vehicleWeight->axis_2_axis_design_strength, " kg") }}">
-                                    <small class="form-hint">
-                                        Kekuatan rancang sumbu II, contoh : 194 Kg.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">C. JBB/GVW (kg) :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu I</label>
-                                    <input type="text" class="form-control convert-kg" placeholder="Sumbu I" id="axis_1_jbb" name="axis_1_jbb" value="{{ \App\Helpers\Helper::formatVolt(@$vehicleWeight->axis_1_jbb, " kg") }}">
-                                    <small class="form-hint">
-                                        JBB/GVM sumbu I, contoh : 84 Kg.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sumbu II</label>
-                                    <input type="text" class="form-control convert-kg" placeholder="Sumbu II" id="axis_2_jbb" name="axis_2_jbb" value="{{ \App\Helpers\Helper::formatVolt(@$vehicleWeight->axis_2_jbb, " kg") }}">
-                                    <small class="form-hint">
-                                        JBB/GVM sumbu II, contoh : 159 Kg.
-                                    </small>
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Gambar Teknik</label>
+                                <input id="technical_drawing" type="file" class="form-control" name="technical_drawing">
+                                @if(@$test_letter->technical_drawing) <input type="hidden" class="form-control" name="old_technical_drawing" value="{{ @$test_letter->technical_drawing }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->technical_drawing) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->technical_drawing)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Foto, sepeda motor yang di konversi.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 9)
-                        @php
-                            $power_forwarder = json_decode(@$test_letter->power_forwarder);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Tranmisi</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Tranmisi" id="transmission_type_power_forwarder" name="transmission_type_power_forwarder" value="{{ @$power_forwarder->transmission_type }}">
-                                    <small class="form-hint">
-                                        Tipe tranmisi, contoh : Otomatis, Manual.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sistem Kendali Tranmisi</label>
-                                    <input type="text" class="form-control" placeholder="Sistem Kendali Tranmisi" id="transmission_control_system_power_forwarder" name="transmission_control_system_power_forwarder" value="{{ @$power_forwarder->transmission_control_system }}">
-                                    <small class="form-hint">
-                                        Sistem kendali tranmisi, contoh : Dinamo Elektrik.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Kopling</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Kopling" id="clutch_type_power_forwarder" name="clutch_type_power_forwarder" value="{{ @$power_forwarder->clutch_type }}">
-                                    <small class="form-hint">
-                                        Tipe kopling, contoh : Kopling Sentrifugal.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Perbandingan Gigi</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 1</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 1" id="gear_1_power_forwarder" name="gear_1_power_forwarder" value="{{ @$power_forwarder->gear_1 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 2</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 2" id="gear_2_power_forwarder" name="gear_2_power_forwarder" value="{{ @$power_forwarder->gear_2 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 3</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 3" id="gear_3_power_forwarder" name="gear_3_power_forwarder" value="{{ @$power_forwarder->gear_3 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 4</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 4" id="gear_4_power_forwarder" name="gear_4_power_forwarder" value="{{ @$power_forwarder->gear_4 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 5</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 5" id="gear_5_power_forwarder" name="gear_5_power_forwarder" value="{{ @$power_forwarder->gear_5 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 6</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 6" id="gear_6_power_forwarder" name="gear_6_power_forwarder" value="{{ @$power_forwarder->gear_6 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi 7</label>
-                                    <input type="text" class="form-control" placeholder="Gigi 7" id="gear_7_power_forwarder" name="gear_7_power_forwarder" value="{{ @$power_forwarder->gear_7 }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi Mundur</label>
-                                    <input type="text" class="form-control" placeholder="Gigi Mundur" id="reverse_gear_power_forwarder" name="reverse_gear_power_forwarder" value="{{ @$power_forwarder->reverse_gear }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Gigi Akhir</label>
-                                    <input type="text" class="form-control" placeholder="Gigi Akhir" id="final_gear_power_forwarder" name="final_gear_power_forwarder" value="{{ @$power_forwarder->final_gear }}">
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Sertifikat Bengkel Konversi</label>
+                                <input id="conversion_workshop_certificate" type="file" class="form-control" name="conversion_workshop_certificate">
+                                @if(@$test_letter->conversion_workshop_certificate) <input type="hidden" class="form-control" name="old_conversion_workshop_certificate" value="{{ @$test_letter->conversion_workshop_certificate }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->conversion_workshop_certificate) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->conversion_workshop_certificate)]) }}">lihat disini</a>
+                                    <br> @endif
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 10)
-                        @php
-                            $braking_system = json_decode(@$test_letter->braking_system);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="form-label">A. Rem Utama :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Pengendalian</label>
-                                    <input type="text" class="form-control" placeholder="Pengendalian" id="control_braking_system" name="control_braking_system" value="{{ @$braking_system->control }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Rem Depan</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Rem Depan" id="front_brake_type_braking_system" name="front_brake_type_braking_system" value="{{ @$braking_system->front_brake_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Rem Belakang</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Rem Belakang" id="rear_brake_type_braking_system" name="rear_brake_type_braking_system" value="{{ @$braking_system->rear_brake_type }}">
-                                </div>
-                            </div>
-                            <div class="form-label">B. Alat Bantu Rem Utama :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Alat Bantu Rem Utama</label>
-                                    <input type="text" class="form-control" placeholder="Alat Bantu Rem Utama" id="main_brake_braking_system" name="main_brake_braking_system" value="{{ @$braking_system->main_brake }}">
-                                </div>
-                            </div>
-                            <div class="form-label">C. Pengoperasian Rem Parkir :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Tipe</label>
-                                    <input type="text" class="form-control" placeholder="Tipe" id="type_operation_braking_system" name="type_operation_braking_system" value="{{ @$braking_system->type_operation }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Bekerja Pada</label>
-                                    <input type="text" class="form-control" placeholder="Bekerja Pada" id="work_on_operation_braking_system" name="work_on_operation_braking_system" value="{{ @$braking_system->work_on_operation }}">
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Diagram Kelistrikan</label>
+                                <input id="electrical_diagram" type="file" class="form-control" name="electrical_diagram">
+                                @if(@$test_letter->electrical_diagram) <input type="hidden" class="form-control" name="old_electrical_diagram" value="{{ @$test_letter->electrical_diagram }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->electrical_diagram) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->electrical_diagram)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Diagram kelistrikan dan diagram instalasi sistem penggerak motor listrik.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 11)
-                        @php
-                            $suspension_system = json_decode(@$test_letter->suspension_system);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="form-label">A. Depan :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Suspensi</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Suspensi" id="front_type_suspension_system" name="front_type_suspension_system" value="{{ @$suspension_system->front_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Pegas</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Pegas" id="front_spring_type_suspension_system" name="front_spring_type_suspension_system" value="{{ @$suspension_system->front_spring_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jenis Peredam Kejut</label>
-                                    <input type="text" class="form-control" placeholder="Jenis Peredam Kejut" id="front_shock_absorber_type_suspension_system" name="front_shock_absorber_type_suspension_system" value="{{ @$suspension_system->front_shock_absorber_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Sistem Stabilizer</label>
-                                    <input type="text" class="form-control" placeholder="Sistem Stabilizer" id="front_stabilizer_system_suspension_system" name="front_stabilizer_system_suspension_system" value="{{ @$suspension_system->front_stabilizer_system }}">
-                                </div>
-                            </div>
-                            <div class="form-label">B. Belakang :</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Suspensi</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Suspensi" id="rear_type_suspension_system" name="rear_type_suspension_system" value="{{ @$suspension_system->rear_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Pegas</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Pegas" id="rear_spring_type_suspension_system" name="rear_spring_type_suspension_system" value="{{ @$suspension_system->rear_spring_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jenis Peredam Kejut</label>
-                                    <input type="text" class="form-control" placeholder="Jenis Peredam Kejut" id="rear_shock_absorber_type_suspension_system" name="rear_shock_absorber_type_suspension_system" value="{{ @$suspension_system->rear_shock_absorber_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Sistem Stabilizer</label>
-                                    <input type="text" class="form-control" placeholder="Sistem Stabilizer" id="rear_stabilizer_system_suspension_system" name="rear_stabilizer_system_suspension_system" value="{{ @$suspension_system->rear_stabilizer_system }}">
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Fotokopi STNK</label>
+                                <input id="photocopy_stnk" type="file" class="form-control" name="photocopy_stnk">
+                                @if(@$test_letter->photocopy_stnk) <input type="hidden" class="form-control" name="old_photocopy_stnk" value="{{ @$test_letter->photocopy_stnk }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->photocopy_stnk) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->photocopy_stnk)]) }}">lihat disini</a>
+                                    <br> @endif
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 12)
-                        @php
-                            $steering_system = json_decode(@$test_letter->steering_system);
-                        @endphp
-                        <div class="row row-cards">
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Sistem Kemudi</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Sistem Kemudi" id="type_steering_system" name="type_steering_system" value="{{ @$steering_system->type }}">
-                                    <small class="form-hint">
-                                        Tipe sistem kemudi, contoh : Perimeter, steel.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Penempatan</label>
-                                    <input type="text" class="form-control" placeholder="Penempatan" id="placement_steering_system" name="placement_steering_system" value="{{ @$steering_system->placement }}">
-                                    <small class="form-hint">
-                                        Penempatan, contoh : Depan.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lingkar Kemudi (mm)</label>
-                                    <input type="text" class="form-control convert-mm" placeholder="Lingkar Kemudi (mm)" id="wheel_steering_system" name="wheel_steering_system" value="{{ \App\Helpers\Helper::formatVolt(@$steering_system->wheel, " mm") }}">
-                                    <small class="form-hint">
-                                        Lingkar kemudi, contoh : 30 mm.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jumlah Perputaran</label>
-                                    <input type="text" class="form-control" placeholder="Jumlah Perputaran" id="amount_wheel_steering_system" name="amount_wheel_steering_system" value="{{ @$steering_system->amount_wheel }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Setelan Roda</label>
-                                    <input type="text" class="form-control" placeholder="Setelan Roda" id="setting_wheel_steering_system" name="setting_wheel_steering_system" value="{{ @$steering_system->setting_wheel }}">
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Cek Fisik Kendaraan Bermotor</label>
+                                <input id="physical_inspection" type="file" class="form-control" name="physical_inspection">
+                                @if(@$test_letter->physical_inspection) <input type="hidden" class="form-control" name="old_physical_inspection" value="{{ @$test_letter->physical_inspection }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->physical_inspection) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->physical_inspection)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Lampiran hasil pemeriksaan cek fisik Kendaraan Bermotor oleh Kepolisian Negara Republik Indonesia.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 13)
-                        @php
-                            $other = json_decode(@$test_letter->other);
-                        @endphp
-                        <div class="row row-cards" style="max-height: 100dvh; overflow: hidden; overflow-y: scroll;">
-                            <div class="form-label">A. Susunan Body dan Frame :</div>
-                            <div class="col-md-12 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Susunan Body dan Frame</label>
-                                    <input type="text" class="form-control" placeholder="Susunan Body dan Frame" id="body_and_frame_arrangement_other" name="body_and_frame_arrangement_other" value="{{ @$other->body_and_frame_arrangement }}">
-                                    <small class="form-hint">
-                                        Susunan body dan frame, contoh : Semi double cradle.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">B. Sistem Penerangan :</div>
-                            <div class="form-label">Lampu Utama</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampu Utama</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Utama" id="main_light_other" name="main_light_other" value="{{ @$other->main_light }}">
-                                    <small class="form-hint">
-                                        Lampu utama, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="main_light_amount_other" name="main_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->main_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="main_light_color_other" name="main_light_color_other" value="{{ @$other->main_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="main_light_power_other" name="main_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->main_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Tengah</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Tengah</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Tengah" id="center_light_other" name="center_light_other" value="{{ @$other->center_light }}">
-                                    <small class="form-hint">
-                                        Lampu tengah, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="center_light_amount_other" name="center_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->center_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="center_light_color_other" name="center_light_color_other" value="{{ @$other->center_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="center_light_power_other" name="center_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->center_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Samping</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Samping</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Samping" id="side_light_other" name="side_light_other" value="{{ @$other->side_light }}">
-                                    <small class="form-hint">
-                                        Lampu samping, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="side_light_amount_other" name="side_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->side_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="side_light_color_other" name="side_light_color_other" value="{{ @$other->side_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="side_light_power_other" name="side_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->side_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Plat Nomor</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Plat Nomor</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Plat Nomor" id="number_plate_light_other" name="number_plate_light_other" value="{{ @$other->number_plate_light }}">
-                                    <small class="form-hint">
-                                        Lampu plat nomor, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="number_plate_light_amount_other" name="number_plate_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->number_plate_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="number_plate_light_color_other" name="number_plate_light_color_other" value="{{ @$other->number_plate_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="number_plate_light_power_other" name="number_plate_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->number_plate_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Stop / Berhenti</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampu Stop / Berhenti</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Stop / Berhenti" id="stop_light_other" name="stop_light_other" value="{{ @$other->stop_light }}">
-                                    <small class="form-hint">
-                                        Lampu utama, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="stop_light_amount_other" name="stop_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->stop_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="stop_light_color_other" name="stop_light_color_other" value="{{ @$other->stop_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="stop_light_power_other" name="stop_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->stop_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Mundur</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Mundur</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Mundur" id="reverse_light_other" name="reverse_light_other" value="{{ @$other->reverse_light }}">
-                                    <small class="form-hint">
-                                        Lampu mundur, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="reverse_light_amount_other" name="reverse_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->reverse_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="reverse_light_color_other" name="reverse_light_color_other" value="{{ @$other->reverse_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="reverse_light_power_other" name="reverse_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->reverse_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Sein Depan</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampu Sein Depan</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Sein Depan" id="front_turn_signal_light_other" name="front_turn_signal_light_other" value="{{ @$other->front_turn_signal_light }}">
-                                    <small class="form-hint">
-                                        Lampu sein depan, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="front_turn_signal_light_amount_other" name="front_turn_signal_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->front_turn_signal_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="front_turn_signal_light_color_other" name="front_turn_signal_light_color_other" value="{{ @$other->front_turn_signal_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="front_turn_signal_light_power_other" name="front_turn_signal_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->front_turn_signal_light_power) }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Sein Belakang</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampu Sein Belakang</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Sein Belakang" id="rear_turn_signal_light_other" name="rear_turn_signal_light_other" value="{{ @$other->rear_turn_signal_light }}">
-                                    <small class="form-hint">
-                                        Lampu sein belakang, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="rear_turn_signal_light_amount_other" name="rear_turn_signal_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->rear_turn_signal_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="rear_turn_signal_light_color_other" name="rear_turn_signal_light_color_other" value="{{ @$other->rear_turn_signal_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="rear_turn_signal_light_power_other" name="rear_turn_signal_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->rear_turn_signal_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Sein Samping</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Sein Samping</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Sein Samping" id="side_turn_signal_light_other" name="side_turn_signal_light_other" value="{{ @$other->side_turn_signal_light }}">
-                                    <small class="form-hint">
-                                        Lampu sein samping, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="side_turn_signal_light_amount_other" name="side_turn_signal_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->side_turn_signal_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="side_turn_signal_light_color_other" name="side_turn_signal_light_color_other" value="{{ @$other->side_turn_signal_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="side_turn_signal_light_power_other" name="side_turn_signal_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->side_turn_signal_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Tambahan</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Tambahan</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Tambahan" id="additional_light_other" name="additional_light_other" value="{{ @$other->additional_light }}">
-                                    <small class="form-hint">
-                                        Lampu tambahan, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="additional_light_amount_other" name="additional_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->additional_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="additional_light_color_other" name="additional_light_color_other" value="{{ @$other->additional_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="additional_light_power_other" name="additional_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->additional_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Reflektor</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Reflektor</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Reflektor" id="reflector_light_other" name="reflector_light_other" value="{{ @$other->reflector_light }}">
-                                    <small class="form-hint">
-                                        Lampu reflektor, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="reflector_light_amount_other" name="reflector_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->reflector_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="reflector_light_color_other" name="reflector_light_color_other" value="{{ @$other->reflector_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="reflector_light_power_other" name="reflector_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->reflector_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Lampu Kabut</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Lampu Kabut</label>
-                                    <input type="text" class="form-control" placeholder="Lampu Kabut" id="fog_light_other" name="fog_light_other" value="{{ @$other->fog_light }}">
-                                    <small class="form-hint">
-                                        Lampu kabut, contoh : LED.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control convert-unit" placeholder="Jumlah" id="fog_light_amount_other" name="fog_light_amount_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->fog_light_amount, " unit") }}">
-                                    <small class="form-hint">
-                                        Jumlah, contoh : 1 unit.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Warna</label>
-                                    <input type="text" class="form-control" placeholder="Warna" id="fog_light_color_other" name="fog_light_color_other" value="{{ @$other->fog_light_color }}">
-                                    <small class="form-hint">
-                                        Warna, contoh : Putih.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Daya</label>
-                                    <input type="text" class="form-control convert-watt" placeholder="Daya" id="fog_light_power_other" name="fog_light_power_other" value="{{ \App\Helpers\Helper::formatVolt(@$other->fog_light_power, " watt") }}">
-                                    <small class="form-hint">
-                                        Daya, contoh : 10 watt.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-label">Penghapus Kaca</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Penghapus Kaca</label>
-                                    <input type="text" class="form-control" placeholder="Penghapus Kaca" id="wiper_other" name="wiper_other" value="{{ @$other->wiper }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Tipe</label>
-                                    <input type="text" class="form-control" placeholder="Tipe" id="wiper_type_other" name="wiper_type_other" value="{{ @$other->wiper_type }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Jumlah</label>
-                                    <input type="text" class="form-control" placeholder="Jumlah" id="wiper_amount_other" name="wiper_amount_other" value="{{ @$other->wiper_amount }}">
-                                </div>
-                            </div>
-                            <div class="form-label">Speedometer</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Speedometer</label>
-                                    <input type="text" class="form-control" placeholder="Speedometer" id="speedometer_other" name="speedometer_other" value="{{ @$other->speedometer }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe Penggerak</label>
-                                    <input type="text" class="form-control" placeholder="Tipe Penggerak" id="drive_type_speedometer_other" name="drive_type_speedometer_other" value="{{ @$other->drive_type_speedometer }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Unjuk Kerja</label>
-                                    <input type="text" class="form-control" placeholder="Unjuk Kerja" id="method_speedometer_other" name="method_speedometer_other" value="{{ @$other->method_speedometer }}">
-                                </div>
-                            </div>
-                            <div class="form-label">Klakson</div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Klakson</label>
-                                    <input type="text" class="form-control" placeholder="Klakson" id="horn_other" name="horn_other" value="{{ @$other->horn }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Tipe</label>
-                                    <input type="text" class="form-control" placeholder="Tipe" id="type_horn_other" name="type_horn_other" value="{{ @$other->type_horn }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Jumlah</label>
-                                    <input type="text" class="form-control" placeholder="Jumlah" id="amount_horn_other" name="amount_horn_other" value="{{ @$other->amount_horn }}">
-                                </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Laporan Pengujian</label>
+                                <input id="test_report" type="file" class="form-control" name="test_report">
+                                @if(@$test_letter->test_report) <input type="hidden" class="form-control" name="old_test_report" value="{{ @$test_letter->test_report }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->test_report) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->test_report)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Lampiran laporan pengujian atau sertifikat baterai standar nasional Indonesia atau standar internasional.
+                                </small>
                             </div>
                         </div>
-                    @endif
-                    @if($form_step == 14)
-                        <div class="row row-cards">
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Surat Permohonan Uji Tipe Konversi</label>
-                                    <input id="conversion_type_test_application_letter" type="file" class="form-control" name="conversion_type_test_application_letter">
-                                    @if(@$test_letter->conversion_type_test_application_letter) <input type="hidden" class="form-control" name="old_conversion_type_test_application_letter" value="{{ @$test_letter->conversion_type_test_application_letter }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->conversion_type_test_application_letter) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->conversion_type_test_application_letter)]) }}">lihat disini</a>
-                                        <br> @endif
-                                            Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/SURAT_PERMOHONAN_UJI_TIPE_KONVERSI.docx')]) }}">Disini</a>
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran SOP Pemasangan Konversi</label>
-                                    <input id="sop_component_installation" type="file" class="form-control" name="sop_component_installation">
-                                    @if(@$test_letter->sop_component_installation) <input type="hidden" class="form-control" name="old_sop_component_installation" value="{{ @$test_letter->sop_component_installation }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->sop_component_installation) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->sop_component_installation)]) }}">lihat disini</a>
-                                        <br> @endif
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran Gambar Teknik</label>
-                                    <input id="technical_drawing" type="file" class="form-control" name="technical_drawing">
-                                    @if(@$test_letter->technical_drawing) <input type="hidden" class="form-control" name="old_technical_drawing" value="{{ @$test_letter->technical_drawing }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->technical_drawing) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->technical_drawing)]) }}">lihat disini</a>
-                                        <br> @endif
-                                        Foto, sepeda motor yang di konversi.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran Sertifikat Bengkel Konversi</label>
-                                    <input id="conversion_workshop_certificate" type="file" class="form-control" name="conversion_workshop_certificate">
-                                    @if(@$test_letter->conversion_workshop_certificate) <input type="hidden" class="form-control" name="old_conversion_workshop_certificate" value="{{ @$test_letter->conversion_workshop_certificate }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->conversion_workshop_certificate) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->conversion_workshop_certificate)]) }}">lihat disini</a>
-                                        <br> @endif
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran Diagram Kelistrikan</label>
-                                    <input id="electrical_diagram" type="file" class="form-control" name="electrical_diagram">
-                                    @if(@$test_letter->electrical_diagram) <input type="hidden" class="form-control" name="old_electrical_diagram" value="{{ @$test_letter->electrical_diagram }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->electrical_diagram) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->electrical_diagram)]) }}">lihat disini</a>
-                                        <br> @endif
-                                        Diagram kelistrikan dan diagram instalasi sistem penggerak motor listrik.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran Fotokopi STNK</label>
-                                    <input id="photocopy_stnk" type="file" class="form-control" name="photocopy_stnk">
-                                    @if(@$test_letter->photocopy_stnk) <input type="hidden" class="form-control" name="old_photocopy_stnk" value="{{ @$test_letter->photocopy_stnk }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->photocopy_stnk) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->photocopy_stnk)]) }}">lihat disini</a>
-                                        <br> @endif
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran Cek Fisik Kendaraan Bermotor</label>
-                                    <input id="physical_inspection" type="file" class="form-control" name="physical_inspection">
-                                    @if(@$test_letter->physical_inspection) <input type="hidden" class="form-control" name="old_physical_inspection" value="{{ @$test_letter->physical_inspection }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->physical_inspection) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->physical_inspection)]) }}">lihat disini</a>
-                                        <br> @endif
-                                        Lampiran hasil pemeriksaan cek fisik Kendaraan Bermotor oleh Kepolisian Negara Republik Indonesia.
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Lampiran Laporan Pengujian</label>
-                                    <input id="test_report" type="file" class="form-control" name="test_report">
-                                    @if(@$test_letter->test_report) <input type="hidden" class="form-control" name="old_test_report" value="{{ @$test_letter->test_report }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->test_report) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->test_report)]) }}">lihat disini</a>
-                                        <br> @endif
-                                        Lampiran laporan pengujian atau sertifikat baterai standar nasional Indonesia atau standar internasional.
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+                    </div>
                 </div>
             </div>
             <div class="row align-items-center justify-content-between mt-3">
-                <div class="col-6 text-start">
-                    @if($form_step > 1)
-                        <a class="btn btn-primary" href="{{ route('test.letter.form', ['id' => \App\Helpers\Helper::encrypt(@$test_letter->id)]) . '?form-step=' . ($form_step == 1 ? 1 : $form_step - 1) }}">Sebelumnya</a>
-                    @endif
-                </div>
-                <div class="col-6 text-end">
-                    <button id="btn-submit" type="submit" class="btn btn-primary text-end">Selanjutnya</button>
+                <div class="col-12 text-end">
+                    <button id="btn-submit" type="submit" class="btn btn-primary text-end">Ajukan Penerbitan</button>
                 </div>
             </div>
         </form>

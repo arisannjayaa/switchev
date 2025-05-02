@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use LaravelEasyRepository\Traits\JsonValidateResponse;
 
-class FormTestLetterRequest extends FormRequest
+class FormTestLetterRequestBackup extends FormRequest
 {
     use JsonValidateResponse;
     /**
@@ -23,21 +23,157 @@ class FormTestLetterRequest extends FormRequest
      */
     public function rules(): array
     {
+//        $rules =  [
+//            'type' => ['required'],
+//            'sop_component_installation' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//            'technical_drawing' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//            'conversion_workshop_certificate' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//            'electrical_diagram' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//            'photocopy_stnk' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//            'physical_inspection' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//            'test_report' => ['required', 'file', 'mimes:pdf', 'max:2048'],
+//        ];
+
         $rules = [];
 
-        $rules['conversion_type_test_application_letter'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['sop_component_installation'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['technical_drawing'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['conversion_workshop_certificate'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['electrical_diagram'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['photocopy_stnk'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['physical_inspection'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['test_report'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
-        $rules['workshop_type'] = ['required'];
-        $rules['responsible_person'] = ['required'];
-        $rules['telephone'] = ['required'];
-        $rules['workshop'] = ['required'];
-        $rules['address'] = ['required'];
+        if ($this->input('form_step') == 14) {
+            $rules['conversion_type_test_application_letter'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['sop_component_installation'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['technical_drawing'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['conversion_workshop_certificate'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['electrical_diagram'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['photocopy_stnk'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['physical_inspection'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+            $rules['test_report'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
+        }
+
+        if ($this->input('form_step') == 1) {
+            $rules['workshop_type'] = ['required'];
+            $rules['responsible_person'] = ['required'];
+            $rules['telephone'] = ['required'];
+            $rules['workshop'] = ['required'];
+            $rules['address'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 2) {
+            $rules['brand'] = ['required'];
+            $rules['type'] = ['required'];
+            $rules['type_vehicle'] = ['required'];
+            $rules['trademark'] = ['required'];
+            $rules['country_of_origin'] = ['required'];
+            $rules['variant'] = ['required'];
+            $rules['allotment'] = ['required'];
+            $rules['transmission'] = ['required'];
+            $rules['drive_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 3) {
+            $rules['chassis'] = ['required'];
+            $rules['chassis_place_number'] = ['required'];
+            $rules['chassis_method_number'] = ['required'];
+            $rules['pre_conversion_engine'] = ['required'];
+            $rules['pre_conversion_engine_place_number'] = ['required'];
+            $rules['pre_conversion_engine_method_number'] = ['required'];
+            $rules['post_conversion_engine'] = ['required'];
+            $rules['post_conversion_engine_place_number'] = ['required'];
+            $rules['post_conversion_engine_method_number'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 4) {
+            $rules['brand_drive_motor'] = ['required'];
+            $rules['type_drive_motor'] = ['required'];
+            $rules['location_drive_motor'] = ['required'];
+            $rules['voltage_drive_motor'] = ['required'];
+            $rules['ampere_drive_motor'] = ['required'];
+            $rules['power_drive_motor'] = ['required'];
+            $rules['power_max_drive_motor'] = ['required'];
+            $rules['rotation_drive_motor'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 5) {
+            $rules['conversion_voltage_fuel_system'] = ['required'];
+            $rules['electrical_voltage_fuel_system'] = ['required'];
+            $rules['battery_capacity_fuel_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 6) {
+            $rules['total_length_vehicle_dimension'] = ['required'];
+            $rules['total_width_vehicle_dimension'] = ['required'];
+            $rules['total_height_vehicle_dimension'] = ['required'];
+            $rules['axis_distance_vehicle_dimension'] = ['required'];
+            $rules['front_over_vehicle_dimension'] = ['required'];
+            $rules['rear_over_vehicle_dimension'] = ['required'];
+            $rules['ground_clearance_vehicle_dimension'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 7) {
+            $rules['axis_1_tire_size'] = ['required'];
+            $rules['axis_2_tire_size'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 8) {
+            $rules['axis_1_empty_vehicle_weight'] = ['required'];
+            $rules['axis_2_empty_vehicle_weight'] = ['required'];
+            $rules['axis_1_axis_design_strength'] = ['required'];
+            $rules['axis_2_axis_design_strength'] = ['required'];
+            $rules['axis_1_jbb'] = ['required'];
+            $rules['axis_2_jbb'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 9) {
+            $rules['transmission_type_power_forwarder'] = ['required'];
+            $rules['transmission_control_system_power_forwarder'] = ['required'];
+            $rules['clutch_type_power_forwarder'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 10) {
+            $rules['control_braking_system'] = ['required'];
+            $rules['front_brake_type_braking_system'] = ['required'];
+            $rules['rear_brake_type_braking_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 11) {
+            $rules['front_type_suspension_system'] = ['required'];
+            $rules['front_spring_type_suspension_system'] = ['required'];
+            $rules['front_shock_absorber_type_suspension_system'] = ['required'];
+            $rules['rear_type_suspension_system'] = ['required'];
+            $rules['rear_spring_type_suspension_system'] = ['required'];
+            $rules['rear_shock_absorber_type_suspension_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 12) {
+            $rules['type_steering_system'] = ['required'];
+            $rules['placement_steering_system'] = ['required'];
+            $rules['wheel_steering_system'] = ['required'];
+            $rules['amount_wheel_steering_system'] = ['required'];
+            $rules['setting_wheel_steering_system'] = ['required'];
+        }
+
+        if ($this->input('form_step') == 13) {
+            $rules['body_and_frame_arrangement_other'] = ['required'];
+            $rules['main_light_other'] = ['required'];
+            $rules['main_light_amount_other'] = ['required'];
+            $rules['main_light_color_other'] = ['required'];
+            $rules['main_light_power_other'] = ['required'];
+            $rules['stop_light_other'] = ['required'];
+            $rules['stop_light_amount_other'] = ['required'];
+            $rules['stop_light_color_other'] = ['required'];
+            $rules['stop_light_power_other'] = ['required'];
+            $rules['front_turn_signal_light_other'] = ['required'];
+            $rules['front_turn_signal_light_amount_other'] = ['required'];
+            $rules['front_turn_signal_light_color_other'] = ['required'];
+            $rules['front_turn_signal_light_power_other'] = ['required'];
+            $rules['rear_turn_signal_light_other'] = ['required'];
+            $rules['rear_turn_signal_light_amount_other'] = ['required'];
+            $rules['rear_turn_signal_light_color_other'] = ['required'];
+            $rules['rear_turn_signal_light_power_other'] = ['required'];
+            $rules['speedometer_other'] = ['required'];
+            $rules['drive_type_speedometer_other'] = ['required'];
+            $rules['method_speedometer_other'] = ['required'];
+            $rules['horn_other'] = ['required'];
+            $rules['amount_horn_other'] = ['required'];
+            $rules['type_horn_other'] = ['required'];
+        }
 
         if ($this->has('old_sop_component_installation') && $this->input('old_sop_component_installation')) {
             unset($rules['sop_component_installation']);
@@ -201,5 +337,41 @@ class FormTestLetterRequest extends FormRequest
             'test_report.mimes' => 'Laporan pengujian wajib berformat pdf.',
             'test_report.max' => 'Laporan pengujian tidak boleh berukuran lebih dari 2mb.',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'voltage_drive_motor' => $this->convertToNumber($this->voltage_drive_motor),
+            'ampere_drive_motor' => $this->convertToNumber($this->ampere_drive_motor),
+            'power_drive_motor' => $this->convertToNumber($this->power_drive_motor),
+            'power_max_drive_motor' => $this->convertToNumber($this->power_max_drive_motor),
+            'rotation_drive_motor' => $this->convertToNumber($this->rotation_drive_motor),
+            'conversion_voltage_fuel_system' => $this->convertToNumber($this->conversion_voltage_fuel_system),
+            'electrical_voltage_fuel_system' => $this->convertToNumber($this->electrical_voltage_fuel_system),
+            'battery_capacity_fuel_system' => $this->convertToNumber($this->battery_capacity_fuel_system),
+            'total_length_vehicle_dimension' => $this->convertToNumber($this->total_length_vehicle_dimension),
+            'total_width_vehicle_dimension' => $this->convertToNumber($this->total_width_vehicle_dimension),
+            'total_height_vehicle_dimension' => $this->convertToNumber($this->total_height_vehicle_dimension),
+            'axis_distance_vehicle_dimension' => $this->convertToNumber($this->axis_distance_vehicle_dimension),
+            'front_over_vehicle_dimension' => $this->convertToNumber($this->front_over_vehicle_dimension),
+            'rear_over_vehicle_dimension' => $this->convertToNumber($this->rear_over_vehicle_dimension),
+            'ground_clearance_vehicle_dimension' => $this->convertToNumber($this->ground_clearance_vehicle_dimension),
+            'axis_1_empty_vehicle_weight' => $this->convertToNumber($this->axis_1_empty_vehicle_weight),
+            'axis_2_empty_vehicle_weight' => $this->convertToNumber($this->axis_2_empty_vehicle_weight),
+            'axis_1_axis_design_strength' => $this->convertToNumber($this->axis_1_axis_design_strength),
+            'axis_2_axis_design_strength' => $this->convertToNumber($this->axis_2_axis_design_strength),
+            'axis_1_jbb' => $this->convertToNumber($this->axis_1_jbb),
+            'axis_2_jbb' => $this->convertToNumber($this->axis_2_jbb),
+            'wheel_steering_system' => $this->convertToNumber($this->wheel_steering_system),
+        ]);
+    }
+
+    // Fungsi untuk mengubah nilai menjadi angka
+    private function convertToNumber($value)
+    {
+        $value = preg_replace('/[^0-9.,-]/', '', $value);
+        $value = str_replace(',', '.', $value);
+        return (float) $value;
     }
 }

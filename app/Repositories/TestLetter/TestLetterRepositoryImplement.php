@@ -28,13 +28,14 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
     public function findAllByUserId()
     {
         return $this->model->query()
-            ->when(request()->input('type'), function ($query, $type) {
-                $query->whereIn('type', $type);
+            ->when(request()->input('workshop_type'), function ($query, $type) {
+                $query->whereIn('workshop_type', $type);
             })
             ->when(auth()->user()->isGuest(), function ($query) {
                 $query->where('user_id', auth()->user()->id);
                 $query->where('is_form_completed', 1);
             })
+            ->orderBy('created_at','desc')
             ->paginate(10);
     }
 
