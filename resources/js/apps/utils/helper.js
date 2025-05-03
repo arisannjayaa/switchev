@@ -18,6 +18,42 @@ export function formatVolt(angka, suffix = " Volt") {
     return formattedValue ? formattedValue + suffix : '';
 }
 
+export function formatRupiah(angka, prefix, decimalRound = true) {
+    if (typeof angka == "number") {
+        if (prefix != undefined && decimalRound == true) {
+            angka = Math.round(angka);
+        }
+        angka = angka.toFixed(2)
+        rupiah = new Intl.NumberFormat('de-DE').format(angka)
+        if (prefix != undefined && decimalRound == true) {
+            return prefix == undefined ? rupiah + ",00" : rupiah ? "Rp " + rupiah + ",00" : "";
+        } else {
+            return prefix == undefined ? rupiah : rupiah ? "Rp " + rupiah : "";
+        }
+    } else {
+        var number_string = angka.toString().replace(/[^,\d]/g, ""),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            let separator = sisa ? "." : "";
+            rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + (split[1].substr(0, 2) != "00" ? "," + split[1].substr(0, 2) : "") : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp " + rupiah : "";
+    }
+}
+
+export function reverseFormatRupiah(angka) {
+    angka = angka.toString().replace(/[^,\d]/g, "")
+    angka = angka.replace(',', ".")
+    return angka;
+}
+
 export function reverseFormatVolt(angka) {
     // Hilangkan semua karakter kecuali angka
     return parseInt(angka.toString().replace(/[^\d]/g, "")) || 0;

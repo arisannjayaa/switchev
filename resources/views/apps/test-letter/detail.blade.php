@@ -109,9 +109,9 @@
                             </div>
                             <div>
                                 <div class="alert-heading text-left">{{ @$test_letter->status }}</div>
-                                @if(@$test_letter->is_verified && @$test_letter->step == 'physical_test_created')
+                                @if(@$test_letter->is_verified && @$test_letter->step == 'send_spu')
                                     <span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.
-                                         <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->physical_test_cover_letter)]) }}">Unduh Surat Pengantar Uji di sini</a></span>
+                                         <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->spu_attachment)]) }}">Unduh Surat Pengantar Uji di sini</a></span>
                                 @else
                                     <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Pengantar Uji akan tersedia setelah proses verifikasi selesai.</span>
                                 @endif

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Requests\FormGenerateSpuRequest;
 use App\Http\Requests\FormTestLetterRequest;
 use App\Http\Requests\UploadPhysicalTestRequest;
 use App\Services\TestLetter\TestLetterService;
@@ -33,9 +34,86 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
-    public function generate_spu()
+    public function generate_spu($id)
     {
+        if (auth()->user()->isAdmin()) {
+            $data['test_letter'] = @$this->testLetterService->findOrFail(Helper::decrypt($id))->getResult();
+            return view('apps.test-letter.generate-spu', $data);
+        }
 
+        return abort(403);
+    }
+
+    public function generate_spu_submit(FormGenerateSpuRequest $request)
+    {
+        if (auth()->user()->isAdmin()) {
+            $data = $request->only([
+                'id',
+                'workshop',
+                'vehicle_name',
+                'brand_type',
+                'type',
+                'vin_nik',
+                'vehicle_code',
+                'fuel',
+                'name_uji_rem',
+                'amount_uji_rem',
+                'vol_uji_rem',
+                'total_uji_rem',
+                'name_uji_lampu_utama',
+                'amount_uji_lampu_utama',
+                'vol_uji_lampu_utama',
+                'total_uji_lampu_utama',
+                'name_uji_radius_putar',
+                'amount_uji_radius_putar',
+                'vol_uji_radius_putar',
+                'total_uji_radius_putar',
+                'name_uji_klakson',
+                'amount_uji_klakson',
+                'vol_uji_klakson',
+                'total_uji_klakson',
+                'name_uji_side_slip',
+                'amount_uji_side_slip',
+                'vol_uji_side_slip',
+                'total_uji_side_slip',
+                'name_uji_berat',
+                'amount_uji_berat',
+                'vol_uji_berat',
+                'total_uji_berat',
+                'name_uji_dimensi',
+                'amount_uji_dimensi',
+                'vol_uji_dimensi',
+                'total_uji_dimensi',
+                'name_uji_speedometer',
+                'amount_uji_speedometer',
+                'vol_uji_speedometer',
+                'total_uji_speedometer',
+                'name_uji_kontruksi',
+                'amount_uji_kontruksi',
+                'vol_uji_kontruksi',
+                'total_uji_kontruksi',
+                'name_uji_kebisingan',
+                'amount_uji_kebisingan',
+                'vol_uji_kebisingan',
+                'total_uji_kebisingan',
+            ]);
+            return $this->testLetterService->generate_spu($data)->toJson();
+        }
+
+        return abort(403);
+    }
+
+    public function send_spu()
+    {
+        if (auth()->user()->isAdmin()) {
+            $data = $request->only([
+                'id',
+                'spu_attachment'
+            ]);
+            return $this->testLetterService->send_spu($data)->toJson();
+        }
+
+        return abort(403);
     }
 
     public function upsert_form(FormTestLetterRequest $request)

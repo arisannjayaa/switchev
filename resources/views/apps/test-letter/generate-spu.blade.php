@@ -51,11 +51,11 @@
                     </h2>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
-                    <button class="btn btn-outline-primary">Kirim Surat Pengantar Uji</button>
+                    <button id="btn-send-spu" class="btn btn-outline-primary">Kirim Surat Pengantar Uji</button>
                 </div>
             </div>
         </div>
-        <form id="form-test-letter">
+        <form id="form-generate-spu">
             <div class="card">
                 <div class="card-body">
                     <input type="hidden" id="id" name="id" value="{{ @$test_letter->id }}">
@@ -92,7 +92,11 @@
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="form-label required">Jenis</label>
-                                <input type="text" class="form-control" placeholder="Jenis" id="type" name="type" value="{{ old('type') }}">
+                                <select class="form-select" name="type" id="type">
+                                    <option value="">Pilih Jenis</option>
+                                    <option value="Sepeda Motor">Sepeda Motor</option>
+                                    <option value="Selain Sepeda Motor">Selain Sepeda Motor</option>
+                                </select>
                                 <small class="form-hint">
                                     Jenis.
                                 </small>
@@ -127,7 +131,7 @@
                         </div>
                         <div class="form-label">C. Jumlah Biaya Uji</div>
                         <div class="table-responsive">
-                            <table class="table mb-0">
+                            <table id="table-amount" class="table mb-0">
                                 <thead>
                                 <tr>
                                     <th>JENIS ITEM YANG DIUJI</th>
@@ -137,113 +141,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" readonly class="form-control" name="name_pengujian_rem" value="Uji rem">
-                                    </td>
-                                    <td>
-                                        <input type="text" readonly class="form-control convert-currency" name="name_pengujian_rem" value="890000">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="200">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select class="form-select">
-                                            <option value="STATUS_CODE">Status code</option>
-                                            <option value="JSON_BODY" selected="">JSON body</option>
-                                            <option value="HEADERS">Headers</option>
-                                            <option value="TEXT_BODY">Text body</option>
-                                            <option value="RESPONSE_TIME">Response time</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="parameters.alt.type">
-                                    </td>
-                                    <td>
-                                        <select class="form-select">
-                                            <option value="EQUALS">Equals</option>
-                                            <option value="NOT_EQUALS">Not equals</option>
-                                            <option value="HAS_KEY">Has key</option>
-                                            <option value="NOT_HAS_KEY">Not has key</option>
-                                            <option value="HAS_VALUE" selected="">Has value</option>
-                                            <option value="NOT_HAS_VALUE">Not has value</option>
-                                            <option value="IS_EMPTY">Is empty</option>
-                                            <option value="NOT_EMPTY">Is not empty</option>
-                                            <option value="GREATER_THAN">Greater than</option>
-                                            <option value="LESS_THAN">Less than</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="string">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select class="form-select">
-                                            <option value="STATUS_CODE">Status code</option>
-                                            <option value="JSON_BODY">JSON body</option>
-                                            <option value="HEADERS">Headers</option>
-                                            <option value="TEXT_BODY">Text body</option>
-                                            <option value="RESPONSE_TIME" selected="">Response time</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control">
-                                    </td>
-                                    <td>
-                                        <select class="form-select">
-                                            <option value="EQUALS">Equals</option>
-                                            <option value="NOT_EQUALS">Not equals</option>
-                                            <option value="HAS_KEY">Has key</option>
-                                            <option value="NOT_HAS_KEY">Not has key</option>
-                                            <option value="HAS_VALUE">Has value</option>
-                                            <option value="NOT_HAS_VALUE">Not has value</option>
-                                            <option value="IS_EMPTY">Is empty</option>
-                                            <option value="NOT_EMPTY">Is not empty</option>
-                                            <option value="GREATER_THAN">Greater than</option>
-                                            <option value="LESS_THAN" selected="">Less than</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="500">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select class="form-select">
-                                            <option value="STATUS_CODE">Status code</option>
-                                            <option value="JSON_BODY">JSON body</option>
-                                            <option value="HEADERS" selected="">Headers</option>
-                                            <option value="TEXT_BODY">Text body</option>
-                                            <option value="RESPONSE_TIME">Response time</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="content-type">
-                                    </td>
-                                    <td>
-                                        <select class="form-select">
-                                            <option value="EQUALS" selected="">Equals</option>
-                                            <option value="NOT_EQUALS">Not equals</option>
-                                            <option value="HAS_KEY">Has key</option>
-                                            <option value="NOT_HAS_KEY">Not has key</option>
-                                            <option value="HAS_VALUE">Has value</option>
-                                            <option value="NOT_HAS_VALUE">Not has value</option>
-                                            <option value="IS_EMPTY">Is empty</option>
-                                            <option value="NOT_EMPTY">Is not empty</option>
-                                            <option value="GREATER_THAN">Greater than</option>
-                                            <option value="LESS_THAN">Less than</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="application/json; charset=UTF-8">
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -252,17 +149,19 @@
             </div>
             <div class="row align-items-center justify-content-between mt-3">
                 <div class="col-12 text-end">
-                    <button id="btn-submit" type="submit" class="btn btn-primary text-end">Ajukan Penerbitan</button>
+                    <button id="btn-submit" type="submit" class="btn btn-primary text-end">Generate Surat Pengantar Uji</button>
                 </div>
             </div>
         </form>
     </div>
+    @include('apps.test-letter.send-spu-modal')
 @endsection
 
 @section('url')
-
+    <input type="hidden" id="generate-spu-url" value="{{ route('test.letter.generate.spu.submit') }}">
+    <input type="hidden" id="send-spu-url" value="{{ route('test.letter.send.spu.submit') }}">
 @endsection
 
 @section('script')
-    @vite(['resources/js/apps/test-letter/test_letter.js'])
+    @vite(['resources/js/apps/test-letter/spu.js'])
 @endsection

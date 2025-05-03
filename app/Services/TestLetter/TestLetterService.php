@@ -17,4 +17,8 @@ interface TestLetterService extends BaseService{
     public function generate_physical_test_cover_letter();
 
     public function upload_physical_test_letter($data);
+
+    public function generate_spu($data);
+
+    public function send_spu($data);
 }

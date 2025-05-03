@@ -53,13 +53,13 @@
                                 <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <a href="#">Detail Proses</a>
+                                <a href="#">Detail {{ auth()->user()->isGuest() ? 'Proses' : '' }}</a>
                             </li>
                         </ol>
                     </div>
                     <h2 class="page-title">
         <span class="text-truncate"
-        >Detail Proses</span
+        >Detail {{ auth()->user()->isGuest() ? 'Proses' : '' }}</span
         >
                     </h2>
                 </div>
@@ -109,7 +109,7 @@
                             </div>
                             <div>
                                 <div class="alert-heading text-left">{{ @$test_letter->status }}</div>
-                                @if(@$test_letter->is_verified && @$test_letter->step == 'physical_test_created')
+                                @if(@$test_letter->is_verified && @$test_letter->step == 'send_spu')
                                     <span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.
                                          <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->physical_test_cover_letter)]) }}">Unduh Surat Pengantar Uji di sini</a></span>
                                 @else

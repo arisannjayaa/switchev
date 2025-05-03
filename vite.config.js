@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/apps/equipment/equipment.js',
                 'resources/js/apps/certificate/certificate.js',
                 'resources/js/apps/test-letter/test_letter.js',
+                'resources/js/apps/test-letter/spu.js',
             ],
             refresh: true,
         }),

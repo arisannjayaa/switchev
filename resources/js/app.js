@@ -1,5 +1,5 @@
 import "./bootstrap";
-import {formatVolt, hideLoading, loadingScreen} from "@/apps/utils/helper.js";
+import {formatRupiah, formatVolt, hideLoading, loadingScreen} from "@/apps/utils/helper.js";
 export function csrfToken() {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
@@ -173,3 +173,7 @@ $(document).on('keyup', '.convert-watt', function () {
     let formattedValue = formatVolt(value, ' watt');
     $(this).val(formattedValue);
 });
+
+$(document).on('keyup', '.convert-currency', function () {
+    $(this).val(formatRupiah(this.value, "Rp ", false));
+})

@@ -207,6 +207,8 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             unset($data['id']);
             $data['status'] = "Terverifikasi";
             $data['step'] = "create_spu";
+            $path = $this->generate_physical_test_cover_letter();
+            $data['physical_test_cover_letter']  = $path;
 
             $this->mainRepository->update($id, $data);
             $redirect = redirect()->intended(URL::route('test.letter.index'));

@@ -9,6 +9,12 @@ use Illuminate\Support\Carbon;
 
 class Helper
 {
+
+    public static function formatToRupiah($amount) {
+        $formatted_amount = number_format($amount, 0, ',', '.');
+        return "Rp " . $formatted_amount;
+    }
+
     public static function formatVolt($angka, $suffix = ' Volt') {
         // Ganti koma dengan titik (untuk konsistensi desimal)
         $angka = str_replace(',', '.', $angka);

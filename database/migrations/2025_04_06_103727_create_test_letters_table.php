@@ -34,6 +34,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->boolean('is_form_completed')->default(0)->nullable();
             $table->string('step')->nullable();
+            $table->json('spu')->nullable();
+            $table->string('spu_attachment')->nullable();
             $table->timestamps();
         });
     }

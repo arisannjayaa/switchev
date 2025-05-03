@@ -37,6 +37,7 @@ class TestLetter extends Model
         'workshop',
         'is_form_completed',
         'step',
+        'spu',
     ];
 
     public function user()
