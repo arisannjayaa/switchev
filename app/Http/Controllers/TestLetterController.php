@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Requests\FormGenerateSpuRequest;
 use App\Http\Requests\FormSendSpuRequest;
+use App\Http\Requests\FormTestLetterCertificateRequest;
 use App\Http\Requests\FormTestLetterRequest;
 use App\Http\Requests\UploadPhysicalTestRequest;
 use App\Services\TestLetter\TestLetterService;
@@ -196,16 +197,5 @@ class TestLetterController extends Controller
         }
 
         return $this->testLetterService->findOrFail($request->id)->toJson();
-    }
-
-    public function certificate($id)
-    {
-        if (!auth()->user()->isAdmin()) {
-            return abort(403);
-        }
-
-        $data['test_letter'] = $this->testLetterService->find(Helper::decrypt($id))->getResult();
-
-        return view('apps.test-letter.certificate', $data);
     }
 }

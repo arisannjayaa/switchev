@@ -707,4 +707,30 @@ class TestLetterServiceImplementBackup extends ServiceApi implements TestLetterS
             return $this->exceptionResponse($e);
         }
     }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function generate_spu($data)
+    {
+        // TODO: Implement generate_spu() method.
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function send_spu($data)
+    {
+        // TODO: Implement send_spu() method.
+    }
+
+    /**
+     * @return mixed
+     */
+    public function upsert_form_certificate()
+    {
+        // TODO: Implement upsert_form_certificate() method.
+    }
 }

@@ -166,9 +166,9 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             ->addColumn('action', function ($row) {
                 $menuCertificate = '';
 
-                if ($row->physical_test_bpljskb != null) {
+                if ($row->step == 'bpljskb_uploaded' && @$row->certificate->status != 'Selesai') {
                     $menuCertificate = '
-                        <a class="dropdown-item generate" href="'.route('test.letter.certificate', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                        <a class="dropdown-item generate" href="'.route('certificate.test.letter.certificate', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Buat Surat dan Sertifikat
                                 </a>
                     ';
@@ -255,6 +255,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             $newFileName = 'Hasil_Uji_Fisk_BPLJSKB_' . uniqid() . '.' . $extension;
             $filePath = $file->storeAs('sertifikat-uji', $newFileName, 'public');
             $data['physical_test_bpljskb'] = $filePath;
+            $data['step'] = 'bpljskb_uploaded';
 
             $this->mainRepository->update($id, $data);
 

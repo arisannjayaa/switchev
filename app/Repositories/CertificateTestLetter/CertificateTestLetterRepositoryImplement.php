@@ -20,4 +20,28 @@ class CertificateTestLetterRepositoryImplement extends Eloquent implements Certi
     }
 
     // Write something awesome :)
+
+    /**
+     * @return mixed
+     */
+    public function table()
+    {
+        return $this->model->query()
+            ->with(['test_letter','user'])
+            ->whereIn('status',  ['Draft','Terverifikasi','Selesai'])
+            ->where('sk_attachment', '!=', null)
+            ->orderBy('updated_at', 'desc');
+    }
+
+    /**
+     * @param $test_letter_id
+     * @return mixed
+     */
+    public function findByTestLetterId($test_letter_id)
+    {
+        return $this->model->query()
+            ->with(['test_letter','user'])
+            ->where('test_letter_id', $test_letter_id)
+            ->first();
+    }
 }

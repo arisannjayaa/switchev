@@ -45,7 +45,7 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
     public function table()
     {
         return $this->model->query()
-            ->with(['user','certificate'])
+            ->with(['user'])
             ->orderBy('updated_at', 'desc');
     }
 

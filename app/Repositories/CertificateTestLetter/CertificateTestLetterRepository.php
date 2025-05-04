@@ -6,5 +6,7 @@ use LaravelEasyRepository\Repository;
 
 interface CertificateTestLetterRepository extends Repository{
 
-    // Write something awesome :)
+    public function table();
+
+    public function findByTestLetterId($test_letter_id);
 }

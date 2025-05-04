@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\FormGenerateSpuRequest;
+use App\Http\Requests\FormSendSpuRequest;
+use App\Http\Requests\FormTestLetterCertificateRequest;
 use App\Http\Requests\FormTestLetterRequest;
 use App\Http\Requests\UploadPhysicalTestRequest;
 use App\Services\TestLetter\TestLetterService;
@@ -19,6 +21,7 @@ class TestLetterController extends Controller
 
     public function index(Request $request)
     {
+        dd(Helper::decrypt("NFRwVkJBSDJVcVl3K2wzTUZtMk9iMjhzUnVOdHgvRkNBOVFZcFNHZ2tzMzBPSzRPSXZFelBuUnBsTGV0aGcwWkJjSEx1QUJCMC9vMEhXT1FUd01ROXc9PQ=="));
         $data['test_letters'] = $this->testLetterService->findAllByUserId()->getResult();
 
         return view('apps.test-letter.index', $data);
@@ -103,7 +106,7 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
-    public function send_spu()
+    public function send_spu(FormSendSpuRequest $request)
     {
         if (auth()->user()->isAdmin()) {
             $data = $request->only([
@@ -195,16 +198,5 @@ class TestLetterController extends Controller
         }
 
         return $this->testLetterService->findOrFail($request->id)->toJson();
-    }
-
-    public function certificate($id)
-    {
-        if (!auth()->user()->isAdmin()) {
-            return abort(403);
-        }
-
-        $data['test_letter'] = $this->testLetterService->find(Helper::decrypt($id))->getResult();
-
-        return view('apps.test-letter.certificate', $data);
     }
 }

@@ -45,7 +45,7 @@ class TestLetter extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function certificate_test_letter()
+    public function certificate()
     {
         return $this->hasOne(CertificateTestLetter::class);
     }

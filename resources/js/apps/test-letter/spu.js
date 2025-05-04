@@ -7,114 +7,114 @@ document.addEventListener('DOMContentLoaded', function() {
         return `
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_rem" value="Uji rem">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_rem" value="Uji rem">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_rem" value="${formatRupiah(890000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_rem" value="${formatRupiah(890000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_rem" id="vol_uji_rem" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_rem" id="vol_uji_rem" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_rem" id="total_uji_rem">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_lampu_utama" value="Uji lampu utama">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_lampu_utama" value="${formatRupiah(765000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_lampu_utama" id="vol_uji_lampu_utama" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_lampu_utama" id="total_uji_lampu_utama">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_rem" id="total_uji_rem">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_speedometer" value="Uji speedometer">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_lampu_utama" value="Uji lampu utama">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_speedometer" value="${formatRupiah(1000000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_lampu_utama" value="${formatRupiah(765000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_speedometer" id="vol_uji_speedometer" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_lampu_utama" id="vol_uji_lampu_utama" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_speedometer" id="total_uji_speedometer">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_kontruksi" value="Pemeriksaan konstruksi">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_kontruksi" value="${formatRupiah(445000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_kontruksi" id="vol_uji_kontruksi" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kontruksi" id="total_uji_kontruksi">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_lampu_utama" id="total_uji_lampu_utama">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_klakson" value="Uji klakson">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_speedometer" value="Uji speedometer">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_klakson" value="${formatRupiah(710000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_speedometer" value="${formatRupiah(1000000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_klakson" id="vol_uji_klakson" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_speedometer" id="vol_uji_speedometer" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_klakson" id="total_uji_klakson">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_berat" value="Pengukuran berat kendaraan bermotor">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_berat" value="${formatRupiah(430000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_berat" id="vol_uji_berat" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_berat" id="total_uji_berat">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_speedometer" id="total_uji_speedometer">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_dimensi" value="Pengukuran dimensi">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_kontruksi" value="Pemeriksaan konstruksi">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_dimensi" value="${formatRupiah(660000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_kontruksi" value="${formatRupiah(445000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_dimensi" id="vol_uji_dimensi" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_kontruksi" id="vol_uji_kontruksi" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_dimensi" id="total_uji_dimensi">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kontruksi" id="total_uji_kontruksi">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_kebisingan" value="Uji Kebisingan R 41">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_klakson" value="Uji klakson">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_kebisingan" value="${formatRupiah(3000000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_klakson" value="${formatRupiah(710000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_kebisingan" id="vol_uji_kebisingan" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_klakson" id="vol_uji_klakson" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kebisingan" id="total_uji_kebisingan">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_klakson" id="total_uji_klakson">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_berat" value="Pengukuran berat kendaraan bermotor">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_berat" value="${formatRupiah(430000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_berat" id="vol_uji_berat" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_berat" id="total_uji_berat">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_dimensi" value="Pengukuran dimensi">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_dimensi" value="${formatRupiah(660000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_dimensi" id="vol_uji_dimensi" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_dimensi" id="total_uji_dimensi">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_kebisingan" value="Uji Kebisingan R 41">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_kebisingan" value="${formatRupiah(3000000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_kebisingan" id="vol_uji_kebisingan" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kebisingan" id="total_uji_kebisingan">
                 </td>
             </tr>
         `
@@ -124,142 +124,142 @@ document.addEventListener('DOMContentLoaded', function() {
         return `
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_rem" value="Uji rem">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_rem" value="Uji rem">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_rem" value="${formatRupiah(1970000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_rem" value="${formatRupiah(1970000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_rem" id="vol_uji_rem" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_rem" id="vol_uji_rem" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_rem" id="total_uji_rem">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_lampu_utama" value="Uji lampu utama">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_lampu_utama" value="${formatRupiah(1050000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_lampu_utama" id="vol_uji_lampu_utama" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_lampu_utama" id="total_uji_lampu_utama">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_rem" id="total_uji_rem">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_radius_putar" value="Uji lampu utama">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_lampu_utama" value="Uji lampu utama">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_radius_putar" value="${formatRupiah(500000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_lampu_utama" value="${formatRupiah(1050000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_radius_putar" id="vol_uji_radius_putar" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_lampu_utama" id="vol_uji_lampu_utama" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_radius_putar" id="total_uji_radius_putar">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_klakson" value="Uji klakson">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_klakson" value="${formatRupiah(1060000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_klakson" id="vol_uji_klakson" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_klakson" id="total_uji_klakson">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_lampu_utama" id="total_uji_lampu_utama">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_side_slip" value="Uji kincup roda (side slip)">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_radius_putar" value="Uji lampu utama">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_side_slip" value="${formatRupiah(1050000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_radius_putar" value="${formatRupiah(500000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_side_slip" id="vol_uji_side_slip" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_radius_putar" id="vol_uji_radius_putar" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_side_slip" id="total_uji_side_slip">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_berat" value="Pengukuran berat kendaraan bermotor">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_berat" value="${formatRupiah(870000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_berat" id="vol_uji_berat" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_berat" id="total_uji_berat">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_radius_putar" id="total_uji_radius_putar">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_dimensi" value="Pengukuran dimensi">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_klakson" value="Uji klakson">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_dimensi" value="${formatRupiah(1320000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_klakson" value="${formatRupiah(1060000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_dimensi" id="vol_uji_dimensi" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_klakson" id="vol_uji_klakson" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_dimensi" id="total_uji_dimensi">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" readonly class="form-control" name="name_uji_speedometer" value="Uji speedometer">
-                </td>
-                <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_speedometer" value="${formatRupiah(3040000,"IDR",0)}">
-                </td>
-                <td>
-                    <input type="number" class="form-control" name="vol_uji_speedometer" id="vol_uji_speedometer" value="0">
-                </td>
-                <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_speedometer" id="total_uji_speedometer">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_klakson" id="total_uji_klakson">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_kontruksi" value="Pemeriksaan konstruksi">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_side_slip" value="Uji kincup roda (side slip)">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_kontruksi" value="${formatRupiah(3700000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_side_slip" value="${formatRupiah(1050000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_kontruksi" id="vol_uji_kontruksi" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_side_slip" id="vol_uji_side_slip" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kontruksi" id="total_uji_kontruksi">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_side_slip" id="total_uji_side_slip">
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" readonly class="form-control" name="name_uji_kebisingan" value="Uji Kebisingan R 51">
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_berat" value="Pengukuran berat kendaraan bermotor">
                 </td>
                 <td>
-                    <input type="text" readonly class="form-control convert-currency" name="amount_uji_kebisingan" value="${formatRupiah(7000000,"IDR",0)}">
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_berat" value="${formatRupiah(870000,"IDR",0)}">
                 </td>
                 <td>
-                    <input type="number" class="form-control" name="vol_uji_kebisingan" id="vol_uji_kebisingan" value="0">
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_berat" id="vol_uji_berat" value="0">
                 </td>
                 <td>
-                    <input type="text" class="form-control" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kebisingan" id="total_uji_kebisingan">
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_berat" id="total_uji_berat">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_dimensi" value="Pengukuran dimensi">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_dimensi" value="${formatRupiah(1320000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_dimensi" id="vol_uji_dimensi" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_dimensi" id="total_uji_dimensi">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_speedometer" value="Uji speedometer">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_speedometer" value="${formatRupiah(3040000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_speedometer" id="vol_uji_speedometer" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_speedometer" id="total_uji_speedometer">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_kontruksi" value="Pemeriksaan konstruksi">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_kontruksi" value="${formatRupiah(3700000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_kontruksi" id="vol_uji_kontruksi" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kontruksi" id="total_uji_kontruksi">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input" name="name_uji_kebisingan" value="Uji Kebisingan R 51">
+                </td>
+                <td>
+                    <input type="text" readonly class="form-control fixed-width-input convert-currency" name="amount_uji_kebisingan" value="${formatRupiah(7000000,"IDR",0)}">
+                </td>
+                <td>
+                    <input type="number" class="form-control fixed-width-input" name="vol_uji_kebisingan" id="vol_uji_kebisingan" value="0">
+                </td>
+                <td>
+                    <input type="text" class="form-control fixed-width-input" readonly value="${formatRupiah(0,"IDR",0)}" name="total_uji_kebisingan" id="total_uji_kebisingan">
                 </td>
             </tr>
         `

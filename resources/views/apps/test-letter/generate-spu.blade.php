@@ -23,6 +23,20 @@
         .img-border {
             border: 1px solid #0054a6 !important;
         }
+
+        .fixed-width-input {
+            min-width: 150px;
+            width: 150px;
+            max-width: 150px;
+        }
+
+        @media (min-width: 768px) {
+            .fixed-width-input {
+                min-width: 100%;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
     </style>
 @endsection
 

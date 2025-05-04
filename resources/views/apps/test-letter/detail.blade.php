@@ -112,7 +112,11 @@
                                 @if(@$test_letter->is_verified && @$test_letter->step == 'send_spu')
                                     <span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.
                                          <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->spu_attachment)]) }}">Unduh Surat Pengantar Uji di sini</a></span>
-                                @else
+                                @endif
+                                @if(@$test_letter->is_verified && @$test_letter->step == 'bpljskb_uploaded')
+                                    <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Keterangan dan Sertifikat akan segera diperoses.</span>
+                                @endif
+                                @if(!@$test_letter->is_verified && !@$test_letter->step == 'send_spu')
                                     <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Pengantar Uji akan tersedia setelah proses verifikasi selesai.</span>
                                 @endif
                             </div>
