@@ -214,14 +214,22 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
     {
         DB::beginTransaction();
         try {
-            $certificate_srut = $this->generate_certificate_srut($test_letter_id)->getResult();
-            $certificate_sut = $this->generate_certificate_sut($test_letter_id)->getResult();
-            $sk = $this->generate_sk($test_letter_id)->getResult();
             $result = $this->mainRepository->findByTestLetterId($test_letter_id);
 
-            $result->type_test_attachment = 'certificate-srut/'. $certificate_srut['file_name'];
-            $result->registration_attachment = 'certificate-sut/'. $certificate_sut['file_name'];
-            $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
+            if ($result->test_letter->workshop_type == "A") {
+                $certificate_sut = $this->generate_certificate_sut($test_letter_id)->getResult();
+                $result->type_test_attachment = 'certificate-sut/'. $certificate_sut['file_name'];
+            }
+
+            if ($result->test_letter->workshop_type == "B") {
+                $certificate_sut = $this->generate_certificate_sut($test_letter_id)->getResult();
+                $certificate_srut = $this->generate_certificate_srut($test_letter_id)->getResult();
+                $sk = $this->generate_sk($test_letter_id)->getResult();
+                $result->registration_attachment = 'certificate-srut/'. $certificate_srut['file_name'];
+                $result->type_test_attachment = 'certificate-sut/'. $certificate_sut['file_name'];
+                $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
+            }
+
             $result->status = 'Draft';
             $result->save();
 
@@ -353,7 +361,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $filePathApplicationLetter = $fileSKAttachment->storeAs('sk-srut-sut', $originalSKAttachment, 'public');
                 $data['sk_attachment'] = $filePathApplicationLetter;
             } else {
-                $data['sk_attachment'] = $data['old_sk_attachment'];
+                $data['sk_attachment'] = @$data['old_sk_attachment'];
                 unset($data['old_sk_attachment']);
             }
 
@@ -372,7 +380,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $filePathTypeTest = $fileTypeTest->storeAs('certificate-sut', $originalNameTypeTest, 'public');
                 $data['type_test_attachment'] = $filePathTypeTest;
             } else {
-                $data['type_test_attachment'] = $data['old_type_test_attachment'];
+                $data['type_test_attachment'] = @$data['old_type_test_attachment'];
                 unset($data['old_type_test_attachment']);
             }
 
@@ -391,7 +399,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $filePathRegis = $fileRegis->storeAs('certificate-srut', $originalNameRegis, 'public');
                 $data['registration_attachment'] = $filePathRegis;
             } else {
-                $data['registration_attachment'] = $data['old_registration_attachment'];
+                $data['registration_attachment'] = @$data['old_registration_attachment'];
                 unset($data['old_registration_attachment']);
             }
 
@@ -401,11 +409,42 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $certificate->sk_attachment = $data['sk_attachment'];
                 $certificate->status = 'Selesai';
                 $certificate->save();
+                $this->testLetterRepository->update($certificate->test_letter_id, [
+                   'step' => 'completed'
+                ]);
             }
 
+            if ($certificate->test_letter->workshop_type == "A") {
+                $mail['title'] = 'Dokumen Uji Tipe Kendaraan Listrik Anda Telah Tersedia';
+                $mail['message'] = '
+                                    <h2>🔧 Dokumen Uji Tipe Telah Tersedia</h2>
+                                    <p>
+                                        Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                        Kami informasikan bahwa dokumen *Surat Uji Tipe (SUT)* kendaraan listrik Anda telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                                    </p>
 
-            $mail['title'] = 'Selamat! Dokumen Kendaraan Listrik Anda Telah Tersedia untuk Diunduh';
-            $mail['message'] = '
+                                    <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->type_test_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #17a2b8;">🔧 Download Surat Uji Tipe</a>
+
+                                    <p style="margin-top: 20px;">
+                                        Untuk melanjutkan proses dan memperoleh dokumen lanjutan seperti *Surat Registrasi Uji Tipe (SRUT)*, dan *Surat Keterangan* . Anda perlu terlebih dahulu mengajukan permohonan SRUT.
+                                        Pengajuan ini dapat dilakukan melalui sistem kami, serta melampirkan dokumen tambahan yang dibutuhkan.
+                                    </p>
+
+                                    <p>
+                                        Silakan hubungi tim kami jika Anda memerlukan panduan dalam mengajukan permohonan SRUT atau menyiapkan dokumen tambahan.
+                                    </p>
+
+                                    <p style="margin-top: 20px; font-size: 14px; color: #777;">
+                                        🚀 Semoga proses administrasi kendaraan Anda berjalan lancar.<br><br>
+                                        Salam hangat,<br>
+                                        <strong>Tim Administrasi SwitchEv</strong>
+                                    </p>
+                                ';
+            }
+
+            if ($certificate->test_letter->workshop_type == "B") {
+                $mail['title'] = 'Selamat! Dokumen Kendaraan Listrik Anda Telah Tersedia untuk Diunduh';
+                $mail['message'] = '
                             <h2>⚡ Dokumen Kendaraan Listrik Telah Tersedia ⚡</h2>
                             <p>
                                 Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
@@ -423,10 +462,10 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                                 Jika ada pertanyaan, silakan hubungi tim kami melalui kontak yang tersedia.
                                 <br><br>
                                 Salam hangat,<br>
-                                <strong>Tim Administrasi Program Konversi</strong>
+                                <strong>Tim Administrasi SwitchEv</strong>
                             </p>
                         ';
-
+            }
 
             Mail::to($certificate->user->email)->send(new MailSend($mail));
 

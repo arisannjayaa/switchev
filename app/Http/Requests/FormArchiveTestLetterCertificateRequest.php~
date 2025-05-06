@@ -24,9 +24,9 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
     public function rules(): array
     {
         $rules =  [
-            'sk_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
-            'type_test_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
-            'registration_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
+            'sk_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
+            'type_test_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
+            'registration_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
         ];
 
 

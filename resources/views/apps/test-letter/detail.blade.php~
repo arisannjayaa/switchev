@@ -142,6 +142,7 @@
                             'file' => $test_letter->certificate->sk_attachment,
                             'name' => 'Surat Keterangan'];
                     @endphp
+                    @dd($attachment_certificates)
                     <div class="row w-100 gap-2">
                         @foreach($attachment_certificates as $row)
                             @if($row['file'] != null)

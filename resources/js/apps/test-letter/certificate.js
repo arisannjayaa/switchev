@@ -388,16 +388,25 @@ document.addEventListener('DOMContentLoaded', function() {
     $("#btn-upload-archive").click(function () {
         let url = $("#upload-archive-url").val();
         let formData = new FormData();
-        let fileSk = document.getElementById('sk_attachment').files[0];
-        let fileCertificateSRUT = document.getElementById('registration_attachment').files[0];
-        let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
+
+        if ($("#workshop_type").val() == "A") {
+            let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
+            formData.append('type_test_attachment', fileCertificateSUT);
+        }
+
+        if ($("#workshop_type").val() == "B") {
+            let fileSk = document.getElementById('sk_attachment').files[0];
+            let fileCertificateSRUT = document.getElementById('registration_attachment').files[0];
+            let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
+            formData.append('sk_attachment', fileSk);
+            formData.append('registration_attachment', fileCertificateSRUT);
+            formData.append('type_test_attachment', fileCertificateSUT);
+        }
+
         let testLetterId = $("#id").val();
         let id = $("#certificate_id").val();
         let userId = $("#user-id").val();
         let btn = "#btn-upload-archive";
-        formData.append('sk_attachment', fileSk);
-        formData.append('registration_attachment', fileCertificateSRUT);
-        formData.append('type_test_attachment', fileCertificateSUT);
         formData.append('conversion_id', testLetterId);
         formData.append('user_id', userId);
         formData.append('id', id);

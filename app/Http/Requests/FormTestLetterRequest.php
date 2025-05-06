@@ -35,7 +35,7 @@ class FormTestLetterRequest extends FormRequest
         $rules['test_report'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
         $rules['workshop_type'] = ['required'];
         $rules['responsible_person'] = ['required'];
-        $rules['telephone'] = ['required'];
+        $rules['telephone'] = ['required', 'regex:/^(?:\+62|62|0)8\d{8,11}$/'];
         $rules['workshop'] = ['required'];
         $rules['address'] = ['required'];
 
@@ -80,6 +80,7 @@ class FormTestLetterRequest extends FormRequest
             'workshop_type.required' => 'Tipe wajib diisi.',
             'responsible_person.required' => 'Penanggung jawab wajib diisi.',
             'telephone.required' => 'Telepon wajib diisi.',
+            'telephone.regex' => 'Format telepon salah.',
             'workshop.required' => 'Bengkel wajib diisi.',
             'address.required' => 'Alamat wajib diisi.',
             'brand.required' => 'Merek wajib diisi.',

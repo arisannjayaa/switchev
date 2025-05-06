@@ -388,9 +388,10 @@ document.addEventListener('DOMContentLoaded', function() {
     $("#btn-upload-archive").click(function () {
         let url = $("#upload-archive-url").val();
         let formData = new FormData();
-        let fileSk = document.getElementById('sk_attachment').files[0];
-        let fileCertificateSRUT = document.getElementById('registration_attachment').files[0];
-        let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
+
+        let fileSk = document.getElementById('sk_attachment').files[0] ?? null
+        let fileCertificateSRUT = document.getElementById('registration_attachment').files[0] ?? null;
+        let fileCertificateSUT = document.getElementById('type_test_attachment').files[0] ?? null
         let testLetterId = $("#id").val();
         let id = $("#certificate_id").val();
         let userId = $("#user-id").val();
@@ -399,7 +400,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('registration_attachment', fileCertificateSRUT);
         formData.append('type_test_attachment', fileCertificateSUT);
         formData.append('conversion_id', testLetterId);
-        formData.append('user_id', userId);
         formData.append('user_id', userId);
         formData.append('id', id);
 
