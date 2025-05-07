@@ -51,7 +51,6 @@ class CertificateTestLetter extends Model
         'user_id',
         'machine',
         'goods_capacity',
-        'testing',
     ];
 
     protected $table = 'certificate_test_letters';

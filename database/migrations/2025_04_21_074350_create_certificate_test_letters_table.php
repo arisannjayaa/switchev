@@ -53,6 +53,7 @@ return new class extends Migration
             $table->boolean('is_form_completed')->nullable()->default(0);
             $table->string('status')->nullable();
 
+            $table->json('testing')->nullable();
             $table->timestamps();
         });
     }
