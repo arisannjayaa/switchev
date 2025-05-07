@@ -124,7 +124,7 @@ class CertificateTestLetterController extends Controller
         }
 
         $data = $request->only(['id']);
-        return $this->certificateTestLetterService->generate_certificate_attachment($data['id'])->toJson();
+        return $this->certificateTestLetterService->generate_certificate_sut($data['id'])->toJson();
     }
 
     public function generate_sk(Request $request)
@@ -174,8 +174,25 @@ class CertificateTestLetterController extends Controller
         }
 
         $data = $request->only(['id','test_letter_id','user_id','sk_attachment','type_test_attachment', 'old_sk_attachment'
-            ,'old_type_test_attachment','registration_attachment','old_registration_attachment']);
+            ,'old_type_test_attachment','registration_attachment','old_registration_attachment', 'certificate_attachment',  'old_certificate_attachment']);
 
         return $this->certificateTestLetterService->upload_archive($data)->toJson();
+    }
+
+    public function generate_certificate_attachment(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['id']);
+        return $this->certificateTestLetterService->generate_certificate_attachment($data['id'])->toJson();
+    }
+
+    public function show(Request $request)
+    {
+        $data['certificate'] = $this->certificateTestLetterService->findOrFail(Helper::decrypt($request->id))->getResult();
+        dd($data);
+        return view('apps.certificate-test-letter.detail', $data);
     }
 }

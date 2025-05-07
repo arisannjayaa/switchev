@@ -584,155 +584,155 @@
                                     <td><input type="text" readonly name="pengujian[5][a][jenis]" class="form-control"
                                                value="a. Indikator saat kendaraan siap dikendarai"></td>
                                     <td><input type="text" name="pengujian[5][a][data_teknis]" value="{{ @$pengujian[5]->a->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][a][hasil_uji]" value="{{ @$pengujian[5]->a->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][a][keterangan]" value="{{ @$pengujian[5]->a->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[5][b][jenis]" class="form-control"
                                                value="b. Indikator visual/akustik saat kendaraan masih dalam kondisi dinyalakan">
                                     </td>
                                     <td><input type="text" name="pengujian[5][b][data_teknis]" value="{{ @$pengujian[5]->b->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][b][hasil_uji]" value="{{ @$pengujian[5]->b->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][b][keterangan]" value="{{ @$pengujian[5]->b->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[5][c][jenis]" class="form-control"
                                                value="c. Pengisian baterai tidak menyebabkan gangguan"></td>
                                     <td><input type="text" name="pengujian[5][c][data_teknis]" value="{{ @$pengujian[5]->c->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][c][hasil_uji]" value="{{ @$pengujian[5]->c->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][c][keterangan]" value="{{ @$pengujian[5]->c->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[5][d][jenis]" class="form-control"
                                                value="d. Sistem peringatan dua tahap"></td>
                                     <td><input type="text" name="pengujian[5][d][data_teknis]" value="{{ @$pengujian[5]->d->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][d][hasil_uji]" value="{{ @$pengujian[5]->d->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][d][keterangan]" value="{{ @$pengujian[5]->d->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[5][e][jenis]" class="form-control"
                                                value="e. Tahap untuk mematikan KLLB"></td>
                                     <td><input type="text" name="pengujian[5][e][data_teknis]" value="{{ @$pengujian[5]->e->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][e][hasil_uji]" value="{{ @$pengujian[5]->e->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][e][keterangan]" value="{{ @$pengujian[5]->e->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[5][f][jenis]" class="form-control"
                                                value="f. Indikator baterai lemah"></td>
                                     <td><input type="text" name="pengujian[5][f][data_teknis]" value="{{ @$pengujian[5]->f->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][f][hasil_uji]" value="{{ @$pengujian[5]->f->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][f][keterangan]" value="{{ @$pengujian[5]->f->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[5][g][jenis]" class="form-control"
                                                value="g. Fungsi mundur saat maju"></td>
                                     <td><input type="text" name="pengujian[5][g][data_teknis]" value="{{ @$pengujian[5]->g->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[5][g][hasil_uji]" value="{{ @$pengujian[5]->g->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[5][g][keterangan]" value="{{ @$pengujian[5]->g->keterangan }}"  class="form-control"></td>
                                 </tr>
 
                                 <tr>
                                     <td rowspan="12"><input readonly type="number" name="pengujian[6][no]"
-                                                           class="form-control" value="7"></td>
+                                                            class="form-control" value="7"></td>
                                     <td><input type="text" readonly name="pengujian[6][a][jenis]" class="form-control"
                                                value="a. Sistem Lampu"></td>
                                     <td><input type="text" name="pengujian[6][a][data_teknis]" value="{{ @$pengujian[6]->a->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][a][hasil_uji]" value="{{ @$pengujian[6]->a->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][a][keterangan]" value="{{ @$pengujian[6]->a->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][b][jenis]" class="form-control"
                                                value="b. Sistem Alat Kemudi"></td>
                                     <td><input type="text" name="pengujian[6][b][data_teknis]" value="{{ @$pengujian[6]->b->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][b][hasil_uji]" value="{{ @$pengujian[6]->b->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][b][keterangan]" value="{{ @$pengujian[6]->b->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][c][jenis]" class="form-control"
                                                value="c. Sistem Suspensi"></td>
                                     <td><input type="text" name="pengujian[6][c][data_teknis]" value="{{ @$pengujian[6]->c->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][c][hasil_uji]" value="{{ @$pengujian[6]->c->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][c][keterangan]" value="{{ @$pengujian[6]->c->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][d][jenis]" class="form-control"
                                                value="d. Sistem Kelistrikan"></td>
                                     <td><input type="text" name="pengujian[6][d][data_teknis]"  value="{{ @$pengujian[6]->d->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][d][hasil_uji]" value="{{ @$pengujian[6]->d->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][d][keterangan]" value="{{ @$pengujian[6]->d->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][e][jenis]" class="form-control"
                                                value="e. Sistem Rem"></td>
                                     <td><input type="text" name="pengujian[6][e][data_teknis]" value="{{ @$pengujian[6]->e->data_teknis }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][e][hasil_uji]" value="{{ @$pengujian[6]->e->hasil_uji }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][e][keterangan]" value="{{ @$pengujian[6]->e->keterangan }}"   class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][f][jenis]" class="form-control"
                                                value="f. Kelengkapan Kendaraan  Panel Instrument"></td>
                                     <td><input type="text" name="pengujian[6][f][data_teknis]" value="{{ @$pengujian[6]->f->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][f][hasil_uji]" value="{{ @$pengujian[6]->f->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][f][keterangan]" value="{{ @$pengujian[6]->f->keterangan }}"  class="form-control"
-                                               ></td>
+                                        ></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][g][jenis]" class="form-control"
                                                value="g. Tempat Duduk"></td>
                                     <td><input type="text" name="pengujian[6][g][data_teknis]" value="{{ @$pengujian[6]->g->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][g][hasil_uji]" value="{{ @$pengujian[6]->g->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][g][keterangan]" value="{{ @$pengujian[6]->g->keterangan }}"  class="form-control"></td>
                                 </tr>
@@ -740,9 +740,9 @@
                                     <td><input type="text" readonly name="pengujian[6][h][jenis]" class="form-control"
                                                value="h. Kaca Spion"></td>
                                     <td><input type="text" name="pengujian[6][h][data_teknis]" value="{{ @$pengujian[6]->h->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][h][hasil_uji]" value="{{ @$pengujian[6]->h->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][h][keterangan]" value="{{ @$pengujian[6]->h->keterangan }}"  class="form-control"></td>
                                 </tr>
@@ -750,9 +750,9 @@
                                     <td><input type="text" readonly name="pengujian[6][i][jenis]" class="form-control"
                                                value="i. Sistem roda-roda"></td>
                                     <td><input type="text" name="pengujian[6][i][data_teknis]" value="{{ @$pengujian[6]->i->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][i][hasil_uji]" value="{{ @$pengujian[6]->i->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td></td>
                                     <td><input type="text" name="pengujian[6][i][keterangan]" value="{{ @$pengujian[6]->i->keterangan }}"  class="form-control"></td>
                                 </tr>
@@ -770,22 +770,22 @@
                                     <td><input type="text" readonly name="pengujian[6][k][jenis]" class="form-control"
                                                value="k. Resistance"></td>
                                     <td><input type="text" name="pengujian[6][k][data_teknis]" value="{{ @$pengujian[6]->k->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][k][hasil_uji]" value="{{ @$pengujian[6]->k->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][k][ambang_batas]" value="{{ @$pengujian[6]->k->ambang_batas }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][k][keterangan]" value="{{ @$pengujian[6]->k->keterangan }}" class="form-control"></td>
                                 </tr>
                                 <tr>
                                     <td><input type="text" readonly name="pengujian[6][l][jenis]" class="form-control"
                                                value="l. Insulation"></td>
                                     <td><input type="text" name="pengujian[6][l][data_teknis]"value="{{ @$pengujian[6]->l->data_teknis }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][l][hasil_uji]" value="{{ @$pengujian[6]->l->hasil_uji }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][l][ambang_batas]" value="{{ @$pengujian[6]->l->ambang_batas }}" class="form-control"
-                                               ></td>
+                                        ></td>
                                     <td><input type="text" name="pengujian[6][l][keterangan]" value="{{ @$pengujian[6]->l->keterangan }}" class="form-control"></td>
                                 </tr>
                                 </tbody>

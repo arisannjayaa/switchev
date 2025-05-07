@@ -52,6 +52,7 @@
                                     $attachments[] = $certificate->sk_attachment;
                                     $attachments[] = $certificate->type_test_attachment;
                                     $attachments[] = $certificate->registration_attachment;
+                                    $attachments[] = $certificate->certificate_attachment;
                                 @endphp
                                 @foreach($attachments as $attachment)
                                     @if($attachment != null)

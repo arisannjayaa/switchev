@@ -37,7 +37,6 @@ return new class extends Migration
             $table->string('step')->nullable();
             $table->json('spu')->nullable();
             $table->string('spu_attachment')->nullable();
-            $table->json('testing')->nullable();
             $table->timestamps();
         });
     }

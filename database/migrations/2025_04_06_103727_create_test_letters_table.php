@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('code')->nullable();
-            $table->string('message')->nullable();
+            $table->text('message')->nullable();
             $table->string('workshop_type')->nullable();
             $table->string('sop_component_installation')->nullable();
             $table->string('technical_drawing')->nullable();

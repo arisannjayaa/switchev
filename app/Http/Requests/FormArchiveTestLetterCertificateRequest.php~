@@ -24,9 +24,10 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
     public function rules(): array
     {
         $rules =  [
-            'sk_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
-            'type_test_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
-            'registration_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
+            'sk_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
+            'type_test_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
+            'registration_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
+            'certificate_attachment' => ['required', 'sometimes', 'file', 'max:2048', 'mimes:pdf'],
         ];
 
 
@@ -40,6 +41,10 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
 
         if ($this->has('old_registration_attachment') && $this->input('old_registration_attachment')) {
             unset($rules['registration_attachment']);
+        }
+
+        if ($this->has('old_certificate_attachment') && $this->input('old_certificate_attachment')) {
+            unset($rules['certificate_attachment']);
         }
 
         return $rules;
@@ -57,6 +62,9 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
             'registration_attachment.file' => 'Sertifikat SRUT harus berupa file.',
             'registration_attachment.mimes' => 'Sertifikat SRUT harus berupa pdf.',
             'registration_attachment.required' => 'Sertifikat SRUT wajib diisi.',
+            'certificate_attachment.file' => 'Lampiran harus berupa file.',
+            'certificate_attachment.mimes' => 'Lampiran harus berupa pdf.',
+            'certificate_attachment.required' => 'Lampiran wajib diisi.',
         ];
     }
 }

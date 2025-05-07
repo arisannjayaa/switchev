@@ -53,9 +53,13 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         $templatePath =  storage_path('app/templates/SK_KONVERSI.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
 
+        $templateProcessor->setValue('nomor_surat', Helper::generateNomorSurat($testLetter->queue_number, "SK"));
         $templateProcessor->setValue('brand', $testLetter->certificate->brand);
         $templateProcessor->setValue('type', $testLetter->certificate->type);
         $templateProcessor->setValue('vehicle_type', $testLetter->certificate->vehicle_type);
+        $templateProcessor->setValue('brand_l', strtoupper($testLetter->certificate->brand));
+        $templateProcessor->setValue('type_l', strtoupper($testLetter->certificate->type));
+        $templateProcessor->setValue('vehicle_type_l', strtoupper($testLetter->certificate->vehicle_type));
         $templateProcessor->setValue('date', CertificateHelper::formatDateID($testLetter->certificate->date_sk) ?? '');
 
         $outputPath = storage_path('app/public/sk-srut-sut/'."Surat_Keterangan_".$test_letter_id.'.docx');
@@ -83,6 +87,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         $templateProcessor = new TemplateProcessor($templatePath);
 
         $templateProcessor->setValue('brand', $testLetter->certificate->brand);
+        $templateProcessor->setValue('nomor_surat', Helper::generateNomorSurat($testLetter->queue_number, "SRUT"));
         $templateProcessor->setValue('goods_capacity', $testLetter->certificate->goods_capacity);
         $templateProcessor->setValue('type', $testLetter->certificate->type);
         $templateProcessor->setValue('variant', $testLetter->certificate->type);
@@ -153,7 +158,8 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
     public function generate_certificate_sut($test_letter_id)
     {
         $testLetter = $this->testLetterRepository->find($test_letter_id);
-        $templatePath =  storage_path('app/templates/SUT_KONVERSI.docx');
+        $testing = json_decode($testLetter->certificate->testing);
+        $templatePath =  storage_path('app/templates/SUT_KONVERSI_NEW.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
 
         $templateProcessor->setValue('workshop', $testLetter->workshop);
@@ -190,6 +196,113 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         $templateProcessor->setValue('date', CertificateHelper::formatDateID($testLetter->certificate->date_sut) ?? '');
         $templateProcessor->setValue('place_test_bpljskb', $testLetter->certificate->place_test_bpljskb ?? '');
         $templateProcessor->setValue('date_bpljskb',  CertificateHelper::formatDateID($testLetter->certificate->date_bpljskb) ?? '');
+//        lampiran
+        $templateProcessor->setValue('brand_l', strtoupper($testLetter->certificate->brand));
+        $templateProcessor->setValue('type_l', strtoupper($testLetter->certificate->type));
+        $templateProcessor->setValue('vehicle_type_l', strtoupper($testLetter->certificate->vehicle_type));
+        $templateProcessor->setValue('rem_belakang', $testing[0]->a->hasil_uji->belakang ?? '');
+        $templateProcessor->setValue('rem_depan', $testing[0]->a->hasil_uji->depan ?? '');
+        $templateProcessor->setValue('rem_a_ambang_batas', $testing[0]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('nomor_surat', Helper::generateNomorSurat($testLetter->queue_number, "SUT"));
+        $templateProcessor->setValue('rem_a_keterangan', $testing[0]->a->keterangan ?? '');
+        $templateProcessor->setValue('lampu_a_hasil_uji', $testing[1]->a->hasil_uji ?? '');
+        $templateProcessor->setValue('lampu_b_hasil_uji', $testing[1]->b->hasil_uji ?? '');
+        $templateProcessor->setValue('lampu_a_ambang_batas', $testing[1]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('lampu_a_keterangan', $testing[1]->a->keterangan ?? '');
+        $templateProcessor->setValue('lampu_b_keterangan', $testing[1]->b->keterangan ?? '');
+        $templateProcessor->setValue('lampu_b_penyimpangan_kanan', $testing[1]->b->peyimpangan_kanan ?? '');
+        $templateProcessor->setValue('lampu_b_penyimpangan_kiri', $testing[1]->b->peyimpangan_kiri ?? '');
+        $templateProcessor->setValue('klakson_hasil_uji', $testing[2]->a->hasil_uji ?? '');
+        $templateProcessor->setValue('klakson_ambang_batas', $testing[2]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('klakson_keterangan', $testing[2]->a->keterangan ?? '');
+        $templateProcessor->setValue('berat_data_teknis', $testing[3]->a->data_teknis ?? '');
+        $templateProcessor->setValue('berat_hasil_uji', $testing[3]->a->hasil_uji ?? '');
+        $templateProcessor->setValue('berat_ambang_batas', $testing[3]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('berat_keterangan', $testing[3]->a->keterangan ?? '');
+        $templateProcessor->setValue('speedometer_data_teknis', $testing[4]->a->data_teknis ?? '');
+        $templateProcessor->setValue('speedometer_hasil_uji', $testing[4]->a->hasil_uji ?? '');
+        $templateProcessor->setValue('speedometer_ambang_batas', $testing[4]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('speedometer_keterangan', $testing[4]->a->keterangan ?? '');
+
+        $templateProcessor->setValue('6_a_data_teknis', $testing[5]->a->data_teknis ?? '');
+        $templateProcessor->setValue('6_a_hasil_uji', $testing[5]->a->hasil_uji ?? '');
+        $templateProcessor->setValue('6_a_ambang_batas', $testing[5]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('6_a_keterangan', $testing[5]->a->keterangan ?? '');
+        $templateProcessor->setValue('6_b_data_teknis', $testing[5]->b->data_teknis ?? '');
+        $templateProcessor->setValue('6_b_hasil_uji', $testing[5]->b->hasil_uji ?? '');
+        $templateProcessor->setValue('6_b_ambang_batas', $testing[5]->b->ambang_batas ?? '');
+        $templateProcessor->setValue('6_b_keterangan', $testing[5]->b->keterangan ?? '');
+        $templateProcessor->setValue('6_c_data_teknis', $testing[5]->c->data_teknis ?? '');
+        $templateProcessor->setValue('6_c_hasil_uji', $testing[5]->c->hasil_uji ?? '');
+        $templateProcessor->setValue('6_c_ambang_batas', $testing[5]->c->ambang_batas ?? '');
+        $templateProcessor->setValue('6_c_keterangan', $testing[5]->c->keterangan ?? '');
+        $templateProcessor->setValue('6_d_data_teknis', $testing[5]->d->data_teknis ?? '');
+        $templateProcessor->setValue('6_d_hasil_uji', $testing[5]->d->hasil_uji ?? '');
+        $templateProcessor->setValue('6_d_ambang_batas', $testing[5]->d->ambang_batas ?? '');
+        $templateProcessor->setValue('6_d_keterangan', $testing[5]->d->keterangan ?? '');
+        $templateProcessor->setValue('6_e_data_teknis', $testing[5]->e->data_teknis ?? '');
+        $templateProcessor->setValue('6_e_hasil_uji', $testing[5]->e->hasil_uji ?? '');
+        $templateProcessor->setValue('6_e_ambang_batas', $testing[5]->e->ambang_batas ?? '');
+        $templateProcessor->setValue('6_e_keterangan', $testing[5]->e->keterangan ?? '');
+        $templateProcessor->setValue('6_f_data_teknis', $testing[5]->f->data_teknis ?? '');
+        $templateProcessor->setValue('6_f_hasil_uji', $testing[5]->f->hasil_uji ?? '');
+        $templateProcessor->setValue('6_f_ambang_batas', $testing[5]->f->ambang_batas ?? '');
+        $templateProcessor->setValue('6_f_keterangan', $testing[5]->f->keterangan ?? '');
+        $templateProcessor->setValue('6_g_data_teknis', $testing[5]->g->data_teknis ?? '');
+        $templateProcessor->setValue('6_g_hasil_uji', $testing[5]->g->hasil_uji ?? '');
+        $templateProcessor->setValue('6_g_ambang_batas', $testing[5]->g->ambang_batas ?? '');
+        $templateProcessor->setValue('6_g_keterangan', $testing[5]->g->keterangan ?? '');
+
+        $templateProcessor->setValue('7_a_data_teknis', $testing[6]->a->data_teknis ?? '');
+        $templateProcessor->setValue('7_a_hasil_uji', $testing[6]->a->hasil_uji ?? '');
+        $templateProcessor->setValue('7_a_ambang_batas', $testing[6]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('7_a_keterangan', $testing[6]->a->keterangan ?? '');
+        $templateProcessor->setValue('7_b_data_teknis', $testing[6]->b->data_teknis ?? '');
+        $templateProcessor->setValue('7_b_hasil_uji', $testing[6]->b->hasil_uji ?? '');
+        $templateProcessor->setValue('7_b_ambang_batas', $testing[6]->b->ambang_batas ?? '');
+        $templateProcessor->setValue('7_b_keterangan', $testing[6]->b->keterangan ?? '');
+        $templateProcessor->setValue('7_c_data_teknis', $testing[6]->c->data_teknis ?? '');
+        $templateProcessor->setValue('7_c_hasil_uji', $testing[6]->c->hasil_uji ?? '');
+        $templateProcessor->setValue('7_c_ambang_batas', $testing[6]->c->ambang_batas ?? '');
+        $templateProcessor->setValue('7_c_keterangan', $testing[6]->c->keterangan ?? '');
+        $templateProcessor->setValue('7_d_data_teknis', $testing[6]->d->data_teknis ?? '');
+        $templateProcessor->setValue('7_d_hasil_uji', $testing[6]->d->hasil_uji ?? '');
+        $templateProcessor->setValue('7_d_ambang_batas', $testing[6]->d->ambang_batas ?? '');
+        $templateProcessor->setValue('7_d_keterangan', $testing[6]->d->keterangan ?? '');
+        $templateProcessor->setValue('7_e_data_teknis', $testing[6]->e->data_teknis ?? '');
+        $templateProcessor->setValue('7_e_hasil_uji', $testing[6]->e->hasil_uji ?? '');
+        $templateProcessor->setValue('7_e_ambang_batas', $testing[6]->e->ambang_batas ?? '');
+        $templateProcessor->setValue('7_e_keterangan', $testing[6]->e->keterangan ?? '');
+        $templateProcessor->setValue('7_f_data_teknis', $testing[6]->f->data_teknis ?? '');
+        $templateProcessor->setValue('7_f_hasil_uji', $testing[6]->f->hasil_uji ?? '');
+        $templateProcessor->setValue('7_f_ambang_batas', $testing[6]->f->ambang_batas ?? '');
+        $templateProcessor->setValue('7_f_keterangan', $testing[6]->f->keterangan ?? '');
+        $templateProcessor->setValue('7_g_data_teknis', $testing[6]->g->data_teknis ?? '');
+        $templateProcessor->setValue('7_g_hasil_uji', $testing[6]->g->hasil_uji ?? '');
+        $templateProcessor->setValue('7_g_ambang_batas', $testing[6]->g->ambang_batas ?? '');
+        $templateProcessor->setValue('7_g_keterangan', $testing[6]->g->keterangan ?? '');
+
+        $templateProcessor->setValue('7_h_data_teknis', $testing[6]->h->data_teknis ?? '');
+        $templateProcessor->setValue('7_h_hasil_uji', $testing[6]->h->hasil_uji ?? '');
+        $templateProcessor->setValue('7_h_ambang_batas', $testing[6]->h->ambang_batas ?? '');
+        $templateProcessor->setValue('7_h_keterangan', $testing[6]->h->keterangan ?? '');
+        $templateProcessor->setValue('7_i_data_teknis', $testing[6]->i->data_teknis ?? '');
+        $templateProcessor->setValue('7_i_hasil_uji', $testing[6]->i->hasil_uji ?? '');
+        $templateProcessor->setValue('7_i_ambang_batas', $testing[6]->i->ambang_batas ?? '');
+        $templateProcessor->setValue('7_i_keterangan', $testing[6]->i->keterangan ?? '');
+        $templateProcessor->setValue('7_j_data_teknis', $testing[6]->j->data_teknis ?? '');
+        $templateProcessor->setValue('7_j_hasil_uji', $testing[6]->j->hasil_uji ?? '');
+        $templateProcessor->setValue('7_j_ambang_batas', $testing[6]->j->ambang_batas ?? '');
+        $templateProcessor->setValue('7_j_keterangan', $testing[6]->j->keterangan ?? '');
+        $templateProcessor->setValue('7_k_data_teknis', $testing[6]->k->data_teknis ?? '');
+        $templateProcessor->setValue('7_k_hasil_uji', $testing[6]->k->hasil_uji ?? '');
+        $templateProcessor->setValue('7_k_ambang_batas', $testing[6]->k->ambang_batas ?? '');
+        $templateProcessor->setValue('7_k_keterangan', $testing[6]->k->keterangan ?? '');
+        $templateProcessor->setValue('7_l_data_teknis', $testing[6]->l->data_teknis ?? '');
+        $templateProcessor->setValue('7_l_hasil_uji', $testing[6]->l->hasil_uji ?? '');
+        $templateProcessor->setValue('7_l_ambang_batas', $testing[6]->l->ambang_batas ?? '');
+        $templateProcessor->setValue('7_l_keterangan', $testing[6]->l->keterangan ?? '');
+        $templateProcessor->setValue('date', CertificateHelper::formatDateID($testLetter->certificate->date_srut) ?? '');
 
         $outputPath = storage_path('app/public/certificate-sut/'."Sertifikat_SUT_".$test_letter_id.'.docx');
 
@@ -224,9 +337,11 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             if ($result->test_letter->workshop_type == "B") {
                 $certificate_sut = $this->generate_certificate_sut($test_letter_id)->getResult();
                 $certificate_srut = $this->generate_certificate_srut($test_letter_id)->getResult();
+                $certificate_attachment = $this->generate_certificate_attachment($test_letter_id)->getResult();
                 $sk = $this->generate_sk($test_letter_id)->getResult();
                 $result->registration_attachment = 'certificate-srut/'. $certificate_srut['file_name'];
                 $result->type_test_attachment = 'certificate-sut/'. $certificate_sut['file_name'];
+                $result->certificate_attachment = 'certificate-attachment/'. $certificate_attachment['file_name'];
                 $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
             }
 
@@ -259,7 +374,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             $data['date_sk'] = date('Y-m-d');
             $data['is_form_completed'] = 1;
             $data['status'] = 'Draft';
-            $data['testing'] = json_encode($data['pengujian']);
+            $data['testing'] = json_encode(@$data['pengujian']) ?? null;
             unset($data['id']);
 
             if ($id == null) {
@@ -297,7 +412,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 }
 
                 if (auth()->user()->isSuperAdmin() && $row->status == 'Selesai') {
-                    $verificationMenu = '<a class="dropdown-item detail" href="'.route('certificate.test.letter.verification.draft.form', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                    $verificationMenu = '<a class="dropdown-item detail" href="'.route('certificate.test.letter.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Detail
                                 </a>';
                 }
@@ -404,15 +519,23 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 unset($data['old_registration_attachment']);
             }
 
-            if (@$certificate) {
-                $certificate->type_test_attachment = $data['type_test_attachment'];
-                $certificate->registration_attachment = $data['registration_attachment'];
-                $certificate->sk_attachment = $data['sk_attachment'];
-                $certificate->status = 'Selesai';
-                $certificate->save();
-                $this->testLetterRepository->update($certificate->test_letter_id, [
-                   'step' => 'completed'
-                ]);
+            if (@$data['certificate_attachment']) {
+                if (@$certificate->certificate_attachment && str_contains($certificate->certificate_attachment, 'certificate-srut')) {
+                    if (file_exists(storage_path('app/public/'.@$certificate->certificate_attachment))) {
+                        unlink(storage_path('app/public/'.@$certificate->certificate_attachment));
+                    }
+                }
+
+                // file sertifikat
+                $fileCertificateAttachment = $data['certificate_attachment'];
+                $originalNameCertificateAttachment = $fileCertificateAttachment->getClientOriginalName();
+                $extensionCertificateAttachment = $fileCertificateAttachment->getClientOriginalExtension();
+                $newFileNameCertificateAttachment = 'Lampiran - ' . uniqid() . '.' . $extensionCertificateAttachment;
+                $filePathCertificateAttachment = $fileCertificateAttachment->storeAs('certificate-srut', $originalNameCertificateAttachment, 'public');
+                $data['certificate_attachment'] = $filePathCertificateAttachment;
+            } else {
+                $data['certificate_attachment'] = @$data['old_certificate_attachment'];
+                unset($data['old_certificate_attachment']);
             }
 
             if ($certificate->test_letter->workshop_type == "A") {
@@ -458,6 +581,8 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 
                             <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->type_test_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #17a2b8;">🔧 Download Surat Uji Tipe</a>
 
+                            <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->certificate_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #4d17b8;">🔧 Download Lampiran</a>
+
                             <p style="margin-top: 20px; font-size: 14px; color: #777;">
                                 🚀 Semoga dokumen ini membantu proses administrasi kendaraan Anda dengan lancar.
                                 Jika ada pertanyaan, silakan hubungi tim kami melalui kontak yang tersedia.
@@ -466,6 +591,22 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                                 <strong>Tim Administrasi SwitchEv</strong>
                             </p>
                         ';
+            }
+
+            if (@$certificate) {
+                $certificate->type_test_attachment = $data['type_test_attachment'];
+                $certificate->registration_attachment = $data['registration_attachment'];
+                $certificate->sk_attachment = $data['sk_attachment'];
+                $certificate->certificate_attachment = $data['certificate_attachment'];
+                $certificate->status = 'Selesai';
+                $certificate->save();
+                $this->testLetterRepository->update($certificate->test_letter_id, [
+                    'step' => 'completed',
+                    'message' => '<p>
+                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                            </p>'
+                ]);
             }
 
             Mail::to($certificate->user->email)->send(new MailSend($mail));
@@ -494,6 +635,8 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 
         $templateProcessor->setValue('rem_belakang', $testing[0]->a->hasil_uji->belakang ?? '');
         $templateProcessor->setValue('rem_depan', $testing[0]->a->hasil_uji->depan ?? '');
+        $templateProcessor->setValue('rem_a_ambang_batas', $testing[0]->a->ambang_batas ?? '');
+        $templateProcessor->setValue('nomor_surat', Helper::generateNomorSurat($testLetter->queue_number, "SUT"));
         $templateProcessor->setValue('rem_a_keterangan', $testing[0]->a->keterangan ?? '');
         $templateProcessor->setValue('lampu_a_hasil_uji', $testing[1]->a->hasil_uji ?? '');
         $templateProcessor->setValue('lampu_b_hasil_uji', $testing[1]->b->hasil_uji ?? '');
@@ -594,7 +737,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         $templateProcessor->setValue('7_l_keterangan', $testing[6]->l->keterangan ?? '');
         $templateProcessor->setValue('date', CertificateHelper::formatDateID($testLetter->certificate->date_srut) ?? '');
 
-        $outputPath = storage_path('app/public/certificate-attachment/'."Lampiran".$test_letter_id.'.docx');
+        $outputPath = storage_path('app/public/certificate-attachment/'."Lampiran_".$test_letter_id.'.docx');
         $relativePath = Str::after($outputPath, 'certificate-attachment/');
         $pdfRelativePath = Str::replaceLast('.docx', '.pdf', $relativePath);
 

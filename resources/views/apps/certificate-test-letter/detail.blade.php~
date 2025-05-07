@@ -50,7 +50,7 @@
                                 <a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ auth()->user()->isSuperAdmin() ? route('certificate.test.letter.index') : route('test.letter.index') }}">{{ auth()->user()->isSuperAdmin() ? 'Daftar Permohonan' : 'Daftar Penerbitan' }}</a>
+                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <a href="#">Detail {{ auth()->user()->isGuest() ? 'Proses' : '' }}</a>

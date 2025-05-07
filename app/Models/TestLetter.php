@@ -38,6 +38,8 @@ class TestLetter extends Model
         'is_form_completed',
         'step',
         'spu',
+        'message',
+        'queue_number',
     ];
 
     public function user()

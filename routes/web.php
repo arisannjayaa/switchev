@@ -118,10 +118,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/generate-certificate-srut', [CertificateTestLetterController::class, 'generate_certificate_srut'])->name('generate.certificate.srut');
         Route::post('/generate-certificate-sut', [CertificateTestLetterController::class, 'generate_certificate_sut'])->name('generate.certificate.sut');
         Route::post('/generate-sk', [CertificateTestLetterController::class, 'generate_sk'])->name('generate.sk');
+        Route::post('/generate-certificate-attachment', [CertificateTestLetterController::class, 'generate_certificate_attachment'])->name('generate.certificate.attachment');
         Route::post('/verifikasi-draft', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft'])->name('verification.draft.submit');
         Route::get('/verifikasi-draft/{id}', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft_view'])->name('verification.draft.form');
         Route::get('/sertifikat/{id}', [CertificateTestLetterController::class, 'certificate'])->name('certificate');
         Route::get('/generate/{id}', [CertificateTestLetterController::class, 'generate'])->name('generate');
+        Route::get('/{id}', [CertificateTestLetterController::class, 'show'])->name('show');
     });
 });
 

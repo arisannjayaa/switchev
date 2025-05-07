@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchable: false,
             },
             { data: 'user.name', name: 'user.name', className: 'text-nowrap', orderable: false, searchable: true},
+            { data: 'test_letter.code', name: 'test_letter.code', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'brand', name: 'brand', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'test_letter.workshop', name: 'test_letter.workshop', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'test_letter.workshop_type', name: 'test_letter.workshop_type', className: 'text-nowrap', orderable: false, searchable: true},
@@ -185,6 +186,57 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append("id", $("#id").val());
 
         let btn = "#btn-download-certificate-sut";
+        $(btn).empty().append(`<div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>`).prop('disabled', true);
+
+        // send data
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+            },
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data.code == 200) {
+                    fetch(data.data.download)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = data.data.file_name;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                        });
+                }
+
+                if (data.errors || data.invalid) {
+                    new handleValidation(data.errors || data.invalid)
+                }
+
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            .finally(() => {
+                $(btn).empty().append(`
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon mx-0 icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                `).prop('disabled', false);
+            });
+    })
+
+    $("#btn-download-certificate-attachment").click(function () {
+        let url = $("#download-certificate-attachment-url").val();
+        let formData = new FormData();
+        formData.append("id", $("#id").val());
+
+        let btn = "#btn-download-certificate-attachment";
         $(btn).empty().append(`<div class="spinner-border" role="status">
                                 <span class="visually-hidden">Loading...</span>
                                 </div>`).prop('disabled', true);
@@ -398,9 +450,11 @@ document.addEventListener('DOMContentLoaded', function() {
             let fileSk = document.getElementById('sk_attachment').files[0];
             let fileCertificateSRUT = document.getElementById('registration_attachment').files[0];
             let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
+            let fileCertificateAttachment = document.getElementById('certificate_attachment').files[0];
             formData.append('sk_attachment', fileSk);
             formData.append('registration_attachment', fileCertificateSRUT);
             formData.append('type_test_attachment', fileCertificateSUT);
+            formData.append('certificate_attachment', fileCertificateAttachment);
         }
 
         let testLetterId = $("#id").val();

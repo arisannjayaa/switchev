@@ -76,7 +76,7 @@
                                                             <div class="dropdown-menu dropdown-menu-end" style="">
                                                                 <a class="dropdown-item" href="{{ route('test.letter.show', \App\Helpers\Helper::encrypt($test_letter->id)) }}') }}"> Lihat </a>
                                                                 @if($test_letter->step == 'send_spu') <a data-id="{{ $test_letter->id }}" class="dropdown-item modal-pyhsical-test" href="#"> Upload Hasil Uji Fisik </a> @endif
-                                                                @if(@$test_letter->workshop_type == 'A' && @$test_letter->certificate->test_type_attachment && $test_letter->certificate->status == "Selesai") <a data-id="{{ $test_letter->id }}" class="dropdown-item modal-pyhsical-test" href="#"> Ajukan Permohonan Sertifikat SRUT </a> @endif
+                                                                @if(@$test_letter->workshop_type == 'A' && @$test_letter->certificate->type_) <a data-id="{{ $test_letter->id }}" class="dropdown-item modal-pyhsical-test" href="#"> Ajukan Permohonan Sertifikat SRUT </a> @endif
                                                             </div>
                                                         </div>
                                                     </div>

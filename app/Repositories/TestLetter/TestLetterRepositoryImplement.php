@@ -64,4 +64,14 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
             ->where('id', $id)
             ->firstOrFail();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLastQueue()
+    {
+        return $this->model->query()
+            ->orderBy('queue_number', 'desc')
+            ->first();
+    }
 }

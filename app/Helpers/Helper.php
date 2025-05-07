@@ -90,16 +90,38 @@ class Helper
         return $form_step_name;
     }
 
-    public static function generateTestLetterCode()
+    public static function generateTestLetterCode($last_queue = 0, $jenis = 'EV', $instansi = 'SWITCHEV', $tanggal = null)
     {
-        $date = Carbon::now()->format('Ymd');
-        $prefix = 'TL-' . $date;
+        $tanggal = $tanggal ? Carbon::parse($tanggal) : now();
 
-        // Hitung jumlah test letter di tanggal ini
-        $count = TestLetter::whereDate('created_at', Carbon::today())->count() + 1;
-        $number = str_pad($count, 3, '0', STR_PAD_LEFT);
+        $newQueueNumber = str_pad($last_queue, 4, '0', STR_PAD_LEFT);
 
-        return $prefix . '-' . $number;
+        $bulanRomawi = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV',
+            5 => 'V', 6 => 'VI', 7 => 'VII', 8 => 'VIII',
+            9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII',
+        ];
+
+        $bulan = $bulanRomawi[$tanggal->month];
+        $tahun = $tanggal->year;
+
+        return "{$jenis}/{$newQueueNumber}/{$instansi}/{$bulan}/{$tahun}";
+    }
+
+    public static function generateNomorSurat($last_queue = 0, $tipe = 'SRUT', $jenis = 'EV', $instansi = 'SWITCHEV', $tanggal = null)
+    {
+        $tanggal = $tanggal ? Carbon::parse($tanggal) : now();
+
+        $bulanRomawi = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV',
+            5 => 'V', 6 => 'VI', 7 => 'VII', 8 => 'VIII',
+            9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII',
+        ];
+
+        $bulan = $bulanRomawi[$tanggal->month];
+        $tahun = $tanggal->year;
+
+        return "{$tipe}/{$jenis}/{$last_queue}/{$instansi}/{$bulan}/{$tahun}";
     }
 
     public static function check_step_form_title($step)

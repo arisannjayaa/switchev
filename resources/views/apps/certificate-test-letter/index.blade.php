@@ -44,6 +44,7 @@
                             <thead>
                             <tr>
                                 <th class="w-1">No.</th>
+                                <th>No Surat</th>
                                 <th>Nama Pemohon</th>
                                 <th>Kendaraan</th>
                                 <th>Bengkel</th>

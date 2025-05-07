@@ -113,11 +113,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/daftar-permohonan', [CertificateTestLetterController::class, 'index'])->name('index');
         Route::get('/table', [CertificateTestLetterController::class, 'table'])->name('table');
         Route::post('/send-draft', [CertificateTestLetterController::class, 'send_draft'])->name('send.draft');
-        Route::post('/upload-archive', [\App\Http\Controllers\CertificateController::class, 'upload_archive'])->name('upload.archive');
+        Route::post('/upload-archive', [\App\Http\Controllers\CertificateTestLetterController::class, 'upload_archive'])->name('upload.archive');
         Route::post('/sertifikat', [CertificateTestLetterController::class, 'certificate_form_submit'])->name('certificate.submit');
         Route::post('/generate-certificate-srut', [CertificateTestLetterController::class, 'generate_certificate_srut'])->name('generate.certificate.srut');
         Route::post('/generate-certificate-sut', [CertificateTestLetterController::class, 'generate_certificate_sut'])->name('generate.certificate.sut');
         Route::post('/generate-sk', [CertificateTestLetterController::class, 'generate_sk'])->name('generate.sk');
+        Route::post('/generate-certificate-attachment', [CertificateTestLetterController::class, 'generate_certificate_attachment'])->name('generate.certificate.attachment');
         Route::post('/verifikasi-draft', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft'])->name('verification.draft.submit');
         Route::get('/verifikasi-draft/{id}', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft_view'])->name('verification.draft.form');
         Route::get('/sertifikat/{id}', [CertificateTestLetterController::class, 'certificate'])->name('certificate');

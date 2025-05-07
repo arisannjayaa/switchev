@@ -16,4 +16,6 @@ interface TestLetterRepository extends Repository{
      * @return mixed
      */
     public function table();
+
+    public function getLastQueue();
 }

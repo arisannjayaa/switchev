@@ -46,6 +46,7 @@ class CertificateTestLetter extends Model
         'type_test_attachment',
         'registration_attachment',
         'sk_attachment',
+        'certificate_attachment',
         'is_form_completed',
         'status',
         'user_id',
