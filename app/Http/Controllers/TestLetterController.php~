@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\FormGenerateSpuRequest;
+use App\Http\Requests\FormPermohonanSRUTRequest;
 use App\Http\Requests\FormSendSpuRequest;
 use App\Http\Requests\FormTestLetterCertificateRequest;
 use App\Http\Requests\FormTestLetterRequest;
@@ -21,9 +22,7 @@ class TestLetterController extends Controller
 
     public function index(Request $request)
     {
-        dd(Helper::decrypt("NFRwVkJBSDJVcVl3K2wzTUZtMk9iMjhzUnVOdHgvRkNBOVFZcFNHZ2tzMzBPSzRPSXZFelBuUnBsTGV0aGcwWkJjSEx1QUJCMC9vMEhXT1FUd01ROXc9PQ=="));
         $data['test_letters'] = $this->testLetterService->findAllByUserId()->getResult();
-
         return view('apps.test-letter.index', $data);
     }
 
@@ -198,5 +197,51 @@ class TestLetterController extends Controller
         }
 
         return $this->testLetterService->findOrFail($request->id)->toJson();
+    }
+
+    public function permohonan_sertifikat_srut_form($id)
+    {
+        if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
+            $data['test_letter'] = @$this->testLetterService->find(Helper::decrypt($id))->getResult();
+            return view('apps.test-letter.permohonan-srut-form', $data);
+        }
+
+        return abort(403);
+    }
+
+    public function permohonan_sertifikat_srut_submit(FormPermohonanSRUTRequest $request)
+    {
+        if (auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['permohonan_srut',
+            'quality_control',
+            'id',
+        ]);
+        return $this->testLetterService->upsert_permohonan_srut_form($data)->toJson();
+    }
+
+    public function verification_srut($id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data['test_letter'] = $this->testLetterService->find(Helper::decrypt($id))->getResult();
+
+        return view('apps.test-letter.verification-srut', $data);
+    }
+
+    public function approve_srut(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+
+        $data = $request->only(['id','is_verified']);
+
+        return $this->testLetterService->approve($data)->toJson();
     }
 }

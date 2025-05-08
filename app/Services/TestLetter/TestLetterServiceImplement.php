@@ -192,6 +192,16 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                                   Verifikasi <a/>';
                 }
 
+                if ($row->step == 'verification_admin_srut') {
+                    $menuCertificate .= '<a class="dropdown-item" href="'.route('test.letter.verification.srut', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                  Verifikasi SRUT <a/>';
+                }
+
+                if ($row->step == 'create_certificate_srut') {
+                    $menuCertificate .= '<a class="dropdown-item" href="'.route('certificate.test.letter.certificate.srut', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                  Buat Surat dan Sertifikat SRUT <a/>';
+                }
+
                 $html = '<span class="dropdown">
                               <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                   <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-circle-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 12l0 .01" /><path d="M12 12l0 .01" /><path d="M16 12l0 .01" /></svg></button>
@@ -464,6 +474,116 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                 ->setStatus(true)
                 ->setCode(200)
                 ->setResult(['redirect' => $redirect->getTargetUrl()]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function upsert_permohonan_srut_form($data)
+    {
+        DB::beginTransaction();
+        try {
+            $testLetter = $this->mainRepository->find($data['id']);
+
+            $attachments = [
+                'permohonan_srut' => @$data['permohonan_srut'],
+                'quality_control' => @$data['quality_control'],
+            ];
+
+            foreach ($attachments as $key => $value) {
+                $fileName = $key;
+                switch ($fileName) {
+                    case 'permohonan_srut':
+                        $fileName = "Permohonan_SRUT_";
+                        break;
+                    case 'quality_control':
+                        $fileName = "Quality_Control_";
+                        break;
+                    default:
+                        break;
+                }
+
+                if (@$data[$key]) {
+                    if (@$testLetter->$key) {
+                        if (file_exists(storage_path('app/public/'.@$testLetter->$key))) {
+                            unlink(storage_path('app/public/'.@$testLetter->$key));
+                        }
+                    }
+
+                    // file application letter
+                    $file = $data[$key];
+                    $originalName = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $newFileName = $fileName . uniqid() . '.' . $extension;
+                    $filePath = $file->storeAs('permohonan-srut', $newFileName, 'public');
+                    $data[$key] = $filePath;
+                }
+
+                if (@$data['old_'.$key]) {
+                    $data[$key] = $data['old_'.$key];
+                    unset($data['old_'.$key]);
+                }
+            }
+
+            $data['user_id'] = auth()->user()->id;
+            $data['is_verified'] = 0;
+            $data['status'] = 'Menunggu Verifikasi Permohonan SRUT';
+            $data['step'] = 'verification_admin_srut';
+            $data['message'] = '<span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin.</span>';
+            $lastQueue = $this->mainRepository->getLastQueue();
+            $lastNumber = $lastQueue ? (int) $lastQueue->queue_number : 0;
+            $newQueueNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+
+            if (@$data['id']) {
+                $this->mainRepository->update($data['id'], $data);
+            }
+
+            if (!@$data['id']) {
+                unset($data['id']);
+                $data['code'] = Helper::generateTestLetterCode($newQueueNumber);
+                $data['queue_number'] = $newQueueNumber;
+                $this->mainRepository->create($data);
+            }
+
+            $redirect = redirect()->intended(URL::route('test.letter.index'));
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult(['redirect' => $redirect->getTargetUrl()]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function approve_srut($data)
+    {
+        DB::beginTransaction();
+        try {
+            $id = $data['id'];
+            unset($data['id']);
+            $data['status'] = "SRUT Terverifikasi";
+            $data['step'] = "create_certificate_srut";
+            $data['message'] = '<span>Berkas berhasil di verifikasi, tunggu admin untuk membuat Sertifikat SRUT!</span>';
+
+            $this->mainRepository->update($id, $data);
+            $redirect = redirect()->intended(URL::route('test.letter.index'));
+            DB::commit();
+
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult(['redirect' => $redirect->getTargetUrl()])
+                ->setMessage("SRUT berhasil di verifikasi");
         } catch (Exception $e) {
             DB::rollBack();
             return $this->exceptionResponse($e);

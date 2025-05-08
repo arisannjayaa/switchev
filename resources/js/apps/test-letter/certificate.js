@@ -444,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if ($("#workshop_type").val() == "A") {
             let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
             formData.append('type_test_attachment', fileCertificateSUT);
+            formData.append('workshop_type', "A");
         }
 
         if ($("#workshop_type").val() == "B") {

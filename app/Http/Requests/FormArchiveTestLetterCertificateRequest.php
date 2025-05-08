@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\CertificateTestLetter;
 use Illuminate\Foundation\Http\FormRequest;
 use LaravelEasyRepository\Traits\JsonValidateResponse;
 
@@ -27,8 +28,12 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
             'sk_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
             'type_test_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
             'registration_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
-            'certificate_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
+//            'certificate_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
         ];
+
+        if ($this->input('workshop_type') == "A") {
+            unset($rules['sk_attachment'],$rules['registration_attachment']);
+        }
 
 
         if ($this->has('old_sk_attachment') && $this->input('old_sk_attachment')) {
@@ -43,9 +48,9 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
             unset($rules['registration_attachment']);
         }
 
-        if ($this->has('old_certificate_attachment') && $this->input('old_certificate_attachment')) {
-            unset($rules['certificate_attachment']);
-        }
+//        if ($this->has('old_certificate_attachment') && $this->input('old_certificate_attachment')) {
+//            unset($rules['certificate_attachment']);
+//        }
 
         return $rules;
     }

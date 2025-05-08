@@ -103,6 +103,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/generate-surat-spu/{id}', [TestLetterController::class, 'generate_spu'])->name('generate.spu');
         Route::post('/generate-surat-spu', [TestLetterController::class, 'generate_spu_submit'])->name('generate.spu.submit');
         Route::post('/send-surat-spu', [TestLetterController::class, 'send_spu'])->name('send.spu.submit');
+        Route::post('/approve-srut', [TestLetterController::class, 'approve_srut'])->name('approve.srut');
+        Route::get('/permohonan-sertifikat-srut/{id}', [TestLetterController::class, 'permohonan_sertifikat_srut_form'])->name('permohonan.srut');
+        Route::post('/permohonan-sertifikat-srut', [TestLetterController::class, 'permohonan_sertifikat_srut_submit'])->name('permohonan.srut.submit');
+        Route::get('verification-srut/{id}', [TestLetterController::class, 'verification_srut'])->name('verification.srut');
         Route::get('verification/{id}', [TestLetterController::class, 'verification'])->name('verification');
         Route::get('sertifikat/{id}', [TestLetterController::class, 'certificate'])->name('certificate');
         Route::get('/physical-test/{id}', [TestLetterController::class, 'show_physical_test_letter'])->name('show_physical_test_letter');
@@ -122,6 +126,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/verifikasi-draft', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft'])->name('verification.draft.submit');
         Route::get('/verifikasi-draft/{id}', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft_view'])->name('verification.draft.form');
         Route::get('/sertifikat/{id}', [CertificateTestLetterController::class, 'certificate'])->name('certificate');
+        Route::get('/sertifikat-srut/{id}', [CertificateTestLetterController::class, 'certificate_srut'])->name('certificate.srut');
         Route::get('/generate/{id}', [CertificateTestLetterController::class, 'generate'])->name('generate');
         Route::get('/{id}', [CertificateTestLetterController::class, 'show'])->name('show');
     });

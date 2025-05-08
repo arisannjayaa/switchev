@@ -47,6 +47,16 @@ class CertificateTestLetterController extends Controller
         return view('apps.test-letter.certificate', $data);
     }
 
+    public function certificate_srut($id)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data['test_letter'] = $this->testLetterService->findOrFail(Helper::decrypt($id))->getResult();
+        return view('apps.certificate-test-letter.generate-certificate-srut', $data);
+    }
+
 
     public function certificate_form_submit(FormTestLetterCertificateRequest $request)
     {

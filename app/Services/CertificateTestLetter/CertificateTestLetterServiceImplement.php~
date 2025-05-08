@@ -406,13 +406,13 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             ->addColumn('action', function ($row) {
                 $verificationMenu = '';
                 if (auth()->user()->isSuperAdmin() && $row->status == 'Draft') {
-                    $verificationMenu = '<a class="dropdown-item detail" href="'.route('certificate.test.letter.verification.draft.form', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                    $verificationMenu .= '<a class="dropdown-item detail" href="'.route('certificate.test.letter.verification.draft.form', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Verifikasi
                                 </a>';
                 }
 
-                if (auth()->user()->isSuperAdmin() && $row->status == 'Selesai') {
-                    $verificationMenu = '<a class="dropdown-item detail" href="'.route('certificate.test.letter.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                if (auth()->user()->isSuperAdmin()) {
+                    $verificationMenu .= '<a class="dropdown-item detail" href="'.route('certificate.test.letter.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Detail
                                 </a>';
                 }
@@ -519,24 +519,24 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 unset($data['old_registration_attachment']);
             }
 
-            if (@$data['certificate_attachment']) {
-                if (@$certificate->certificate_attachment && str_contains($certificate->certificate_attachment, 'certificate-srut')) {
-                    if (file_exists(storage_path('app/public/'.@$certificate->certificate_attachment))) {
-                        unlink(storage_path('app/public/'.@$certificate->certificate_attachment));
-                    }
-                }
-
-                // file sertifikat
-                $fileCertificateAttachment = $data['certificate_attachment'];
-                $originalNameCertificateAttachment = $fileCertificateAttachment->getClientOriginalName();
-                $extensionCertificateAttachment = $fileCertificateAttachment->getClientOriginalExtension();
-                $newFileNameCertificateAttachment = 'Lampiran - ' . uniqid() . '.' . $extensionCertificateAttachment;
-                $filePathCertificateAttachment = $fileCertificateAttachment->storeAs('certificate-srut', $originalNameCertificateAttachment, 'public');
-                $data['certificate_attachment'] = $filePathCertificateAttachment;
-            } else {
-                $data['certificate_attachment'] = @$data['old_certificate_attachment'];
-                unset($data['old_certificate_attachment']);
-            }
+//            if (@$data['certificate_attachment']) {
+//                if (@$certificate->certificate_attachment && str_contains($certificate->certificate_attachment, 'certificate-srut')) {
+//                    if (file_exists(storage_path('app/public/'.@$certificate->certificate_attachment))) {
+//                        unlink(storage_path('app/public/'.@$certificate->certificate_attachment));
+//                    }
+//                }
+//
+//                // file sertifikat
+//                $fileCertificateAttachment = $data['certificate_attachment'];
+//                $originalNameCertificateAttachment = $fileCertificateAttachment->getClientOriginalName();
+//                $extensionCertificateAttachment = $fileCertificateAttachment->getClientOriginalExtension();
+//                $newFileNameCertificateAttachment = 'Lampiran - ' . uniqid() . '.' . $extensionCertificateAttachment;
+//                $filePathCertificateAttachment = $fileCertificateAttachment->storeAs('certificate-srut', $originalNameCertificateAttachment, 'public');
+//                $data['certificate_attachment'] = $filePathCertificateAttachment;
+//            } else {
+//                $data['certificate_attachment'] = @$data['old_certificate_attachment'];
+//                unset($data['old_certificate_attachment']);
+//            }
 
             if ($certificate->test_letter->workshop_type == "A") {
                 $mail['title'] = 'Dokumen Uji Tipe Kendaraan Listrik Anda Telah Tersedia';
@@ -600,6 +600,16 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $certificate->certificate_attachment = $data['certificate_attachment'];
                 $certificate->status = 'Selesai';
                 $certificate->save();
+
+                if ($certificate->test_letter->workshop_type == "A") {
+                    $this->testLetterRepository->update($certificate->test_letter_id, [
+                        'step' => 'next_request_srut',
+                        'message' => '<p>
+                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                            </p>'
+                    ]);
+                }
                 $this->testLetterRepository->update($certificate->test_letter_id, [
                     'step' => 'completed',
                     'message' => '<p>

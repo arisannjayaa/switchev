@@ -40,6 +40,8 @@ class TestLetter extends Model
         'spu',
         'message',
         'queue_number',
+        'permohonan_srut',
+        'quality_control',
     ];
 
     public function user()
