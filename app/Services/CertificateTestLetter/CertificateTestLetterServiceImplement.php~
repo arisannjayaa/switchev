@@ -329,23 +329,33 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         try {
             $result = $this->mainRepository->findByTestLetterId($test_letter_id);
 
-            if ($result->test_letter->workshop_type == "A") {
+            if ($result->test_letter->workshop_type == "A" && $result->test_letter->step != "create_certificate_srut") {
                 $certificate_sut = $this->generate_certificate_sut($test_letter_id)->getResult();
                 $result->type_test_attachment = 'certificate-sut/'. $certificate_sut['file_name'];
+                $result->regarding = "Verifikasi Permohonan SUT";
+                $result->status = 'Draft SUT';
+            }
+
+            if ($result->test_letter->workshop_type == "A" && $result->test_letter->step == "create_certificate_srut") {
+                $certificate_srut = $this->generate_certificate_srut($test_letter_id)->getResult();
+                $sk = $this->generate_sk($test_letter_id)->getResult();
+                $result->registration_attachment = 'certificate-srut/'. $certificate_srut['file_name'];
+                $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
+                $result->regarding = "Verifikasi Permohonan SRUT dan SUT";
+                $result->status = 'Draft SRUT';
             }
 
             if ($result->test_letter->workshop_type == "B") {
                 $certificate_sut = $this->generate_certificate_sut($test_letter_id)->getResult();
                 $certificate_srut = $this->generate_certificate_srut($test_letter_id)->getResult();
-                $certificate_attachment = $this->generate_certificate_attachment($test_letter_id)->getResult();
                 $sk = $this->generate_sk($test_letter_id)->getResult();
                 $result->registration_attachment = 'certificate-srut/'. $certificate_srut['file_name'];
                 $result->type_test_attachment = 'certificate-sut/'. $certificate_sut['file_name'];
-                $result->certificate_attachment = 'certificate-attachment/'. $certificate_attachment['file_name'];
                 $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
+                $result->regarding = "Verifikasi Permohonan SRUT dan SUT";
+                $result->status = 'Draft SRUT SUT';
             }
 
-            $result->status = 'Draft';
             $result->save();
 
             DB::commit();
@@ -373,7 +383,23 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             $data['date_srut'] = date('Y-m-d');
             $data['date_sk'] = date('Y-m-d');
             $data['is_form_completed'] = 1;
-            $data['status'] = 'Draft';
+
+            if ($testLetter->workshop_type == "A" && $testLetter->step != "create_certificate_srut") {
+                $data['status'] = 'Draft SUT';
+            }
+
+            if ($testLetter->workshop_type == "A" && $testLetter->step == "create_certificate_srut") {
+                $data['status'] = 'Draft SRUT';
+            }
+
+            if ($testLetter->workshop_type == "B") {
+                $data['status'] = 'Draft SUT SRUT';
+            }
+
+            $testLetter->status = "Sertifikat Sedang Di Proses";
+            $testLetter->message = "Mohon menunggu sertifikat anda sedang di proses oleh tim kami!";
+            $testLetter->save();
+
             $data['testing'] = json_encode(@$data['pengujian']) ?? null;
             unset($data['id']);
 
@@ -405,9 +431,21 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $verificationMenu = '';
-                if (auth()->user()->isSuperAdmin() && $row->status == 'Draft') {
+                if (auth()->user()->isSuperAdmin() && $row->status == 'Draft SRUT' && $row->test_letter->workshop_type == "A" && $row->registration_attachment != null) {
                     $verificationMenu .= '<a class="dropdown-item detail" href="'.route('certificate.test.letter.verification.draft.form', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
-                                  Verifikasi
+                                  Verifikasi SRUT
+                                </a>';
+                }
+
+                if (auth()->user()->isSuperAdmin() && $row->status == 'Draft SUT' && $row->test_letter->workshop_type == "A" && $row->type_test_attachment != null) {
+                    $verificationMenu .= '<a class="dropdown-item detail" href="'.route('certificate.test.letter.verification.draft.form', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                  Verifikasi SUT
+                                </a>';
+                }
+
+                if (auth()->user()->isSuperAdmin() && $row->status == 'Draft SRUT SUT' && $row->test_letter->workshop_type == "B") {
+                    $verificationMenu .= '<a class="dropdown-item detail" href="'.route('certificate.test.letter.verification.draft.form', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                  Verifikasi SRUT SUT
                                 </a>';
                 }
 
@@ -440,7 +478,19 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 
             $id = Helper::decrypt($id);
             $result = $this->mainRepository->find($id);
-            $result->status = 'Terverifikasi';
+
+            if ($result->test_letter->workshop_type == "A" && $result->test_letter->step != "create_certificate_srut") {
+                $result->status = 'SUT Terverifikasi';
+            }
+
+            if ($result->test_letter->workshop_type == "A" && $result->test_letter->step == "create_certificate_srut") {
+                $result->status = 'SRUT Terverifikasi';
+            }
+
+            if ($result->test_letter->workshop_type == "B") {
+                $result->status = 'SRUT SUT Terverifikasi';
+            }
+
             $result->save();
 
             $redirect = redirect()->intended(URL::route('certificate.test.letter.index'));
@@ -459,6 +509,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
     public function upload_archive($data)
     {
         DB::beginTransaction();
+        dd($data);
         try {
             $certificate = $this->mainRepository->find($data['id']);
 
@@ -474,7 +525,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $originalSKAttachment = $fileSKAttachment->getClientOriginalName();
                 $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
                 $newFileSKAttachment = 'Surat_Keterangan_' . uniqid() . '.' . $extensionApplicationLetter;
-                $filePathApplicationLetter = $fileSKAttachment->storeAs('sk-srut-sut', $originalSKAttachment, 'public');
+                $filePathApplicationLetter = $fileSKAttachment->storeAs('sk-srut-sut', "Surat_Keterangan_".$certificate->test_letter->id.'.pdf', 'public');
                 $data['sk_attachment'] = $filePathApplicationLetter;
             } else {
                 $data['sk_attachment'] = @$data['old_sk_attachment'];
@@ -493,7 +544,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $originalNameTypeTest = $fileTypeTest->getClientOriginalName();
                 $extensionTypeTest = $fileTypeTest->getClientOriginalExtension();
                 $newFileNameTypeTest = 'Sertifikat - ' . uniqid() . '.' . $extensionTypeTest;
-                $filePathTypeTest = $fileTypeTest->storeAs('certificate-sut', $originalNameTypeTest, 'public');
+                $filePathTypeTest = $fileTypeTest->storeAs('certificate-sut', "Sertifikat_SUT_".$certificate->test_letter->id.'.pdf', 'public');
                 $data['type_test_attachment'] = $filePathTypeTest;
             } else {
                 $data['type_test_attachment'] = @$data['old_type_test_attachment'];
@@ -512,7 +563,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 $originalNameRegis = $fileRegis->getClientOriginalName();
                 $extensionRegis = $fileRegis->getClientOriginalExtension();
                 $newFileNameRegis = 'Sertifikat - ' . uniqid() . '.' . $extensionRegis;
-                $filePathRegis = $fileRegis->storeAs('certificate-srut', $originalNameRegis, 'public');
+                $filePathRegis = $fileRegis->storeAs('certificate-srut', "Sertifikat_SRUT_".$certificate->test_letter->id.'.pdf', 'public');
                 $data['registration_attachment'] = $filePathRegis;
             } else {
                 $data['registration_attachment'] = @$data['old_registration_attachment'];
@@ -538,7 +589,48 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 //                unset($data['old_certificate_attachment']);
 //            }
 
-            if ($certificate->test_letter->workshop_type == "A") {
+            if (@$certificate) {
+                $certificate->type_test_attachment = $data['type_test_attachment'];
+                $certificate->registration_attachment = $data['registration_attachment'];
+                $certificate->sk_attachment = $data['sk_attachment'];
+                $certificate->status = 'Selesai';
+                $certificate->save();
+
+                if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step != "create_certificate_srut") {
+                    $this->testLetterRepository->update($certificate->test_letter_id, [
+                        'step' => 'next_request_srut',
+                        'status' => 'Selesai',
+                        'message' => '<p>
+                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                            </p>'
+                    ]);
+                }
+
+                if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step == "create_certificate_srut") {
+                    $this->testLetterRepository->update($certificate->test_letter_id, [
+                        'step' => 'completed',
+                        'status' => 'Selesai',
+                        'message' => '<p>
+                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                            </p>'
+                    ]);
+                }
+
+                if ($certificate->test_letter->workshop_type == "B") {
+                    $this->testLetterRepository->update($certificate->test_letter_id, [
+                        'step' => 'completed',
+                        'status' => 'Selesai',
+                        'message' => '<p>
+                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                            </p>'
+                    ]);
+                }
+            }
+
+            if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step != "create_certificate_srut") {
                 $mail['title'] = 'Dokumen Uji Tipe Kendaraan Listrik Anda Telah Tersedia';
                 $mail['message'] = '
                                     <h2>🔧 Dokumen Uji Tipe Telah Tersedia</h2>
@@ -548,6 +640,36 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                                     </p>
 
                                     <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->type_test_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #17a2b8;">🔧 Download Surat Uji Tipe</a>
+
+                                    <p style="margin-top: 20px;">
+                                        Untuk melanjutkan proses dan memperoleh dokumen lanjutan seperti *Surat Registrasi Uji Tipe (SRUT)*, dan *Surat Keterangan* . Anda perlu terlebih dahulu mengajukan permohonan SRUT.
+                                        Pengajuan ini dapat dilakukan melalui sistem kami, serta melampirkan dokumen tambahan yang dibutuhkan.
+                                    </p>
+
+                                    <p>
+                                        Silakan hubungi tim kami jika Anda memerlukan panduan dalam mengajukan permohonan SRUT atau menyiapkan dokumen tambahan.
+                                    </p>
+
+                                    <p style="margin-top: 20px; font-size: 14px; color: #777;">
+                                        🚀 Semoga proses administrasi kendaraan Anda berjalan lancar.<br><br>
+                                        Salam hangat,<br>
+                                        <strong>Tim Administrasi SwitchEv</strong>
+                                    </p>
+                                ';
+            }
+
+            if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step == "create_certificate_srut") {
+                $mail['title'] = 'Dokumen Uji Tipe Kendaraan Listrik Anda Telah Tersedia';
+                $mail['message'] = '
+                                    <h2>🔧 Sertifikat Registrasi Uji Tipe dan Surat Keterangan Telah Tersedia</h2>
+                                    <p>
+                                        Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
+                                        Kami informasikan bahwa dokumen lanjutan *Surat Registrasi Uji Tipe (SUT)* dan *Surat Keterangan (SK)* kendaraan listrik Anda telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                                    </p>
+
+                                    <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan</a>
+
+                                    <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->registration_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #28a745;">📜 Download Surat Registrasi Uji Tipe</a>
 
                                     <p style="margin-top: 20px;">
                                         Untuk melanjutkan proses dan memperoleh dokumen lanjutan seperti *Surat Registrasi Uji Tipe (SRUT)*, dan *Surat Keterangan* . Anda perlu terlebih dahulu mengajukan permohonan SRUT.
@@ -581,8 +703,6 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 
                             <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->type_test_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #17a2b8;">🔧 Download Surat Uji Tipe</a>
 
-                            <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->certificate_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #4d17b8;">🔧 Download Lampiran</a>
-
                             <p style="margin-top: 20px; font-size: 14px; color: #777;">
                                 🚀 Semoga dokumen ini membantu proses administrasi kendaraan Anda dengan lancar.
                                 Jika ada pertanyaan, silakan hubungi tim kami melalui kontak yang tersedia.
@@ -591,32 +711,6 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                                 <strong>Tim Administrasi SwitchEv</strong>
                             </p>
                         ';
-            }
-
-            if (@$certificate) {
-                $certificate->type_test_attachment = $data['type_test_attachment'];
-                $certificate->registration_attachment = $data['registration_attachment'];
-                $certificate->sk_attachment = $data['sk_attachment'];
-                $certificate->certificate_attachment = $data['certificate_attachment'];
-                $certificate->status = 'Selesai';
-                $certificate->save();
-
-                if ($certificate->test_letter->workshop_type == "A") {
-                    $this->testLetterRepository->update($certificate->test_letter_id, [
-                        'step' => 'next_request_srut',
-                        'message' => '<p>
-                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
-                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
-                            </p>'
-                    ]);
-                }
-                $this->testLetterRepository->update($certificate->test_letter_id, [
-                    'step' => 'completed',
-                    'message' => '<p>
-                                Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
-                                Beberapa dokumen penting terkait kendaraan listrik Anda kini telah tersedia dan dapat diunduh melalui tombol di bawah ini:
-                            </p>'
-                ]);
             }
 
             Mail::to($certificate->user->email)->send(new MailSend($mail));

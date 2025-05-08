@@ -242,6 +242,6 @@ class TestLetterController extends Controller
 
         $data = $request->only(['id','is_verified']);
 
-        return $this->testLetterService->approve($data)->toJson();
+        return $this->testLetterService->approve_srut($data)->toJson();
     }
 }

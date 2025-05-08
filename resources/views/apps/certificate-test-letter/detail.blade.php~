@@ -50,7 +50,7 @@
                                 <a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
+                                <a href="{{ auth()->user()->isSuperAdmin() ? route('certificate.test.letter.index') : route('test.letter.index') }}">{{ auth()->user()->isSuperAdmin() ? 'Daftar Permohonan' : 'Daftar Penerbitan' }}</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <a href="#">Detail {{ auth()->user()->isGuest() ? 'Proses' : '' }}</a>
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <div class="card-title">Data Berkas Penerbitan</div>
             </div>
@@ -120,6 +120,25 @@
                             </a>
                         @endif
                     @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Data Berkas Pengujian Fisik BPLJSKB</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @if($certificate->test_letter->physical_test_bpljskb != null)
+                        <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($certificate->test_letter->physical_test_bpljskb)]) }}" class="d-flex align-items-center file-pdf-2 mb-3">
+                            <img width="24" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
+                            {{ Str::limit(substr($certificate->test_letter->physical_test_bpljskb, strlen('documents/')), 60) }}
+                        </a>
+                    @else
+                        <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
+                            <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_no_data_re_kwbl.svg') }}">
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

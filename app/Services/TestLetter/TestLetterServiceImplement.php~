@@ -469,7 +469,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             $filePath = $file->storeAs('surat-pengantar-uji', $newFileName, 'public');
             $testLetter->spu_attachment = $filePath;
             $testLetter->step = 'send_spu';
-            $testLetter->status = "Menunggu Unggah Berkas BPLJSKB";
+            $testLetter->status = "Menunggu Unggah Berkas B"
             $testLetter->message = '<span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.
                                          <a href="'.route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$testLetter->spu_attachment)]).'">Unduh Surat Pengantar Uji di sini</a></span>';
             $testLetter->save();

@@ -28,7 +28,7 @@ class CertificateTestLetterRepositoryImplement extends Eloquent implements Certi
     {
         return $this->model->query()
             ->with(['test_letter','user'])
-            ->whereIn('status',  ['Draft','Terverifikasi','Selesai'])
+            ->whereIn('status',  ['Draft','Terverifikasi','Selesai','Draft SRUT','Draft SUT','Draft SRUT SUT','SUT Terverifikasi','SRUT Terverifikasi','SRUT SUT Terverifikasi'])
             ->orderBy('updated_at', 'desc');
     }
 

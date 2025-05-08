@@ -50,7 +50,7 @@
                                 <a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ auth()->user()->isSuperAdmin() ? route('certificate.test.letter.index') : route('test.letter.index') }}">{{ auth()->user()->isSuperAdmin() ? 'Daftar Permohonan' : 'Daftar Penerbitan' }}</a>
+                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <a href="#">Detail {{ auth()->user()->isGuest() ? 'Proses' : '' }}</a>
@@ -59,7 +59,7 @@
                     </div>
                     <h2 class="page-title">
         <span class="text-truncate"
-        >Detail</span
+        >Detail {{ auth()->user()->isGuest() ? 'Proses' : '' }}</span
         >
                     </h2>
                 </div>
@@ -68,13 +68,13 @@
             </div>
         </div>
         @php
-            $attachments[] = $certificate->test_letter->sop_component_installation;
-            $attachments[] = $certificate->test_letter->technical_drawing;
-            $attachments[] = $certificate->test_letter->conversion_workshop_certificate;
-            $attachments[] = $certificate->test_letter->electrical_diagram;
-            $attachments[] = $certificate->test_letter->photocopy_stnk;
-            $attachments[] = $certificate->test_letter->physical_inspection;
-            $attachments[] = $certificate->test_letter->test_report;
+            $attachments[] = $test_letter->sop_component_installation;
+            $attachments[] = $test_letter->technical_drawing;
+            $attachments[] = $test_letter->conversion_workshop_certificate;
+            $attachments[] = $test_letter->electrical_diagram;
+            $attachments[] = $test_letter->photocopy_stnk;
+            $attachments[] = $test_letter->physical_inspection;
+            $attachments[] = $test_letter->test_report;
         @endphp
         <div class="card mb-3">
             <div class="card-header">
@@ -84,23 +84,23 @@
                 <div class="datagrid">
                     <div class="datagrid-item">
                         <div class="datagrid-title">Nama</div>
-                        <div class="datagrid-content">{{ @$certificate->test_letter->responsible_person }}</div>
+                        <div class="datagrid-content">{{ @$test_letter->responsible_person }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Bengkel</div>
-                        <div class="datagrid-content">{{ @$certificate->test_letter->workshop }}</div>
+                        <div class="datagrid-content">{{ @$test_letter->workshop }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Jenis Bengkel</div>
-                        <div class="datagrid-content">{{ @$certificate->test_letter->workshop_type }}</div>
+                        <div class="datagrid-content">{{ @$test_letter->workshop_type }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">No. Telepon</div>
-                        <div class="datagrid-content">{{ @$certificate->test_letter->telephone }}</div>
+                        <div class="datagrid-content">{{ @$test_letter->telephone }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Alamat</div>
-                        <div class="datagrid-content">{{ @$certificate->test_letter->telephone }}</div>
+                        <div class="datagrid-content">{{ @$test_letter->telephone }}</div>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                 <div class="card-title">Data Berkas Penerbitan</div>
             </div>
             <div class="card-body">
-                <input type="hidden" id="id" value="{{ $certificate->test_letter->id }}" name="id">
+                <input type="hidden" id="id" value="{{ $test_letter->id }}" name="id">
                 <div class="row">
                     @foreach($attachments as $attachment)
                         @if($attachment != null)
@@ -123,16 +123,17 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <div class="card-title">Data Berkas Pengujian Fisik BPLJSKB</div>
             </div>
             <div class="card-body">
+                <input type="hidden" id="id" value="{{ $test_letter->id }}" name="id">
                 <div class="row">
-                    @if($certificate->test_letter->physical_test_bpljskb != null)
-                        <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($certificate->test_letter->physical_test_bpljskb)]) }}" class="d-flex align-items-center file-pdf-2 mb-3">
+                    @if($test_letter->physical_test_bpljskb != null)
+                        <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($test_letter->physical_test_bpljskb)]) }}" class="d-flex align-items-center file-pdf-2 mb-3">
                             <img width="24" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
-                            {{ Str::limit(substr($certificate->test_letter->physical_test_bpljskb, strlen('sertifikat-uji/')), 60) }}
+                            {{ Str::limit(substr($test_letter->physical_test_bpljskb, strlen('sertifikat-uji/')), 60) }}
                         </a>
                     @else
                         <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
@@ -142,7 +143,40 @@
                 </div>
             </div>
         </div>
-    </div>
+        @php
+            $certificate_attachments[] = ['file' => @$test_letter->certificate->type_test_attachment, 'dir' => 'certificate-sut/', 'extension' => pathinfo(@$certificate->type_test_attachment, PATHINFO_EXTENSION)];
+            $certificate_attachments[] = ['file' => @$test_letter->certificate->registration_attachment, 'dir' => 'certificate-srut/', 'extension' => pathinfo(@$certificate->registration_attachment, PATHINFO_EXTENSION)];
+            $certificate_attachments[] = ['file' => @$test_letter->certificate->sk_attachment, 'dir' => 'sk-sut-srut/', 'extension' => pathinfo(@$certificate->sk_attachment, PATHINFO_EXTENSION)];
+            $all_empty = empty(array_filter(array_column($certificate_attachments, 'file')));
+        @endphp
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Sertifikat</div>
+            </div>
+            <div class="card-body">
+                <input type="hidden" id="id" value="{{ $test_letter->id }}" name="id">
+                <div class="row">
+                    @if($all_empty)
+                        <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
+                            <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_no_data_re_kwbl.svg') }}">
+                            <span class="text-center fs-3 d-block mt-5">Data Tidak Tersedia</span>
+                        </div>
+                    @else
+                        @foreach($certificate_attachments as $certificate_attachment)
+                            @if($certificate_attachment['file'] != null)
+                                @dd($certificate_attachment['extension'])
+                                @if($certificate_attachment['extension'] == 'pdf')
+                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($certificate_attachment['file'])]) }}" class="d-flex align-items-center file-pdf-2 mb-3">
+                                        <img width="24" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
+                                        {{ Str::limit(substr($certificate_attachment['file'], strlen($certificate_attachment['dir'])), 60) }}
+                                    </a>
+                                @endif
+                            @endif
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

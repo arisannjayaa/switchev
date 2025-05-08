@@ -157,6 +157,12 @@ class TestLetterController extends Controller
         return view('apps.test-letter.detail', $data);
     }
 
+    public function show_guest(Request $request)
+    {
+        $data['test_letter'] = $this->testLetterService->find(Helper::decrypt($request->id))->getResult();
+        return view('apps.test-letter.detail-guest', $data);
+    }
+
     public function verification($id)
     {
         if (!auth()->user()->isAdmin()) {

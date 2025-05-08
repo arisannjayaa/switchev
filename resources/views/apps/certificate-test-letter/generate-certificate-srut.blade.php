@@ -163,13 +163,12 @@
             </div>
         @endif
 
-        @if(@$test_letter->certificate->status == 'Terverifikasi')
-            @php
-                $extension_sk = pathinfo(@$test_letter->certificate->sk_attachment, PATHINFO_EXTENSION);
-                $extension_registration_attachment = pathinfo(@$test_letter->certificate->registration_attachment, PATHINFO_EXTENSION);
-                $extension_type_test_attachment = pathinfo(@$test_letter->certificate->type_test_attachment, PATHINFO_EXTENSION);
-//                $extension_certificate_attachment = pathinfo(@$test_letter->certificate->certificate_attachment, PATHINFO_EXTENSION);
-            @endphp
+        @php
+            $extension_sk = pathinfo(@$test_letter->certificate->sk_attachment, PATHINFO_EXTENSION);
+            $extension_registration_attachment = pathinfo(@$test_letter->certificate->registration_attachment, PATHINFO_EXTENSION);
+            $extension_type_test_attachment = pathinfo(@$test_letter->certificate->type_test_attachment, PATHINFO_EXTENSION);
+        @endphp
+        @if(@$test_letter->workshop_type == "A" && $test_letter->certificate->status == "SRUT Terverifikasi")
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Upload File</div>
@@ -178,21 +177,9 @@
                     <div class="row">
                         <input id="certificate_id" type="hidden" class="form-control" name="certificate_id" value="{{ @$test_letter->certificate->id }}">
                         <input id="workshop_type" type="hidden" class="form-control" name="workshop_type" value="{{ @$test_letter->workshop_type }}">
-                        @if(@$test_letter->workshop_type == "A")
+                        <input id="test_letter_step" type="hidden" class="form-control" name="test_letter_step" value="{{ @$test_letter->step }}">
+                        <input type="hidden" class="form-control" id="old_type_test_attachment" name="old_type_test_attachment" value="{{ @$test_letter->certificate->type_test_attachment }}">
                             <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label required">Sertifikat SUT</label>
-                                    <input id="type_test_attachment" type="file" class="form-control" name="type_test_attachment">
-                                    @if(@$test_letter->certificate->type_test_attachment && $extension_type_test_attachment == 'pdf') <input type="hidden" class="form-control" name="old_type_test_attachment" value="{{ @$test_letter->certificate->type_test_attachment }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->certificate->type_test_attachment && $extension_type_test_attachment == 'pdf') sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->certificate->type_test_attachment)]) }}">lihat disini</a> @endif
-                                        Upload file dalam bentuk pdf hasil dari sertifikat
-                                    </small>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if(@$test_letter->workshop_type == "B")
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label class="form-label required">Surat Keterangan</label>
@@ -215,25 +202,7 @@
                                         </small>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label required">Sertifikat SUT</label>
-                                    <input id="type_test_attachment" type="file" class="form-control" name="type_test_attachment">
-                                    @if(@$test_letter->certificate->type_test_attachment && $extension_type_test_attachment == 'pdf') <input type="hidden" class="form-control" name="old_type_test_attachment" value="{{ @$test_letter->certificate->type_test_attachment }}"> @endif
-                                    <small class="form-hint">
-                                        @if(@$test_letter->certificate->type_test_attachment && $extension_type_test_attachment == 'pdf') sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->certificate->type_test_attachment)]) }}">lihat disini</a> @endif
-                                        Upload file dalam bentuk pdf hasil dari sertifikat sut
-                                    </small>
-                                </div>
-{{--                                <div class="mb-3">--}}
-{{--                                    <label class="form-label required">Lampiran</label>--}}
-{{--                                    <input id="certificate_attachment" type="file" class="form-control" name="certificate_attachment">--}}
-{{--                                    @if(@$test_letter->certificate->certificate_attachment && $extension_certificate_attachment == 'pdf') <input type="hidden" class="form-control" name="old_certificate_attachment" value="{{ @$test_letter->certificate->certificate_attachment }}"> @endif--}}
-{{--                                    <small class="form-hint">--}}
-{{--                                        @if(@$test_letter->certificate->certificate_attachment && $extension_certificate_attachment == 'pdf') sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->certificate->certificate_attachment)]) }}">lihat disini</a> @endif--}}
-{{--                                        Upload file dalam bentuk pdf hasil dari lampiran--}}
-{{--                                    </small>--}}
-{{--                                </div>--}}
-                        @endif
+                            </div>
                     </div>
                 </div>
                 <div class="card-footer">

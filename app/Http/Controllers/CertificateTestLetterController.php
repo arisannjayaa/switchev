@@ -44,6 +44,7 @@ class CertificateTestLetterController extends Controller
         }
 
         $data['test_letter'] = $this->testLetterService->findOrFail(Helper::decrypt($id))->getResult();
+
         return view('apps.test-letter.certificate', $data);
     }
 

@@ -59,8 +59,8 @@
 @section('content')
     <div class="container">
         @php
-            $attachments[] = ['file' => @$test_letter->quality_control, 'dir' => 'permohonan-srut/', 'extension' => pathinfo(@$test_letter->quality_control, PATHINFO_EXTENSION)];
-            $attachments[] = ['file' => @$test_letter->permohonan_srut, 'dir' => 'permohonan-srut/', 'extension' => pathinfo(@$test_letter->permohonan_srut, PATHINFO_EXTENSION)];
+            $attachments[] = ['file' => @$test_letter->quality_control, 'dir' => 'permohonan-surat/', 'extension' => pathinfo(@$test_letter->quality_control, PATHINFO_EXTENSION)];
+            $attachments[] = ['file' => @$test_letter->permohonan_srut, 'dir' => 'permohonan-surat/', 'extension' => pathinfo(@$test_letter->permohonan_srut, PATHINFO_EXTENSION)];
         @endphp
         <div class="page-header mb-3">
             <div class="row align-items-center">

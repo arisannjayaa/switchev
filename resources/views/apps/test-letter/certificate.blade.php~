@@ -97,7 +97,7 @@
                             <path d="M12 16h.01"></path>
                         </svg>
                     </div>
-                    <span class="">Untuk melihat detail data, silakan klik <a target="_blank" href="{{ route('test.letter.show', ['id' => \App\Helpers\Helper::encrypt($test_letter->id)]) }}" class="alert-link">tautan ini</a>.</span>
+                    <span class="">Untuk melihat detail data, silakan klik <a href="{{ route('test.letter.show', ['id' => \App\Helpers\Helper::encrypt($test_letter->id)]) }}" class="alert-link">tautan ini</a>.</span>
                 </div>
             </div>
         </div>

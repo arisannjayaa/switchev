@@ -111,6 +111,7 @@ Route::middleware('auth')->group(function () {
         Route::get('sertifikat/{id}', [TestLetterController::class, 'certificate'])->name('certificate');
         Route::get('/physical-test/{id}', [TestLetterController::class, 'show_physical_test_letter'])->name('show_physical_test_letter');
         Route::get('/{id}', [TestLetterController::class, 'show'])->name('show');
+        Route::get('/detail-permohonan/{id}', [TestLetterController::class, 'show_guest'])->name('show.guest');
     });
 
     Route::prefix('pelayanan/sut-srut/sertifikat-surat-keterangan')->name('certificate.test.letter.')->group(function () {

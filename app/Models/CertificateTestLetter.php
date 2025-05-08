@@ -53,6 +53,7 @@ class CertificateTestLetter extends Model
         'machine',
         'goods_capacity',
         'testing',
+        'regarding',
     ];
 
     protected $table = 'certificate_test_letters';

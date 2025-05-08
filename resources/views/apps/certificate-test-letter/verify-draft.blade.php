@@ -49,22 +49,23 @@
                         <div class="card-body">
                             <div class="row">
                                 @php
-                                    $attachments[] = $certificate->sk_attachment;
-                                    $attachments[] = $certificate->type_test_attachment;
-                                    $attachments[] = $certificate->registration_attachment;
-                                    $attachments[] = $certificate->certificate_attachment;
+                                        $attachments[] = ['file_name' => @$certificate->sk_attachment, 'extension' => pathinfo(@$certificate->sk_attachment, PATHINFO_EXTENSION), 'dir' => 'sk-sut-srut/'];
+                                        $attachments[] = ['file_name' => @$certificate->registration_attachment, 'extension' => pathinfo(@$certificate->registration_attachment, PATHINFO_EXTENSION), 'dir' => 'certificate-srut/'];
+                                        $attachments[] = ['file_name' => @$certificate->type_test_attachment, 'extension' => pathinfo(@$certificate->type_test_attachment, PATHINFO_EXTENSION), 'dir' => 'certificate-sut/'];
                                 @endphp
                                 @foreach($attachments as $attachment)
-                                    @if($attachment != null)
-                                        <div class="col-lg-3 col-md-6 col-12">
-                                            <div class="file-pdf py-3">
-                                                <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($attachment)]) }}" class="d-flex flex-column align-items-center justify-content-center">
-                                                    <img width="150" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
-                                                    <span class="text-center" style="color: #182433" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                          data-bs-title="{{ substr($attachment, strlen('certificate/')) }}">{{ Str::limit(substr($attachment, strlen('certificate/')), 20) }}</span>
-                                                </a>
+                                    @if($attachment['file_name'] != null)
+                                        @if($attachment['extension'] == "docx")
+                                            <div class="col-lg-3 col-md-6 col-12">
+                                                <div class="file-pdf py-3">
+                                                    <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($attachment['file_name'])]) }}" class="d-flex flex-column align-items-center justify-content-center">
+                                                        <img width="150" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
+                                                        <span class="text-center" style="color: #182433" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                              data-bs-title="{{ substr($attachment['file_name'], strlen($attachment['dir'])) }}">{{ Str::limit(substr($attachment['file_name'], strlen($attachment['dir'])), 20) }}</span>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endif
                                 @endforeach
                             </div>
