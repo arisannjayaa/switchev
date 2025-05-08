@@ -25,7 +25,7 @@ class FormResponsibleWorkshopRequest extends FormRequest
     {
         return [
             'type' => ['required'],
-            'workshop' => ['required', 'max:255'],
+            'workshop' => ['required', 'max:255', 'unique:conversions,workshop,' . $this->id],
             'address' => ['required', 'max:255'],
             'person_responsible' => ['required', 'max:255'],
             'whatapp_responsible' => ['required', 'regex:/^(?:\+62|62|0)8\d{8,11}$/'],
@@ -38,6 +38,7 @@ class FormResponsibleWorkshopRequest extends FormRequest
             'type.required' => 'Tipe wajib diisi.',
             'workshop.required' => 'Nama Bengkel wajib diisi.',
             'workshop.max' => 'Jumlah karakter maksimal 255.',
+            'workshop.unique' => 'Nama Bengkel sudah ada.',
             'address.required' => 'Alamat wajib diisi.',
             'address.max' => 'Jumlah karakter maksimal 255.',
             'person_responsible.required' => 'Penanggung Jawab wajib diisi.',

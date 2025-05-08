@@ -54,7 +54,6 @@ class UserController extends Controller
         }
 
         $data = $request->only(['id','name','email','status']);
-        dd($data);
         return $this->userService->update($data['id'], $data)->toJson();
     }
 

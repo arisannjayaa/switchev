@@ -13,7 +13,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-center align-items-center text-center flex-column">
-            <div class="bg-primary-lt w-100 p-4 rounded-3 mb-3">
+            <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3">
                 <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
             </div>
             <div class="text-center">

@@ -132,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let form = "#form-conversion";
         let step = $("#step").val();
         let url;
-        console.log(step)
 
         if (step == 1) {
             url = $("#form-responsible-url").val();

@@ -17,19 +17,34 @@
 
 @section('content')
     <div class="container">
-        <input id="id" type="hidden" value="{{ $conversion->id }}">
-        <div class="page-header d-print-none mb-2">
-            <div>
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h1 class="page-title">
-                            Detail Bengkel Konversi
-                        </h1>
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('conversion.index') }}">Daftar Bengkel Konversi</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Detail Bengkel Konversi</a>
+                            </li>
+                        </ol>
                     </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Detail Bengkel Konversi</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
                 </div>
             </div>
         </div>
-        @if(@$conversion->certificate)
+        <input id="id" type="hidden" value="{{ $conversion->id }}">
+        @if(@$conversion->certificate->status == 'Selesai')
             <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Sertifikat dan Surat Keterangan</h3>
@@ -37,12 +52,12 @@
                 <div class="card-body">
                     <div class="row gap-3">
                         <div class="col-12">
-                            <a class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
+                            <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sft_attachment)]) }}" class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
                                 Sertifikat Bengkel Konversi
                             </a>
                         </div>
                         <div class="col-12">
-                            <a class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
+                            <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$conversion->certificate->sk_attachment)]) }}" class="bg-white-lt pointer-event w-100 p-3 rounded-3 text-primary d-block" href="" style="border: 1px solid #0054a6">
                                 Surat Keterangan Bengkel Konversi
                             </a>
                         </div>

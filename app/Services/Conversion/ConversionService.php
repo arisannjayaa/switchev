@@ -20,13 +20,13 @@ interface ConversionService extends BaseService{
 
     public function sendEmail($data);
 
-    public function findByUserId($user_id);
+    public function findByUserId($user_id, $id);
 
     public function upsertFormResponsibleWorkshop($data);
 
     public function upsertFormDocumentRequest($data);
 
-    public function hasCompletedPreviousStep($user, $step);
+    public function hasCompletedPreviousStep($user, $step, $conversionId);
 
     public function isFormCompleted($userId);
 

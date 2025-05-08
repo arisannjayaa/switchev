@@ -25,4 +25,9 @@ class Certificate extends Model
     {
         return $this->hasOne(Conversion::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

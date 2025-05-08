@@ -131,8 +131,7 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
     public function checkConversion()
     {
         if ($this->mainRepository->checkIsConversion()) {
-            $data['conversion'] = $this->mainRepository->findByUserId(auth()->user()->id);
-            return view('apps.conversion.guest-index', $data);
+            return view('apps.conversion.guest-index');
         }
 
         return view('apps.conversion.guest-welcome');
@@ -144,16 +143,31 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $evaluationMenu = '';
-                $verificationMenu = '<a class="dropdown-item detail" href="'.route('conversion.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
-                                  Lihat
-                                </a>
-                                <a class="dropdown-item verification-zoom" href="'.route('conversion.verification', ['id' => Helper::encrypt( $row->id)]).'" data-id="'.$row->id.'">
-                                  Verifikasi
-                                </a>';
-                if (!@$row->certificate) {
-                    $evaluationMenu = '<a class="dropdown-item detail" href="'.route('certificate.certificate.form', ['conversion_id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
-                                      Penilaian
+                $verificationMenu = '';
+                $menuGuest = '';
+                $menuAdmin = '';
+                if (auth()->user()->isAdmin()) {
+                    $verificationMenu = '<a class="dropdown-item detail" href="'.route('conversion.show', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                      Lihat
                                     </a>';
+
+                    if ($row->status != 'is_being_uploaded') {
+                        $verificationMenu .= '<a class="dropdown-item verification-zoom" href="'.route('conversion.verification', ['id' => Helper::encrypt( $row->id)]).'" data-id="'.$row->id.'">
+                                      Verifikasi
+                                    </a>';
+                    }
+
+                    if (!@$row->certificate && $row->step == 5) {
+                        $evaluationMenu = '<a class="dropdown-item detail" href="'.route('certificate.certificate.form', ['conversion_id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                          Penilaian
+                                        </a>';
+                    }
+                }
+
+                if (auth()->user()->isGuest()) {
+                    $menuGuest = '<a class="dropdown-item detail" href="'.route('conversion.process.detail', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                                          Proses Status
+                                        </a>';
                 }
 
                 $html = '<span class="dropdown">
@@ -162,6 +176,8 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
                               <div class="dropdown-menu dropdown-menu-end" style="">
                               '.$verificationMenu.'
                               '.$evaluationMenu.'
+                              '.$menuGuest.'
+                              '.$menuAdmin.'
                               </div>
                             </span>';
                 return $html;
@@ -307,10 +323,10 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         }
     }
 
-    public function findByUserId($user_id)
+    public function findByUserId($user_id, $id)
     {
         try {
-            $result = $this->mainRepository->findByUserId($user_id);
+            $result = $this->mainRepository->findByUserId($user_id, $id);
 
             return $this->setStatus(true)
                 ->setCode(200)
@@ -330,17 +346,26 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             $data['message'] = '';
             $data['status'] = 'is_being_uploaded';
 
-//            dd($data);
             if (@$data['id']) {
-                $this->mainRepository->update($data['id'], $data);
+                $result = $this->mainRepository->find($data['id']);
+                $result->step = $data['step'];
+                $result->message = '';
+                $result->status = 'is_being_uploaded';
+                $result->type = $data['type'];
+                $result->workshop = $data['workshop'];
+                $result->address = $data['address'];
+                $result->person_responsible = $data['person_responsible'];
+                $result->whatapp_responsible = $data['whatapp_responsible'];
+                $result->step_1_complete = $data['step_1_completed'];
+                $result->save();
             }
 
             if (!@$data['id']) {
-                unset($data['id']);
-                $this->mainRepository->create($data);
+                $result = $this->mainRepository->create($data);
             }
 
-            $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1]));
+
+            $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1, 'id' => Helper::encrypt($result->id)]));
 
             DB::commit();
             return $this->setStatus(true)
@@ -352,9 +377,9 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
         }
     }
 
-    public function hasCompletedPreviousStep($user, $step)
+    public function hasCompletedPreviousStep($user, $step, $conversionId)
     {
-        $conversion = $this->mainRepository->findByUserId($user);
+        $conversion = $this->mainRepository->findByUserId($user, $conversionId);
 
         if ($step == 1) {
             return @$conversion->step_1_completed != 0;
@@ -480,11 +505,10 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
             }
 
             if (!@$data['id']) {
-                unset($data['id']);
                 $this->mainRepository->create($data);
             }
 
-            $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1]));
+            $redirect = redirect()->intended(URL::route('conversion.form', ['step' => $step + 1, 'id' => Helper::encrypt($data['id'])]));
 
             DB::commit();
             return $this->setStatus(true)

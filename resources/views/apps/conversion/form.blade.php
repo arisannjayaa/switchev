@@ -11,7 +11,37 @@
 @endsection
 
 @section('content')
+    @php
+        $previous_step = $form > 1 ? $form - 1 : null;
+        $next_step = $form < 4 ? $form + 1 : null;
+    @endphp
     <div class="container">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('conversion.index') }}">Daftar Permohonan</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Form Pendaftaran</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Form Pendaftaran</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                </div>
+            </div>
+        </div>
         <form id="form-conversion">
             <input type="hidden" id="id" name="id" value="{{ @$conversion->id }}">
             <div class="card card-md">
@@ -27,19 +57,19 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label required">Nama</label>
-                                    <input type="text" class="form-control" placeholder="Nama penanggung jawab" name="person_responsible" value="{{ @$conversion->person_responsible }}">
+                                    <input type="text" class="form-control" placeholder="Nama penanggung jawab" id="person_responsible" name="person_responsible" value="{{ @$conversion->person_responsible }}">
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label required">No Whatsapp</label>
-                                    <input type="text" class="form-control" placeholder="No Whatsapp" name="whatapp_responsible" value="{{ @$conversion->whatapp_responsible }}">
+                                    <input type="text" class="form-control" placeholder="No Whatsapp" id="whatapp_responsible" name="whatapp_responsible" value="{{ @$conversion->whatapp_responsible }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label required">Nama Bengkel Konversi</label>
-                                    <input type="text" class="form-control" placeholder="Nama Bengkel Konversi" name="workshop" value="{{ @$conversion->workshop }}">
+                                    <input type="text" class="form-control" placeholder="Nama Bengkel Konversi" id="workshop" name="workshop" value="{{ @$conversion->workshop }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -55,7 +85,7 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Alamat Bengkel</label>
-                                    <textarea class="form-control" name="address" rows="6" placeholder="Alamat..">{{ @$conversion->address }}</textarea>
+                                    <textarea class="form-control" name="address"  id="address" rows="6" placeholder="Alamat..">{{ @$conversion->address }}</textarea>
                                 </div>
                             </div>
                         @endif
@@ -107,6 +137,7 @@
                                     </small>
                                 </div>
                             </div>
+                            <input type="hidden" id="type_wiring" name="type_wiring" value="{{ @$conversion->type }}">
                             @if(@$conversion->type == "Selain Sepeda Motor")
                             <div class="col-lg-6 col-12">
                                 <div class="mb-3" id="select-wiring-diagram">
@@ -174,20 +205,21 @@
             </div>
             <div class="row align-items-center mt-3">
                 <div class="col-4">
+                    @php
+                        $totalSteps = 4;
+                        $currentStep = $form;
+                        $progress = ($currentStep / $totalSteps) * 100;
+                    @endphp
                     <div class="progress">
-                        <div class="progress-bar" style="width: {{ @$conversion->form_progress ?? 0 }}%" role="progressbar" aria-valuenow="{{ @$conversion->form_progress ?? 0 }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ @$conversion->form_progress ?? 0 }}% Complete">
-                            <span class="visually-hidden">{{ @$conversion->form_progress ?? 0 }}% Complete</span>
+                        <div class="progress-bar" style="width: {{ @$progress ?? 0 }}%" role="progressbar" aria-valuenow="{{ @$progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ @$progress }}% Complete">
+                            <span class="visually-hidden">{{ @$progress }}% Complete</span>
                         </div>
                     </div>
                 </div>
                 <div class="col">
-                    @php
-                        $previous_step = $form > 1 ? $form - 1 : null;
-                        $next_step = $form < 4 ? $form + 1 : null;
-                    @endphp
                     <div class="btn-list justify-content-end">
                         @if($previous_step)
-                        <a id="btn-previous" class="btn btn-primary" href="{{ route('conversion.form', ['step' => $previous_step]) }}">
+                        <a id="btn-previous" class="btn btn-primary" href="{{ route('conversion.form', ['step' => $previous_step, 'id' => \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">
                             Sebelumnya
                         </a>
                         @endif
@@ -218,12 +250,12 @@
     <input type="hidden" id="form-document-url" value="{{ route('conversion.upsertFormDocument') }}">
     <input type="hidden" id="form-mechanical-url" value="{{ route('mechanical.check.available') }}">
     <input type="hidden" id="form-equipment-url" value="{{ route('equipment.check.available') }}">
-    <input type="hidden" id="table-mechanical-url" value="{{ route('mechanical.table') }}">
+    <input type="hidden" id="table-mechanical-url" value="{{ route('mechanical.table', ['conversion_id' => \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">
     <input type="hidden" id="create-mechanical-url" value="{{ route('mechanical.create') }}">
     <input type="hidden" id="update-mechanical-url" value="{{ route('mechanical.update') }}">
     <input type="hidden" id="delete-mechanical-url" value="{{ route('mechanical.delete') }}">
     <input type="hidden" id="edit-mechanical-url" value="{{ route('mechanical.show', ['id' => ':id']) }}">
-    <input type="hidden" id="table-equipment-url" value="{{ route('equipment.table') }}">
+    <input type="hidden" id="table-equipment-url" value="{{ route('equipment.table', ['conversion_id' => \App\Helpers\Helper::encrypt(@$conversion->id)]) }}">
     <input type="hidden" id="create-equipment-url" value="{{ route('equipment.create') }}">
     <input type="hidden" id="update-equipment-url" value="{{ route('equipment.update') }}">
     <input type="hidden" id="delete-equipment-url" value="{{ route('equipment.delete') }}">

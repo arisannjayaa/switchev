@@ -1,0 +1,92 @@
+@extends('theme.panel')
+
+@section('title', 'Form Permohonan SRUT')
+
+@section('style')
+    <style>
+        #table_wrapper {
+            padding: 20px !important;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <div class="container">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="mb-1">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('test.letter.index') }}">Daftar Penerbitan</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <a href="#">Form Permohonan SRUT</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <h2 class="page-title">
+        <span class="text-truncate"
+        >Form Permohonan SRUT</span
+        >
+                    </h2>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                </div>
+            </div>
+        </div>
+        <form id="form-permohonan-srut">
+            <div class="card card-md">
+                <div class="card-body text-center py-4 p-sm-5">
+                    <h1 class="mt-5">Form Permohonan SRUT</h1>
+                </div>
+                <div class="hr-text hr-text-center hr-text-spaceless"></div>
+                <div class="card-body">
+                    <input type="hidden" id="id" name="id" value="{{ @$test_letter->id }}">
+                    <div class="row row-cards">
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Surat Permohonan SRUT</label>
+                                <input id="permohonan_srut" type="file" class="form-control" name="permohonan_srut">
+                                @if(@$test_letter->permohonan_srut) <input type="hidden" class="form-control" name="old_permohonan_srut" value="{{ @$test_letter->permohonan_srut }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->permohonan_srut) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->permohonan_srut)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/FORMAT_SURAT_PERMOHONAN_SRUT.docx')]) }}">Disini</a>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label required">Laporan Quality Control</label>
+                                <input id="quality_control" type="file" class="form-control" name="quality_control">
+                                @if(@$test_letter->quality_control) <input type="hidden" class="form-control" name="old_quality_control" value="{{ @$test_letter->quality_control }}"> @endif
+                                <small class="form-hint">
+                                    @if(@$test_letter->quality_control) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->quality_control)]) }}">lihat disini</a>
+                                    <br> @endif
+                                    Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/FORMAT_LAPORAN_QUALITY_CONTROL.docx')]) }}">Disini</a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-between mt-3">
+                <div class="col-12 text-end">
+                    <button id="btn-submit" type="submit" class="btn btn-primary text-end">Ajukan Permohonan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+@endsection
+
+@section('url')
+    <input type="hidden" id="upsert-form-url" value="{{ route('test.letter.permohonan.srut.submit') }}">
+@endsection
+
+@section('script')
+    @vite(['resources/js/apps/test-letter/permohonan-srut.js'])
+@endsection

@@ -24,8 +24,8 @@ class UploadArchiveRequest extends FormRequest
     public function rules(): array
     {
         $rules =  [
-            'sk_attachment' => ['required', 'file', 'max:2048'],
-            'sft_attachment' => ['required', 'file', 'max:2048'],
+            'sk_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
+            'sft_attachment' => ['required', 'file', 'max:2048', 'mimes:pdf'],
         ];
 
 
@@ -45,8 +45,10 @@ class UploadArchiveRequest extends FormRequest
         return [
             'sk_attachment.required' => 'Surat Keterangan wajib diisi.',
             'sft_attachment.file' => 'Sertifikat harus berupa file.',
+            'sft_attachment.mimes' => 'Sertifikat harus berupa pdf.',
             'sft_attachment.required' => 'Sertifikat wajib diisi.',
             'sk_attachment.file' => 'Surat Keterangan harus berupa file.',
+            'sk_attachment.mimes' => 'Surat Keterangan harus berupa pdf.',
         ];
     }
 }

@@ -10,4 +10,10 @@ interface CertificateService extends BaseService{
     public function generate_sk($conversion_id, $accreditation_type);
 
     public function upload_archive($data);
+
+    public function verify_draft($id);
+
+    public function table();
+
+    public function send_draft($conversion_id, $accreditation_type);
 }

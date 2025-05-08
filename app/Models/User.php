@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->role->id == Role::GUEST;
     }
 
+    public function isSuperAdmin()
+    {
+        return $this->role->id == Role::SUPERADMIN;
+    }
+
     public function isVerified()
     {
         return $this->status == "verified";
@@ -79,6 +84,11 @@ class User extends Authenticatable
     public function conversion()
     {
         return $this->hasOne(Conversion::class);
+    }
+
+    public function test_letters()
+    {
+        return $this->hasMany(TestLetter::class);
     }
 }
 

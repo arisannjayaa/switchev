@@ -1,5 +1,5 @@
 import "./bootstrap";
-import {hideLoading, loadingScreen} from "@/apps/utils/helper.js";
+import {formatRupiah, formatVolt, hideLoading, loadingScreen} from "@/apps/utils/helper.js";
 export function csrfToken() {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
@@ -119,3 +119,61 @@ export function removeAlert(count) {
 
 $("body").append(loadingScreen());
 hideLoading(1000);
+
+$(document).on('keyup', '.convert-volt', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value);
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-kw', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' kW');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-rpm', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' rpm');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-ampere', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' A');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-mm', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' mm');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-kwh', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' kWh');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-kg', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' kg');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-unit', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' unit');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-watt', function () {
+    let value = this.value;
+    let formattedValue = formatVolt(value, ' watt');
+    $(this).val(formattedValue);
+});
+
+$(document).on('keyup', '.convert-currency', function () {
+    $(this).val(formatRupiah(this.value, "Rp ", false));
+})

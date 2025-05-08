@@ -13,6 +13,8 @@ class Role extends Model
     const ADMIN = 1;
     const GUEST = 2;
 
+    const SUPERADMIN = 3;
+
     protected $fillable = [
         'name',
     ];

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->id('id')->primary();
             $table->foreignUuid('conversion_id')->constrained('conversions')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('sk_attachment');
             $table->string('sft_attachment');
             $table->string('status')->nullable();

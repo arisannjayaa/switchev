@@ -8,6 +8,25 @@
 
 @section('content')
 <div>
+    <div class="page-header mb-3">
+        <div class="row align-items-center mw-100">
+            <div class="col">
+                <div class="mb-1">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">
+                            <a href="#">Dashboard</a>
+                        </li>
+                    </ol>
+                </div>
+                <h2 class="page-title">
+        <span class="text-truncate"
+        >Dashboard</span
+        >
+                </h2>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <div class="card">

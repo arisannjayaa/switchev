@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\ChecklistEquipmentRequest;
 use App\Http\Requests\EquipmentRequest;
 use App\Services\Equipment\EquipmentService;
@@ -18,9 +19,9 @@ class EquipmentController extends Controller
         return view('apps.user.index');
     }
 
-    public function table()
+    public function table($conversion_id)
     {
-        return $this->equipmentService->table();
+        return $this->equipmentService->table(Helper::decrypt($conversion_id));
     }
 
     public function create(EquipmentRequest $request)

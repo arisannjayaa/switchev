@@ -3,10 +3,127 @@
 namespace App\Helpers;
 
 use App\Models\Role;
+use App\Models\TestLetter;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 class Helper
 {
+
+    public static function formatToRupiah($amount) {
+        $formatted_amount = number_format($amount, 0, ',', '.');
+        return "Rp " . $formatted_amount;
+    }
+
+    public static function formatVolt($angka, $suffix = ' Volt') {
+        // Ganti koma dengan titik (untuk konsistensi desimal)
+        $angka = str_replace(',', '.', $angka);
+
+        // Hapus semua karakter selain angka dan titik desimal
+        $formattedValue = preg_replace('/[^0-9.]/', '', $angka);
+
+        // Pastikan hanya ada satu titik desimal
+        $decimalCount = substr_count($formattedValue, '.');
+        if ($decimalCount > 1) {
+            // Hapus bagian setelah titik kedua
+            $formattedValue = substr($formattedValue, 0, strrpos($formattedValue, '.'));
+        }
+
+        // Format ribuan jika ada desimal
+        if (strpos($formattedValue, '.') !== false) {
+            $formattedValue = preg_replace('/(?<=\d)(?=(\d{3})+\.)/', ',', $formattedValue);
+        }
+
+        // Tambahkan suffix "Volt"
+        return $formattedValue ? $formattedValue . $suffix : '';
+    }
+
+    public static function title_sut_srut_form($form_step)
+    {
+        switch ($form_step) {
+            case 1:
+                $form_step_name = 'General';
+                break;
+            case 2:
+                $form_step_name = 'Identitas Kendaraan';
+                break;
+            case 3:
+                $form_step_name = 'Nomor dan Tempat Penomoran Landasan/Chassis, Engine, dan Motor Kendaraan Uji';
+                break;
+            case 4:
+                $form_step_name = 'Motor Penggerak';
+                break;
+            case 5:
+                $form_step_name = 'Sistem Bahan Bakar';
+                break;
+            case 6:
+                $form_step_name = 'Dimensi Kendaraan';
+                break;
+            case 7:
+                $form_step_name = 'Ukuran Ban dan Lingkar Roda';
+                break;
+            case 8:
+                $form_step_name = 'Berat Kendaraan';
+                break;
+            case 9:
+                $form_step_name = 'Penerus Daya (Tranmisi / Kopling)';
+                break;
+            case 10:
+                $form_step_name = 'Sistem Pengereman';
+                break;
+            case 11:
+                $form_step_name = 'Sistem Suspensi';
+                break;
+            case 12:
+                $form_step_name = 'Sistem Kemudi';
+                break;
+            case 13:
+                $form_step_name = 'Lain-Lain';
+                break;
+            case 14:
+                $form_step_name = 'Persyaratan Berkas';
+                break;
+            default:
+                $form_step_name = 'Lain-Lain';
+        }
+
+        return $form_step_name;
+    }
+
+    public static function generateTestLetterCode($last_queue = 0, $jenis = 'EV', $instansi = 'SWITCHEV', $tanggal = null)
+    {
+        $tanggal = $tanggal ? Carbon::parse($tanggal) : now();
+
+        $newQueueNumber = str_pad($last_queue, 4, '0', STR_PAD_LEFT);
+
+        $bulanRomawi = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV',
+            5 => 'V', 6 => 'VI', 7 => 'VII', 8 => 'VIII',
+            9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII',
+        ];
+
+        $bulan = $bulanRomawi[$tanggal->month];
+        $tahun = $tanggal->year;
+
+        return "{$jenis}/{$newQueueNumber}/{$instansi}/{$bulan}/{$tahun}";
+    }
+
+    public static function generateNomorSurat($last_queue = 0, $tipe = 'SRUT', $jenis = 'EV', $instansi = 'SWITCHEV', $tanggal = null)
+    {
+        $tanggal = $tanggal ? Carbon::parse($tanggal) : now();
+
+        $bulanRomawi = [
+            1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV',
+            5 => 'V', 6 => 'VI', 7 => 'VII', 8 => 'VIII',
+            9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII',
+        ];
+
+        $bulan = $bulanRomawi[$tanggal->month];
+        $tahun = $tanggal->year;
+
+        return "{$tipe}/{$jenis}/{$last_queue}/{$instansi}/{$bulan}/{$tahun}";
+    }
+
     public static function check_step_form_title($step)
     {
         switch ($step) {
@@ -34,8 +151,10 @@ class Helper
                 return 'Verifikasi Lapangan Terverifikasi';
             case 'finished':
                 return 'Di Terima';
+            case 'is_being_uploaded':
+                return 'Data Sedang Di Upload';
             default:
-                return 'Ditolak';
+                return 'Di Tolak';
         }
     }
 

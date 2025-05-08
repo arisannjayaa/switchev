@@ -24,9 +24,10 @@ class UserRepositoryImplement extends Eloquent implements UserRepository{
     {
         return $this->model->query()
             ->with(['role'])
-            ->when(auth()->user()->isAdmin(), function ($query) {
+            ->when(auth()->user()->isSuperAdmin(), function ($query) {
                 $query->where('id', '!=', auth()->user()->id);
             })
+
             ->orderBy('updated_at', 'desc');
     }
 }

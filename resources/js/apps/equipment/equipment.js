@@ -52,11 +52,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     $('#btn-equipment-add').click(function () {
-        console.log($("#id").val())
         $('.container form').each(function() {
             this.reset();
         });
-        $("#id_equipment").val("");
+        $("#equipment_id").val('');
         $("#modal-equipment").modal('show');
         $('.modal-title').empty().append('Tambah Peralatan');
         resetValidation();

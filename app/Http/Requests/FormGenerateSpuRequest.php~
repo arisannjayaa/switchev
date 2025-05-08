@@ -1,0 +1,147 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use LaravelEasyRepository\Traits\JsonValidateResponse;
+
+class FormGenerateSpuRequest extends FormRequest
+{
+    use JsonValidateResponse;
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        $rules = [
+            'workshop' => ['required'],
+            'vehicle_name' => ['required'],
+            'brand_type' => ['required'],
+            'type' => ['required'],
+            'vin_nik' => ['required'],
+            'vehicle_code' => ['required'],
+            'fuel' => ['required'],
+            'name_uji_rem' => ['required'],
+            'amount_uji_rem' => ['required'],
+            'vol_uji_rem' => ['required'],
+            'total_uji_rem' => ['required'],
+            'name_uji_lampu_utama' => ['required'],
+            'amount_uji_lampu_utama' => ['required'],
+            'vol_uji_lampu_utama' => ['required'],
+            'total_uji_lampu_utama' => ['required'],
+            'name_uji_klakson' => ['required'],
+            'amount_uji_klakson' => ['required'],
+            'vol_uji_klakson' => ['required'],
+            'total_uji_klakson' => ['required'],
+            'name_uji_side_slip' => ['required'],
+            'amount_uji_side_slip' => ['required'],
+            'vol_uji_side_slip' => ['required'],
+            'total_uji_side_slip' => ['required'],
+            'name_uji_berat' => ['required'],
+            'amount_uji_berat' => ['required'],
+            'vol_uji_berat' => ['required'],
+            'total_uji_berat' => ['required'],
+            'name_uji_dimensi' => ['required'],
+            'amount_uji_dimensi' => ['required'],
+            'vol_uji_dimensi' => ['required'],
+            'total_uji_dimensi' => ['required'],
+            'name_uji_speedometer' => ['required'],
+            'amount_uji_speedometer' => ['required'],
+            'vol_uji_speedometer' => ['required'],
+            'total_uji_speedometer' => ['required'],
+            'name_uji_kontruksi' => ['required'],
+            'amount_uji_kontruksi' => ['required'],
+            'vol_uji_kontruksi' => ['required'],
+            'total_uji_kontruksi' => ['required'],
+            'name_uji_kebisingan' => ['required'],
+            'amount_uji_kebisingan' => ['required'],
+            'vol_uji_kebisingan' => ['required'],
+            'total_uji_kebisingan' => ['required'],
+        ];
+
+        if ($this->input('type') == "Selain Sepeda Motor") {
+            $rules = array_merge($rules, [
+                'name_uji_radius_putar' => ['required'],
+                'amount_uji_radius_putar' => ['required'],
+                'vol_uji_radius_putar' => ['required'],
+                'total_uji_radius_putar' => ['required'],
+            ]);
+        }
+
+        return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'workshop.required' => 'Workshop wajib diisi.',
+            'vehicle_name.required' => 'Nama kendaraan wajib diisi.',
+            'brand_type.required' => 'Tipe merk wajib diisi.',
+            'type.required' => 'Tipe kendaraan wajib diisi.',
+            'vin_nik.required' => 'VIN/NIK wajib diisi.',
+            'vehicle_code.required' => 'Kode kendaraan wajib diisi.',
+            'fuel.required' => 'Jenis bahan bakar wajib diisi.',
+
+            'name_uji_rem.required' => 'Nama uji rem wajib diisi.',
+            'amount_uji_rem.required' => 'Harga uji rem wajib diisi.',
+            'vol_uji_rem.required' => 'Volume uji rem wajib diisi.',
+            'total_uji_rem.required' => 'Total uji rem wajib diisi.',
+
+            'name_uji_lampu_utama.required' => 'Nama uji lampu utama wajib diisi.',
+            'amount_uji_lampu_utama.required' => 'Harga uji lampu utama wajib diisi.',
+            'vol_uji_lampu_utama.required' => 'Volume uji lampu utama wajib diisi.',
+            'total_uji_lampu_utama.required' => 'Total uji lampu utama wajib diisi.',
+
+            'name_uji_radius_putar.required' => 'Nama uji radius putar wajib diisi.',
+            'amount_uji_radius_putar.required' => 'Harga uji radius putar wajib diisi.',
+            'vol_uji_radius_putar.required' => 'Volume uji radius putar wajib diisi.',
+            'total_uji_radius_putar.required' => 'Total uji radius putar wajib diisi.',
+
+            'name_uji_klakson.required' => 'Nama uji klakson wajib diisi.',
+            'amount_uji_klakson.required' => 'Harga uji klakson wajib diisi.',
+            'vol_uji_klakson.required' => 'Volume uji klakson wajib diisi.',
+            'total_uji_klakson.required' => 'Total uji klakson wajib diisi.',
+
+            'name_uji_side_slip.required' => 'Nama uji side slip wajib diisi.',
+            'amount_uji_side_slip.required' => 'Harga uji side slip wajib diisi.',
+            'vol_uji_side_slip.required' => 'Volume uji side slip wajib diisi.',
+            'total_uji_side_slip.required' => 'Total uji side slip wajib diisi.',
+
+            'name_uji_berat.required' => 'Nama uji berat wajib diisi.',
+            'amount_uji_berat.required' => 'Harga uji berat wajib diisi.',
+            'vol_uji_berat.required' => 'Volume uji berat wajib diisi.',
+            'total_uji_berat.required' => 'Total uji berat wajib diisi.',
+
+            'name_uji_dimensi.required' => 'Nama uji dimensi wajib diisi.',
+            'amount_uji_dimensi.required' => 'Harga uji dimensi wajib diisi.',
+            'vol_uji_dimensi.required' => 'Volume uji dimensi wajib diisi.',
+            'total_uji_dimensi.required' => 'Total uji dimensi wajib diisi.',
+
+            'name_uji_speedometer.required' => 'Nama uji speedometer wajib diisi.',
+            'amount_uji_speedometer.required' => 'Harga uji speedometer wajib diisi.',
+            'vol_uji_speedometer.required' => 'Volume uji speedometer wajib diisi.',
+            'total_uji_speedometer.required' => 'Total uji speedometer wajib diisi.',
+
+            'name_uji_kontruksi.required' => 'Nama uji konstruksi wajib diisi.',
+            'amount_uji_kontruksi.required' => 'Harga uji konstruksi wajib diisi.',
+            'vol_uji_kontruksi.required' => 'Volume uji konstruksi wajib diisi.',
+            'total_uji_kontruksi.required' => 'Total uji konstruksi wajib diisi.',
+
+            'name_uji_kebisingan.required' => 'Nama uji kebisingan wajib diisi.',
+            'amount_uji_kebisingan.required' => 'Harga uji kebisingan wajib diisi.',
+            'vol_uji_kebisingan.required' => 'Volume uji kebisingan wajib diisi.',
+            'total_uji_kebisingan.required' => 'Total uji kebisingan wajib diisi.',
+        ];
+
+    }
+}

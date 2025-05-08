@@ -39,6 +39,26 @@ class CertificateRepositoryImplement extends Eloquent implements CertificateRepo
     {
         return $this->model->query()
             ->with(['conversion','user'])
-            ->update($id, $data);
+            ->where('id', $id)
+            ->update($data);
+    }
+
+    /**
+     * @param $conversion_id
+     * @return mixed
+     */
+    public function findByConversionId($conversion_id)
+    {
+        return $this->model->query()
+            ->with(['conversion','user'])
+            ->where('conversion_id', $conversion_id)
+            ->first();
+    }
+
+    public function table()
+    {
+        return $this->model->query()
+            ->with(['conversion','user'])
+            ->orderBy('updated_at', 'desc');
     }
 }

@@ -32,25 +32,25 @@ class ConversionController extends Controller
         }
     }
 
-    public function formResponsibleWorkshop($step)
+    public function formResponsibleWorkshop($step, $id = null)
     {
 
         if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
-            if ($this->conversionService->isFormCompleted(auth()->user()->id)) {
-                return redirect()->route('conversion.index');
-            }
+//            if ($this->conversionService->isFormCompleted(auth()->user()->id)) {
+//                return redirect()->route('conversion.index');
+//            }
 
             $totalSteps = 4;
+            $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();
 
             if ($step < 1 || $step > $totalSteps) {
                 return redirect()->route('conversion.form', ['step' => 1]);
             }
 
-            if ($step > 1 && !$this->conversionService->hasCompletedPreviousStep(auth()->user()->id, $step - 1)) {
+            if ($step > 1 && !$this->conversionService->hasCompletedPreviousStep(auth()->user()->id, $step - 1, Helper::decrypt($id))) {
                 return redirect()->route('conversion.form', ['step' => $step - 1]);
             }
 
-            $data['conversion'] = $this->conversionService->findByUserId(auth()->user()->id)->getResult();
 
 
             $data['titleStep'] = Helper::check_step_form_title($step);
@@ -121,10 +121,6 @@ class ConversionController extends Controller
 
     public function table()
     {
-        if (!auth()->user()->isAdmin()) {
-            return abort(403);
-        }
-
         return $this->conversionService->table();
     }
 
@@ -170,6 +166,11 @@ class ConversionController extends Controller
         }
 
         $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();
+
+        if (@$data['conversion']->status == 'is_being_uploaded') {
+            return redirect()->route('conversion.index');
+        }
+
         $data['attachments'][] = $data['conversion']->application_letter;
         $data['attachments'][] = $data['conversion']->equipment;
         $data['attachments'][] = $data['conversion']->technician_competency;
@@ -192,5 +193,12 @@ class ConversionController extends Controller
     {
         $data = $request->only(['status','id']);
         return $this->conversionService->checklist($data)->toJson();
+    }
+
+    public function process_detail($id)
+    {
+        $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();
+
+        return view('apps.conversion.guest-proses', $data);
     }
 }

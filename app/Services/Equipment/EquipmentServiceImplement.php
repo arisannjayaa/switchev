@@ -2,6 +2,7 @@
 
 namespace App\Services\Equipment;
 
+use App\Helpers\Helper;
 use App\Models\Equipment;
 use App\Repositories\Conversion\ConversionRepository;
 use Exception;
@@ -39,9 +40,9 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
       $this->conversionRepository = $conversionRepository;
     }
 
-    public function table()
+    public function table($conversion_id)
     {
-        return DataTables::of($this->mainRepository->table())
+        return DataTables::of($this->mainRepository->table($conversion_id))
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $html = '<span class="dropdown">
@@ -99,14 +100,14 @@ class EquipmentServiceImplement extends ServiceApi implements EquipmentService{
     public function checkIsAvailable($data)
     {
         try {
-            if ($this->mainRepository->checkIsAvailable()) {
+            if ($this->mainRepository->checkIsAvailable($data['id'])) {
                 $id = $data['id'];
                 $data['step'] = 1;
                 $data['status'] = "checking";
                 $data['message'] = "Tim kami saat ini sedang memeriksa dan memverifikasi berkas yang telah Anda unggah untuk memastikan kelengkapannya. Proses ini mungkin membutuhkan waktu, dan kami akan memberi kabar lebih lanjut setelah verifikasi selesai.";
                 unset($data['id']);
                 $this->conversionRepository->update($id, $data);
-                $redirect = redirect()->intended(URL::route('conversion.index'));
+                $redirect = redirect()->intended(URL::route('conversion.process.detail', ['id' => Helper::encrypt($id)]));
                 return $this->setStatus(true)
                     ->setCode(200)
                     ->setResult(['redirect' => $redirect->getTargetUrl()]);

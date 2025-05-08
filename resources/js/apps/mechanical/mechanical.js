@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('.container form').each(function() {
             this.reset(); // Mereset semua form di dalam container
         });
-        $("#id_mechanical").val("");
+        $("#mechanical_id").val('');
         $("#modal-mechanical").modal('show');
         $('.modal-title').empty().append('Tambah Tenaga Ahli');
         resetValidation();

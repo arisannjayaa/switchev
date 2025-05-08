@@ -28,11 +28,10 @@ class FormDocumentRequest extends FormRequest
             'technician_competency' => ['required', 'file', 'mimes:pdf', 'max:2048'],
             'equipment' => ['required', 'file', 'mimes:pdf', 'max:2048'],
             'sop' => ['required', 'file', 'mimes:pdf', 'max:2048'],
-            'wiring_diagram' => ['required', 'file', 'mimes:pdf', 'max:2048'],
         ];
 
-        if (!array_key_exists('wiring_diagram', $this->all())) {
-            unset($rules['wiring_diagram']);
+        if ($this->input('type_wiring') == 'Selain Sepeda Motor') {
+            $rules['wiring_diagram'] = ['required', 'file', 'mimes:pdf', 'max:2048'];
         }
 
         if ($this->has('old_application_letter') && $this->input('old_application_letter')) {
