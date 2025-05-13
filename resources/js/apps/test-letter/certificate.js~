@@ -461,11 +461,9 @@ document.addEventListener('DOMContentLoaded', function() {
             let fileSk = document.getElementById('sk_attachment').files[0];
             let fileCertificateSRUT = document.getElementById('registration_attachment').files[0];
             let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
-            let fileCertificateAttachment = document.getElementById('certificate_attachment').files[0];
             formData.append('sk_attachment', fileSk);
             formData.append('registration_attachment', fileCertificateSRUT);
             formData.append('type_test_attachment', fileCertificateSUT);
-            formData.append('certificate_attachment', fileCertificateAttachment);
         }
 
         let testLetterId = $("#id").val();

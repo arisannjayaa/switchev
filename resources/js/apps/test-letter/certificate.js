@@ -443,6 +443,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if ($("#workshop_type").val() == "A" && $("#test_letter_step").val() != "create_certificate_srut") {
             let fileCertificateSUT = document.getElementById('type_test_attachment').files[0];
+            let fileSk = document.getElementById('sk_attachment').files[0];
+            formData.append('sk_attachment', fileSk);
             formData.append('type_test_attachment', fileCertificateSUT);
             formData.append('workshop_type', "A");
         }

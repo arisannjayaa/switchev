@@ -54,7 +54,7 @@ class FormTestLetterCertificateRequest extends FormRequest
         'responsible_person' => ['required'],
     ];
 
-        if ($this->input('workshop_type') == "A" && $this->input('test_letter_step') != 'create_certificate_srut') {
+        if ($this->input('workshop_type') == "A" && $this->input('test')) {
             unset($rules['machine']);
         }
 

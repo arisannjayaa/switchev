@@ -194,10 +194,7 @@
                             'name' => 'Sertifikat SRUT'];
                         $attachment_certificates [] = [
                             'file' => $test_letter->certificate->sk_attachment,
-                            'name' => 'Surat Keterangan'];
-                        $attachment_certificates [] = [
-                            'file' => $test_letter->certificate->certificate_attachment,
-                            'name' => 'Lampiran'];
+                            'name' => 'Surat Keterangan SUT dan Lampiran SUT'];
                     @endphp
                     <div class="row w-100 gap-2">
                         @foreach($attachment_certificates as $row)

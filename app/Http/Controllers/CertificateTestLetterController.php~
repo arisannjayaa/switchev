@@ -25,6 +25,8 @@ class CertificateTestLetterController extends Controller
             return abort(403);
         }
 
+        dd(Helper::decrypt("YzhOTlQzdDVoMldPcFhINEJ2SFprdz09"));
+
         return view('apps.certificate-test-letter.index');
     }
 
@@ -44,7 +46,7 @@ class CertificateTestLetterController extends Controller
         }
 
         $data['test_letter'] = $this->testLetterService->findOrFail(Helper::decrypt($id))->getResult();
-        
+
         return view('apps.test-letter.certificate', $data);
     }
 
