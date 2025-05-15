@@ -36,7 +36,8 @@ class Conversion extends Model
         'step_2_completed',
         'step_3_completed',
         'step_4_completed',
-        'certificate_id'
+        'certificate_id',
+        'queue_number',
     ];
 
     public function user()

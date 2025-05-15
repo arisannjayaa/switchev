@@ -201,7 +201,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                 }
 
                 if ($row->step == 'create_certificate_srut') {
-                    $menuCertificate .= '<a class="dropdown-item" href="'.route('certificate.test.letter.certificate.srut', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
+                    $menuCertificate .= '<a class="dropdown-item" href="'.route('certificate.test.letter.certificate', ['id' => Helper::encrypt($row->id)]).'" data-id="'.$row->id.'">
                                   Buat Surat dan Sertifikat SRUT <a/>';
                 }
 

@@ -11,4 +11,6 @@ interface ConversionRepository extends Repository{
     public function findByUserId($userId, $id);
 
     public function table();
+
+    public function getLastQueue();
 }

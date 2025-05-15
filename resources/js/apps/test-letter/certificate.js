@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 orderable: false,
                 searchable: false,
             },
-            { data: 'user.name', name: 'user.name', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'test_letter.code', name: 'test_letter.code', className: 'text-nowrap', orderable: false, searchable: true},
+            { data: 'user.name', name: 'user.name', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'brand', name: 'brand', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'test_letter.workshop', name: 'test_letter.workshop', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'test_letter.workshop_type', name: 'test_letter.workshop_type', className: 'text-nowrap', orderable: false, searchable: true},
@@ -450,9 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if ($("#workshop_type").val() == "A" && $("#test_letter_step").val() == "create_certificate_srut") {
-            let fileSk = document.getElementById('sk_attachment').files[0];
             let fileCertificateSRUT = document.getElementById('registration_attachment').files[0];
-            formData.append('sk_attachment', fileSk);
             formData.append('registration_attachment', fileCertificateSRUT);
             formData.append('workshop_type', "A");
             formData.append('test_letter_step', $("#test_letter_step").val());

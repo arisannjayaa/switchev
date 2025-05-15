@@ -342,9 +342,9 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 
             if ($result->test_letter->workshop_type == "A" && $result->test_letter->step == "create_certificate_srut") {
                 $certificate_srut = $this->generate_certificate_srut($test_letter_id)->getResult();
-                $sk = $this->generate_sk($test_letter_id)->getResult();
+//                $sk = $this->generate_sk($test_letter_id)->getResult();
                 $result->registration_attachment = 'certificate-srut/'. $certificate_srut['file_name'];
-                $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
+//                $result->sk_attachment = 'sk-srut-sut/'. $sk['file_name'];
                 $result->regarding = "Verifikasi Permohonan SRUT dan SUT";
                 $result->status = 'Draft SRUT';
             }
@@ -518,24 +518,25 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         DB::beginTransaction();
         try {
             $certificate = $this->mainRepository->find($data['id']);
-
-            if (@$data['sk_attachment']) {
-                if (@$certificate->sk_attachment && str_contains($certificate->sk_attachment, 'sk-srut-sut')) {
-                    if (file_exists(storage_path('app/public/'.@$certificate->sk_attachment))) {
-                        unlink(storage_path('app/public/'.@$certificate->sk_attachment));
+            if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step != "create_certificate_srut") {
+                if (@$data['sk_attachment']) {
+                    if (@$certificate->sk_attachment && str_contains($certificate->sk_attachment, 'sk-srut-sut')) {
+                        if (file_exists(storage_path('app/public/'.@$certificate->sk_attachment))) {
+                            unlink(storage_path('app/public/'.@$certificate->sk_attachment));
+                        }
                     }
-                }
 
-                // file surat keterangan
-                $fileSKAttachment = $data['sk_attachment'];
-                $originalSKAttachment = $fileSKAttachment->getClientOriginalName();
-                $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
-                $newFileSKAttachment = 'Surat_Keterangan_' . uniqid() . '.' . $extensionApplicationLetter;
-                $filePathApplicationLetter = $fileSKAttachment->storeAs('sk-srut-sut', "Surat_Keterangan_dan_Lampiran".$certificate->test_letter->id.'.pdf', 'public');
-                $data['sk_attachment'] = $filePathApplicationLetter;
-            } else {
-                $data['sk_attachment'] = @$data['old_sk_attachment'];
-                unset($data['old_sk_attachment']);
+                    // file surat keterangan
+                    $fileSKAttachment = $data['sk_attachment'];
+                    $originalSKAttachment = $fileSKAttachment->getClientOriginalName();
+                    $extensionApplicationLetter = $fileSKAttachment->getClientOriginalExtension();
+                    $newFileSKAttachment = 'Surat_Keterangan_' . uniqid() . '.' . $extensionApplicationLetter;
+                    $filePathApplicationLetter = $fileSKAttachment->storeAs('sk-srut-sut', "Surat_Keterangan_dan_Lampiran_".$certificate->test_letter->id.'.pdf', 'public');
+                    $data['sk_attachment'] = $filePathApplicationLetter;
+                } else {
+                    $data['sk_attachment'] = @$data['old_sk_attachment'];
+                    unset($data['old_sk_attachment']);
+                }
             }
 
             if (@$data['type_test_attachment']) {
@@ -596,9 +597,21 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
 //            }
 
             if (@$certificate) {
-                $certificate->type_test_attachment = $data['type_test_attachment'];
-                $certificate->registration_attachment = $data['registration_attachment'];
-                $certificate->sk_attachment = $data['sk_attachment'];
+                if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step != "create_certificate_srut") {
+                    $certificate->sk_attachment = $data['sk_attachment'];
+                    $certificate->type_test_attachment = $data['type_test_attachment'];
+                }
+
+                if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step == "create_certificate_srut") {
+                    $certificate->registration_attachment = $data['registration_attachment'];
+                }
+
+                if ($certificate->test_letter->workshop_type == "B") {
+                    $certificate->type_test_attachment = $data['type_test_attachment'];
+                    $certificate->registration_attachment = $data['registration_attachment'];
+                    $certificate->sk_attachment = $data['sk_attachment'];
+                }
+
                 $certificate->status = 'Selesai';
                 $certificate->save();
 
@@ -637,7 +650,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             }
 
             if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step != "create_certificate_srut") {
-                $mail['title'] = 'Dokumen Uji Tipe Kendaraan Listrik Anda Telah Tersedia';
+                $mail['title'] = 'Dokumen SUT dan Surat Keterangan SUT dan Lampiran Kendaraan Listrik Anda Telah Tersedia';
                 $mail['message'] = '
                                     <h2>🔧 Dokumen Uji Tipe Telah Tersedia</h2>
                                     <p>
@@ -650,7 +663,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                                     <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan dan Lampiran</a>
 
                                     <p style="margin-top: 20px;">
-                                        Untuk melanjutkan proses dan memperoleh dokumen lanjutan seperti *Surat Registrasi Uji Tipe (SRUT)*, dan *Surat Keterangan SRUT dan Lampiran SRUT* . Anda perlu terlebih dahulu mengajukan permohonan SRUT.
+                                        Untuk melanjutkan proses dan memperoleh dokumen lanjutan seperti *Surat Registrasi Uji Tipe (SRUT)*. Anda perlu terlebih dahulu mengajukan permohonan SRUT.
                                         Pengajuan ini dapat dilakukan melalui sistem kami, serta melampirkan dokumen tambahan yang dibutuhkan.
                                     </p>
 
@@ -667,32 +680,23 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             }
 
             if ($certificate->test_letter->workshop_type == "A" && $certificate->test_letter->step == "create_certificate_srut") {
-                $mail['title'] = 'Dokumen Uji Tipe Kendaraan Listrik Anda Telah Tersedia';
+                $mail['title'] = 'Dokumen SRUT Kendaraan Listrik Anda Telah Tersedia';
                 $mail['message'] = '
-                                    <h2>🔧 Sertifikat Registrasi Uji Tipe dan Surat Keterangan Telah Tersedia</h2>
+                                    <h2>🔧 Sertifikat Registrasi Uji Tipe Telah Tersedia</h2>
                                     <p>
                                         Terima kasih atas partisipasi Anda dalam program percepatan kendaraan listrik di Indonesia.
-                                        Kami informasikan bahwa dokumen lanjutan *Surat Registrasi Uji Tipe (SUT)* dan *Surat Keterangan (SK)* kendaraan listrik Anda telah tersedia dan dapat diunduh melalui tombol di bawah ini:
+                                        Kami informasikan bahwa dokumen lanjutan *Surat Registrasi Uji Tipe (SRUT)* kendaraan listrik Anda telah tersedia dan dapat diunduh melalui tombol di bawah ini:
                                     </p>
-
-                                    <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->sk_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #007bff;">📄 Download Surat Keterangan</a>
 
                                     <a href="' . route('secure.file', ['path' => Helper::encrypt($certificate->registration_attachment)]) . '" style="display: inline-block; padding: 12px 20px; margin: 10px; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #28a745;">📜 Download Surat Registrasi Uji Tipe</a>
 
-                                    <p style="margin-top: 20px;">
-                                        Untuk melanjutkan proses dan memperoleh dokumen lanjutan seperti *Surat Registrasi Uji Tipe (SRUT)*, dan *Surat Keterangan* . Anda perlu terlebih dahulu mengajukan permohonan SRUT.
-                                        Pengajuan ini dapat dilakukan melalui sistem kami, serta melampirkan dokumen tambahan yang dibutuhkan.
-                                    </p>
-
-                                    <p>
-                                        Silakan hubungi tim kami jika Anda memerlukan panduan dalam mengajukan permohonan SRUT atau menyiapkan dokumen tambahan.
-                                    </p>
-
                                     <p style="margin-top: 20px; font-size: 14px; color: #777;">
-                                        🚀 Semoga proses administrasi kendaraan Anda berjalan lancar.<br><br>
-                                        Salam hangat,<br>
-                                        <strong>Tim Administrasi SwitchEv</strong>
-                                    </p>
+                                🚀 Semoga dokumen ini membantu proses administrasi kendaraan Anda dengan lancar.
+                                Jika ada pertanyaan, silakan hubungi tim kami melalui kontak yang tersedia.
+                                <br><br>
+                                Salam hangat,<br>
+                                <strong>Tim Administrasi SwitchEv</strong>
+                                </p>
                                 ';
             }
 

@@ -51,4 +51,14 @@ class ConversionRepositoryImplement extends Eloquent implements ConversionReposi
             ->where('id', $id)
             ->first();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLastQueue()
+    {
+        return $this->model->query()
+            ->orderBy('queue_number', 'desc')
+            ->first();
+    }
 }

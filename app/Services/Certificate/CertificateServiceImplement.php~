@@ -55,11 +55,11 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $conversion = $this->conversionRepository->find($conversion_id);
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "A") {
-                $templatePath = storage_path('app/templates/SERTIF_BENGKEL_TIPE_A.docx');
+                $templatePath = storage_path('app/templates/SERTIF_BENGKEL_TIPE_A.doc');
             }
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "B") {
-                $templatePath = storage_path('app/templates/SERTIF_BENGKEL_TIPE_B.docx');
+                $templatePath = storage_path('app/templates/SERTIF_BENGKEL_TIPE_B.doc');
             }
 
             if ($conversion->type == "Selain Sepeda Motor") {
@@ -96,11 +96,11 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $conversion = $this->conversionRepository->find($conversion_id);
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "A") {
-                $templatePath = storage_path('app/templates/SK_BENGKEL_TIPE_A.docx');
+                $templatePath = storage_path('app/templates/SK_BENGKEL_TIPE_A.doc');
             }
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "B") {
-                $templatePath = storage_path('app/templates/SK_BENGKEL_TIPE_B.docx');
+                $templatePath = storage_path('app/templates/SK_BENGKEL_TIPE_B.doc');
             }
 
             if ($conversion->type == "Selain Sepeda Motor") {

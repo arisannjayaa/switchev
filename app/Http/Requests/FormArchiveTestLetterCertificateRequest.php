@@ -36,7 +36,7 @@ class FormArchiveTestLetterCertificateRequest extends FormRequest
         }
 
         if ($this->input('workshop_type') == "A" && $this->input('test_letter_step') == "create_certificate_srut") {
-            unset($rules['type_test_attachment']);
+            unset($rules['type_test_attachment'], $rules['sk_attachment'], );
         }
 
         if ($this->has('old_sk_attachment') && $this->input('old_sk_attachment')) {

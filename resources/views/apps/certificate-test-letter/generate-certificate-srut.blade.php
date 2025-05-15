@@ -105,24 +105,6 @@
                     </button>
                 </div>
             </div>
-            <div class="alert alert-important alert-info" role="alert">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex">
-                        <div class="alert-icon">
-                            <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
-                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                                <path d="M12 8v4"></path>
-                                <path d="M12 16h.01"></path>
-                            </svg>
-                        </div>
-                        <span class="alert-heading">Surat Keterangan bisa diunduh disini</span>
-                    </div>
-                    <button id="btn-download-sk" class="btn btn-outline-primary">
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon mx-0 icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
-                    </button>
-                </div>
-            </div>
         @endif
         <div class="alert alert-important alert-info" role="alert">
             <div class="d-flex align-items-center justify-content-between">
@@ -178,19 +160,7 @@
                         <input id="certificate_id" type="hidden" class="form-control" name="certificate_id" value="{{ @$test_letter->certificate->id }}">
                         <input id="workshop_type" type="hidden" class="form-control" name="workshop_type" value="{{ @$test_letter->workshop_type }}">
                         <input id="test_letter_step" type="hidden" class="form-control" name="test_letter_step" value="{{ @$test_letter->step }}">
-                        <input type="hidden" class="form-control" id="old_type_test_attachment" name="old_type_test_attachment" value="{{ @$test_letter->certificate->type_test_attachment }}">
                             <div class="col-12">
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label class="form-label required">Surat Keterangan</label>
-                                        <input id="sk_attachment" type="file" class="form-control" name="sk_attachment">
-                                        @if(@$test_letter->certificate->sk_attachment && $extension_sk == 'pdf') <input type="hidden" class="form-control" name="old_sk_attachment" value="{{ @$test_letter->certificate->sk_attachment }}"> @endif
-                                        <small class="form-hint">
-                                            @if(@$test_letter->certificate->sk_attachment && $extension_sk == 'pdf') sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->certificate->sk_attachment)]) }}">lihat disini</a> @endif
-                                            Upload file dalam bentuk pdf hasil dari surat keterangan
-                                        </small>
-                                    </div>
-                                </div>
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label class="form-label required">Sertifikat SRUT</label>

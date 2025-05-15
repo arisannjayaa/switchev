@@ -113,6 +113,12 @@ class ConversionServiceImplement extends ServiceApi implements ConversionService
 
             if (!@$data['id']) {
                 unset($data['id']);
+                $lastQueue = $this->mainRepository->getLastQueue();
+                $lastNumber = $lastQueue ? (int) $lastQueue->queue_number : 0;
+                $newQueueNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+                $data['queue_number'] = $newQueueNumber;
+                $data['sk_code'] = Helper::generateNomorSurat($newQueueNumber, "SK/BK");
+                $data['certificate_code'] = Helper::generateNomorSurat($newQueueNumber, "SBK");
                 $this->mainRepository->create($data);
             }
 
