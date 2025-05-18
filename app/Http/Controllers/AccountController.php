@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\FormChangePassword;
+use App\Http\Requests\FormUpdateAccount;
+use App\Services\Auth\AuthService;
+use App\Services\User\UserService;
+use Illuminate\Http\Request;
+
+class AccountController extends Controller
+{
+    protected $userService,$authService;
+    public function __construct(UserService $userService, AuthService $authService)
+    {
+        $this->userService = $userService;
+        $this->authService = $authService;
+    }
+
+    public function index()
+    {
+        $data['user'] = $this->userService->findOrFail(auth()->user()->id)->getResult();
+        return view('apps.account.index', $data);
+    }
+
+    public function change_password_submit(FormChangePassword $request)
+    {
+        $data = $request->only(['password_new']);
+        return $this->authService->change_password($data)->toJson();
+    }
+
+    public function update_account(FormUpdateAccount $request)
+    {
+        $data = $request->only(['name','telephone','email']);
+        return $this->authService->update_account($data)->toJson();
+    }
+}

@@ -1,0 +1,33 @@
+<div class="modal modal-blur fade" id="modal-change-password" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form-change-password">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="id" value="">
+                    <div class="mb-3">
+                        <label class="form-label required">Kata Sandi Lama</label>
+                        <div>
+                            <input type="password" class="form-control" placeholder="Kata Sandi Lama" name="password_old" id="password_old">
+                            <small class="form-hint">Kata Sandi Lama</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label required">Kata Sandi Baru</label>
+                        <div>
+                            <input type="password" class="form-control" placeholder="Kata Sandi Baru" name="password_new" id="password_new">
+                            <small class="form-hint">Kata Sandi Baru</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">Keluar</button>
+                    <button type="submit" id="btn-change-password-submit" class="btn btn-primary">Ubah Kata Sandi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

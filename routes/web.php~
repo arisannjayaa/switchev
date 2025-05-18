@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [AccountController::class, 'index'])->name('index');
         Route::get('/ubah-kata-sandi', [AccountController::class, 'change_password'])->name('change.password');
         Route::post('/ubah-kata-sandi', [AccountController::class, 'change_password_submit'])->name('change.password.submit');
-        Route::post('/update-akun', [AccountController::class, 'update_account'])->name('update');
+        Route::post('/update-akun', [AccountController::class, 'update_account'])->name('update.account');
     });
 
     // conversion

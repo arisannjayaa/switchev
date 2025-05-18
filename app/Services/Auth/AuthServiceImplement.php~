@@ -110,6 +110,7 @@ class AuthServiceImplement extends ServiceApi implements AuthService{
             $id = auth()->user()->id;
             $this->mainRepository->update($id, $data);
 
+            auth()->logout();
             $redirect = redirect()->intended(URL::route('account.index'));
 
             return $this->setCode(200)
