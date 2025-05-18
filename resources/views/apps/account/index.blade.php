@@ -66,7 +66,7 @@
                                     <h3 class="card-title mt-4">Email</h3>
                                     <div>
                                         <div class="row g-2">
-                                            <div class="col-4">
+                                            <div class="col-lg-4 col-12">
                                                 <input name="email" type="text" class="form-control w-100" value="{{ $user->email }}">
                                             </div>
                                         </div>
