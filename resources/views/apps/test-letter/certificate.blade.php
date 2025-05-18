@@ -204,6 +204,19 @@
                                 </div>
                             </div>
                         @endif
+                        @if(@$test_letter->workshop_type == "B")
+                            <input type="hidden" name="test_letter_step" id="test_letter_step" value="{{ $test_letter->step }}">
+                            <div class="col-md-6 col-12">
+                                <div class="mb-3">
+                                    <label class="form-label required">Nomor Mesin</label>
+                                    <input type="text" class="form-control" placeholder="Nomor Mesin" id="machine"
+                                           name="machine" value="{{ @$test_letter->certificate->machine }}">
+                                    <small class="form-hint">
+                                        No Mesin pada kendaraan, contoh : MH4LXXXXXXXXXXXXX
+                                    </small>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="form-label required">Nomor Motor Listrik</label>
