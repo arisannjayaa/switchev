@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->role->id == Role::SUPERADMIN;
     }
 
+    public function isBpljskb()
+    {
+        return $this->role->id == Role::BPLJSKB;
+    }
+
     public function isVerified()
     {
         return $this->status == "verified";

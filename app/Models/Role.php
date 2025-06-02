@@ -15,6 +15,8 @@ class Role extends Model
 
     const SUPERADMIN = 3;
 
+    const BPLJSKB = 4;
+
     protected $fillable = [
         'name',
     ];

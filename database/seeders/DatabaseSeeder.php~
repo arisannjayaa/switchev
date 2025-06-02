@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'BPLJSKB'
+            'name' => 'BP'
         ]);
 
         User::factory()->create([
