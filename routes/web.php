@@ -10,9 +10,12 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MechanicalController;
 use App\Http\Controllers\SecureFileController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TestLetterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+date_default_timezone_set('Asia/Makassar');
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -140,6 +143,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [CertificateTestLetterController::class, 'show'])->name('show');
     });
 
+    // template
+    Route::prefix('template')->name('template.')->group(function () {
+        Route::get('/', [TemplateController::class, 'index'])->name('index');
+        Route::get('/table', [TemplateController::class, 'table'])->name('table');
+        Route::post('/update', [TemplateController::class, 'update'])->name('update');
+        Route::get('/form/{id}', [TemplateController::class, 'form'])->name('form');
+        Route::get('/{id}', [TemplateController::class, 'detail'])->name('detail');
+    });
+
 
 });
 
@@ -149,4 +161,5 @@ Route::prefix('/')->name('home.')->group(function () {
 
 
 Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');
+Route::get('/d/{path}', [SecureFileController::class, 'download'])->name('secure.file.download');
 Route::get('/qr-code/{path}', [SecureFileController::class, 'index'])->name('qr.secure.file');

@@ -6,5 +6,5 @@ use LaravelEasyRepository\Repository;
 
 interface TemplateCertificateRepository extends Repository{
 
-    // Write something awesome :)
+    public function table();
 }

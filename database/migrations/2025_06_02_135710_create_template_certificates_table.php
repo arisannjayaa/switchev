@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('attachment');
             $table->string('attachment_default');
+            $table->boolean('is_change')->default(0);
             $table->timestamps();
         });
     }

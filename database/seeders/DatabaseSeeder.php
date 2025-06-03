@@ -119,12 +119,17 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'SUT Konversi',
                 'attachment' => 'templates/SUT_KONVERSI_NEW.docx',
-                'attachment_default' => 'templates/SUT_KONVERSI_NEW.docx'
+                'attachment_default' => 'templates/SUT_KONVERSI.docx'
             ],
             [
                 'name' => 'Lampiran Hasil Uji',
                 'attachment' => 'templates/LAMPIRAN.docx',
                 'attachment_default' => 'templates/LAMPIRAN.docx'
+            ],
+            [
+                'name' => 'Template SPU',
+                'attachment' => 'templates/Template_SPU.docx',
+                'attachment_default' => 'templates/Template_SPU.docx'
             ],
         ];
 

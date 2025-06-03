@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MechanicalController;
 use App\Http\Controllers\SecureFileController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TestLetterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [AccountController::class, 'index'])->name('index');
         Route::get('/ubah-kata-sandi', [AccountController::class, 'change_password'])->name('change.password');
         Route::post('/ubah-kata-sandi', [AccountController::class, 'change_password_submit'])->name('change.password.submit');
-        Route::post('/update-akun', [AccountController::class, 'update_account'])->name('update.account');
+        Route::post('/update-akun', [AccountController::class, 'update_account'])->name('update');
     });
 
     // conversion
@@ -140,6 +141,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [CertificateTestLetterController::class, 'show'])->name('show');
     });
 
+    // template
+    Route::prefix('template')->name('template.')->group(function () {
+        Route::get('/', [TemplateController::class, 'index'])->name('index');
+        Route::get('/table', [TemplateController::class, 'table'])->name('table');
+        Route::post('/update', [TemplateController::class, 'update'])->name('update');
+        Route::get('/form/{id}', [TemplateController::class, 'form'])->name('form');
+        Route::get('/{id}', [TemplateController::class, 'detail'])->name('detail');
+    });
+
 
 });
 
@@ -149,4 +159,5 @@ Route::prefix('/')->name('home.')->group(function () {
 
 
 Route::get('/s/{path}', [SecureFileController::class, 'index'])->name('secure.file');
+Route::get('/d/{path}', [SecureFileController::class, 'download'])->name('secure.file.download');
 Route::get('/qr-code/{path}', [SecureFileController::class, 'index'])->name('qr.secure.file');

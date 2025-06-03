@@ -19,5 +19,6 @@ class TemplateCertificate extends Model
         'name',
         'attachment',
         'attachment_default',
+        'is_change',
     ];
 }

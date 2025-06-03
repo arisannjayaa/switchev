@@ -19,12 +19,5 @@ class TemplateCertificateRepositoryImplement extends Eloquent implements Templat
         $this->model = $model;
     }
 
-    /**
-     * @return mixed
-     */
-    public function table()
-    {
-        return $this->model->query()
-            ->orderBy('updated_at', 'desc');
-    }
+    // Write something awesome :)
 }

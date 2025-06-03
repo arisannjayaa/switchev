@@ -1,0 +1,113 @@
+import Swal from "sweetalert2";
+import {csrfToken, handleValidation} from "@/app.js";
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tableUrl = $('#table-url').val();
+    const asset = $("#asset-url").val();
+
+    $("#table").DataTable({
+        order: [[0, 'desc']],
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        autoWidth: false,
+        responsive: true,
+        ajax: {
+            url: tableUrl
+        },
+        language: {
+            search: "Cari:",
+            paginate: {
+                "first":      "Pertama",
+                "last":       "Terakhir",
+                "next":       "Berikutnya",
+                "previous":   "Sebelumnya"
+            },
+            info: 'Menampilkan halaman _PAGE_ dari _PAGES_',
+            infoEmpty: 'Tidak ada data yang tersedia',
+            infoFiltered: '(Terfilter dari _MAX_ jumlah data)',
+            lengthMenu: 'Tampilkan _MENU_ data per halaman',
+            emptyTable: `<div class="text-center"><img class="mb-3" width="200" src="${asset+'assets/dist/img/undraw_no_data_re_kwbl.svg'}"><p>Data Masih Kosong</p></div>`,
+            zeroRecords: `<div class="text-center"><img class="mb-3" width="200" src="${asset+'assets/dist/img/undraw_not_found_re_bh2e.svg'}"><p>Data Tidak Ditemukan</p></div>`
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                name: "DT_RowIndex",
+                width: "40px",
+                orderable: false,
+                searchable: false,
+            },
+            { data: 'name', name: 'name', className: 'text-nowrap', orderable: false, searchable: true},
+            { data: 'attachment_url', name: 'attachment_url', className: 'text-nowrap', orderable: false, searchable: false},
+            { data: 'action', name: 'action', className: 'text-nowrap', orderable: false, searchable: false},
+        ],
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
+        ],
+    });
+
+    $("#attachment").change(function () {
+        if ($('[name="old_attachment"]').length) {
+            $('[name="old_attachment"]').remove();
+        }
+    })
+
+    $("#form-template").submit(function (e) {
+        e.preventDefault();
+
+        let id = $("#id").val();
+        let formData = new FormData(this);
+        let btn = "#btn-submit";
+        let form = "#form-template";
+
+        var url = $("#update-url").val();
+
+        $(btn).empty().append(`<div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>`);
+
+        // send data
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+            },
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if(data.code == 200) {
+                    Swal.fire({
+                        html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
+                    <h3>Berhasil</h3>
+                    <div class="text-secondary">${data.message}</div>`,
+                        confirmButtonText: 'Ok',
+                        confirmButtonColor: '#2fb344',
+                        customClass: {
+                            confirmButton: 'btn btn-success w-100'
+                        }
+                    });
+
+                    setTimeout(() => {
+                        window.location.href = data.data.redirect;
+                    }, 1000);
+                }
+
+                if (data.errors || data.invalid) {
+                    new handleValidation(data.errors || data.invalid)
+                    return;
+                }
+
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            .finally(() => {
+                $(btn).empty().append("Simpan");
+            });
+    });
+});

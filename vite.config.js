@@ -19,6 +19,7 @@ export default defineConfig({
                 'resources/js/apps/test-letter/spu.js',
                 'resources/js/apps/test-letter/certificate.js',
                 'resources/js/apps/test-letter/permohonan-srut.js',
+                'resources/js/apps/template-certificate/template.js',
             ],
             refresh: true,
         }),

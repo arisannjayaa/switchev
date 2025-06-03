@@ -13,4 +13,11 @@ class SecureFileController extends Controller
         $newPath = storage_path('app/public/'.Helper::decrypt($path));
         return response()->download($newPath);
     }
+
+    public function download($path)
+    {
+        // decrypt
+        $newPath = storage_path('app/public/'.Helper::decrypt($path));
+        return response()->file($newPath);
+    }
 }

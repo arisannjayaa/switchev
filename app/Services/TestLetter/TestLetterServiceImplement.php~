@@ -255,7 +255,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             $templatePath = storage_path('app/templates/Surat_Pengantar_Uji.docx');
             $templateProcessor = new TemplateProcessor($templatePath);
 
-            $outputPath = storage_path('app/public/surat-pengantar/'.'SPU-'.uniqid().'.docx');
+            $outputPath = storage_path('app/public/surat-pengantar/'.'SPUF-342986737.docx');
             $templateProcessor->saveAs($outputPath);
             return  Str::after($outputPath, 'app/public/');
         } catch (Exception $e) {

@@ -75,7 +75,7 @@ class TemplateCertificateServiceImplement extends ServiceApi implements Template
                     $file = @$data[@$key];
                     $originalName = $file->getClientOriginalName();
                     $extension = $file->getClientOriginalExtension();
-                    $newFileName = @$value['file_name'] . '_' . uniqid() . '.' . $extension;
+                    $newFileName = @$value['file_name'] . uniqid() . '_.' . $extension;
                     $filePath = $file->storeAs('templates/new', $newFileName, 'public');
                     $data[@$key] = $filePath;
                 }

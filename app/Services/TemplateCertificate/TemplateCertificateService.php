@@ -6,5 +6,5 @@ use LaravelEasyRepository\BaseService;
 
 interface TemplateCertificateService extends BaseService{
 
-    // Write something awesome :)
+    public function table();
 }
