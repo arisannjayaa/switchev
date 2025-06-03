@@ -54,6 +54,7 @@ return new class extends Migration
             $table->string('status')->nullable();
 
             $table->json('testing')->nullable();
+            $table->string('testing_status')->nullable();
             $table->timestamps();
         });
     }

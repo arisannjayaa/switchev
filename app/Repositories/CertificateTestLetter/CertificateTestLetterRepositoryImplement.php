@@ -28,7 +28,12 @@ class CertificateTestLetterRepositoryImplement extends Eloquent implements Certi
     {
         return $this->model->query()
             ->with(['test_letter','user'])
-            ->whereIn('status',  ['Draft','Terverifikasi','Selesai','Draft SRUT','Draft SUT','Draft SRUT SUT','SUT Terverifikasi','SRUT Terverifikasi','SRUT SUT Terverifikasi'])
+            ->when((auth()->user()->isAdmin() && auth()->user()->isSuperAdmin()), function ($query) {
+                return $query->whereIn('status',  ['Draft','Terverifikasi','Selesai','Draft SRUT','Draft SUT','Draft SRUT SUT','SUT Terverifikasi','SRUT Terverifikasi','SRUT SUT Terverifikasi']);
+            })
+            ->when(auth()->user()->isBpljskb(), function ($query) {
+                return $query->whereIn('testing_status', ['Menunggu Hasil Uji', 'Hasil Uji Sudah Dibuat']);
+            })
             ->orderBy('updated_at', 'desc');
     }
 

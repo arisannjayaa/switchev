@@ -52,10 +52,15 @@ class FormTestLetterCertificateRequest extends FormRequest
         'workshop' => ['required'],
         'address' => ['required'],
         'responsible_person' => ['required'],
+        'testing_null' => ['required'],
     ];
 
         if ($this->input('workshop_type') == "A" && $this->input('test_letter_step') != 'create_certificate_srut') {
             unset($rules['machine']);
+        }
+
+        if (!$this->has('testing_null')) {
+            unset($rules['testing_null']);
         }
 
         return $rules;
@@ -96,6 +101,7 @@ class FormTestLetterCertificateRequest extends FormRequest
             'responsible_person.required' => 'Penanggung jawab wajib diisi.',
             'workshop.required' => 'Bengkel wajib diisi.',
             'address.required' => 'Alamat wajib diisi.',
+            'testing_null.required' => 'Hasil uji tidak boleh kosong.',
         ];
 
     }

@@ -101,7 +101,10 @@
                                 <small class="form-hint">
                                     @if(@$test_letter->conversion_type_test_application_letter) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->conversion_type_test_application_letter)]) }}">lihat disini</a>
                                     <br> @endif
-                                    Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/FORMAT_SURAT_PERMOHONAN_SRUT.docx')]) }}">Disini</a>
+                                        @php
+                                            $template = \App\Models\TemplateCertificate::find(\App\Models\TemplateCertificate::SURAT_PERMOHONAN_SRUT);
+                                        @endphp
+                                        Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($template->attachment)]) }}">Disini</a>
                                 </small>
                             </div>
                         </div>

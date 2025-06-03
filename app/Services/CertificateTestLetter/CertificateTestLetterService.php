@@ -21,4 +21,10 @@ interface CertificateTestLetterService extends BaseService{
     public function table();
 
     public function verify_draft($id);
+
+    public function request_testing($data);
+
+    public function table_testing();
+
+    public function form_testing_submit($data);
 }

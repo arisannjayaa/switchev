@@ -22,6 +22,10 @@ class TestLetterController extends Controller
 
     public function index(Request $request)
     {
+        if (auth()->user()->isBpljskb()) {
+            return abort(403);
+        }
+
         $data['test_letters'] = $this->testLetterService->findAllByUserId()->getResult();
         return view('apps.test-letter.index', $data);
     }

@@ -6,7 +6,9 @@ use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
 use App\Mail\MailSend;
 use App\Models\Certificate;
+use App\Models\TemplateCertificate;
 use App\Repositories\Conversion\ConversionRepository;
+use App\Repositories\TemplateCertificate\TemplateCertificateRepository;
 use App\Repositories\User\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -39,13 +41,19 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
      * don't change $this->mainRepository variable name
      * because used in extends service class
      */
-     protected $mainRepository, $conversionRepository;
+     protected $mainRepository, $conversionRepository, $userRepository, $templateRepository;
 
-    public function __construct(CertificateRepository $mainRepository, ConversionRepository $conversionRepository, UserRepository $userRepository)
+    public function __construct(
+        CertificateRepository $mainRepository,
+        ConversionRepository $conversionRepository,
+        UserRepository $userRepository,
+        TemplateCertificateRepository $templateRepository
+    )
     {
       $this->mainRepository = $mainRepository;
       $this->conversionRepository = $conversionRepository;
       $this->userRepository = $userRepository;
+      $this->templateRepository = $templateRepository;
     }
 
     // Define your custom methods :)
@@ -55,15 +63,18 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $conversion = $this->conversionRepository->find($conversion_id);
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "A") {
-                $templatePath = storage_path('app/templates/SERTIF_BENGKEL_TIPE_A.docx');
+                $template = $this->templateRepository->find(TemplateCertificate::SERTIF_BENGKEL_TIPE_A);
+                $templatePath = storage_path('app/'.$template->attachment);
             }
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "B") {
-                $templatePath = storage_path('app/templates/SERTIF_BENGKEL_TIPE_B.docx');
+                $template = $this->templateRepository->find(TemplateCertificate::SERTIF_BENGKEL_TIPE_B);
+                $templatePath = storage_path('app/'.$template->attachment);
             }
 
             if ($conversion->type == "Selain Sepeda Motor") {
-                $templatePath = storage_path('app/templates/SERTIF_SELAIN_SEPEDA_MOTOR.docx');
+                $template = $this->templateRepository->find(TemplateCertificate::SERTIF_SELAIN_SEPEDA_MOTOR);
+                $templatePath = storage_path('app/'.$template->attachment);
             }
 
             $year_value = $accreditation_type == "A" ? "5 (lima) " : "4 (empat) ";
@@ -96,15 +107,18 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $conversion = $this->conversionRepository->find($conversion_id);
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "A") {
-                $templatePath = storage_path('app/templates/SK_BENGKEL_TIPE_A.docx');
+                $template = $this->templateRepository->find(TemplateCertificate::SK_BENGKEL_TIPE_A);
+                $templatePath = storage_path('app/'.$template->attachment);
             }
 
             if ($conversion->type == "Sepeda Motor" && $accreditation_type == "B") {
-                $templatePath = storage_path('app/templates/SK_BENGKEL_TIPE_B.docx');
+                $template = $this->templateRepository->find(TemplateCertificate::SK_BENGKEL_TIPE_B);
+                $templatePath = storage_path('app/'.$template->attachment);
             }
 
             if ($conversion->type == "Selain Sepeda Motor") {
-                $templatePath = storage_path('app/templates/SK_SELAIN_SEPEDA_MOTOR.docx');
+                $template = $this->templateRepository->find(TemplateCertificate::SK_SELAIN_SEPEDA_MOTOR);
+                $templatePath = storage_path('app/'.$template->attachment);
             }
 
             $year_value = $accreditation_type == "A" ? "5 (lima)" : "4 (empat)";

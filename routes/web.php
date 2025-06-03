@@ -136,11 +136,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/generate-sk', [CertificateTestLetterController::class, 'generate_sk'])->name('generate.sk');
         Route::post('/generate-certificate-attachment', [CertificateTestLetterController::class, 'generate_certificate_attachment'])->name('generate.certificate.attachment');
         Route::post('/verifikasi-draft', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft'])->name('verification.draft.submit');
+        Route::post('/request-hasil-uji', [\App\Http\Controllers\CertificateTestLetterController::class, 'request_testing'])->name('request.testing');
+
         Route::get('/verifikasi-draft/{id}', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft_view'])->name('verification.draft.form');
         Route::get('/sertifikat/{id}', [CertificateTestLetterController::class, 'certificate'])->name('certificate');
         Route::get('/sertifikat-srut/{id}', [CertificateTestLetterController::class, 'certificate_srut'])->name('certificate.srut');
         Route::get('/generate/{id}', [CertificateTestLetterController::class, 'generate'])->name('generate');
         Route::get('/{id}', [CertificateTestLetterController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('hasil-uji')->name('testing.')->group(function () {
+        Route::get('/', [CertificateTestLetterController::class, 'index_testing'])->name('index');
+        Route::get('/table', [CertificateTestLetterController::class, 'table_testing'])->name('table');
+        Route::post('/update', [CertificateTestLetterController::class, 'form_testing_submit'])->name('update');
+        Route::get('/form/{id}', [CertificateTestLetterController::class, 'form_testing'])->name('form');
     });
 
     // template

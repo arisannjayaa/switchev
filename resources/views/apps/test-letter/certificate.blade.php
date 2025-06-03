@@ -91,13 +91,17 @@
                 <div class="d-flex">
                     <div class="alert-icon">
                         <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon alert-icon icon-2">
                             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
                             <path d="M12 8v4"></path>
                             <path d="M12 16h.01"></path>
                         </svg>
                     </div>
-                    <span class="">Untuk melihat detail data, silakan klik <a target="_blank" href="{{ route('test.letter.show', ['id' => \App\Helpers\Helper::encrypt($test_letter->id)]) }}" class="alert-link">tautan ini</a>.</span>
+                    <span class="">Untuk melihat detail data, silakan klik <a target="_blank"
+                                                                              href="{{ route('test.letter.show', ['id' => \App\Helpers\Helper::encrypt($test_letter->id)]) }}"
+                                                                              class="alert-link">tautan ini</a>.</span>
                 </div>
             </div>
         </div>
@@ -156,7 +160,7 @@
                             <div class="mb-3">
                                 <label class="form-label required">Jenis</label>
                                 <select class="form-control" id="vehicle_type" name="vehicle_type">
-                                    <option >Pilih Jenis</option>
+                                    <option value="">Pilih Jenis</option>
                                     <option
                                         value="Sepeda Motor" {{ @$test_letter->certificate->vehicle_type == 'Sepeda Motor' ? 'selected' : '' }}>
                                         Sepeda Motor
@@ -192,7 +196,8 @@
                             </div>
                         </div>
                         @if(@$test_letter->workshop_type == "A" && $test_letter->step == "create_certificate_srut")
-                            <input type="hidden" name="test_letter_step" id="test_letter_step" value="{{ $test_letter->step }}">
+                            <input type="hidden" name="test_letter_step" id="test_letter_step"
+                                   value="{{ $test_letter->step }}">
                             <div class="col-md-6 col-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Nomor Mesin</label>
@@ -205,7 +210,8 @@
                             </div>
                         @endif
                         @if(@$test_letter->workshop_type == "B")
-                            <input type="hidden" name="test_letter_step" id="test_letter_step" value="{{ $test_letter->step }}">
+                            <input type="hidden" name="test_letter_step" id="test_letter_step"
+                                   value="{{ $test_letter->step }}">
                             <div class="col-md-6 col-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Nomor Mesin</label>
@@ -454,17 +460,17 @@
                                 </small>
                             </div>
                         </div>
-{{--                        <div class="col-md-6 col-12">--}}
-{{--                            <div class="mb-3">--}}
-{{--                                <label class="form-label required">Tempat Uji</label>--}}
-{{--                                <input type="text" class="form-control" placeholder="Tempat Uji" id="place_test_bpljskb"--}}
-{{--                                       name="place_test_bpljskb"--}}
-{{--                                       value="{{ @$test_letter->certificate->place_test_bpljskb }}">--}}
-{{--                                <small class="form-hint">--}}
-{{--                                    Tempat uji, contoh : Bekasi.--}}
-{{--                                </small>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="col-md-6 col-12">--}}
+                        {{--                            <div class="mb-3">--}}
+                        {{--                                <label class="form-label required">Tempat Uji</label>--}}
+                        {{--                                <input type="text" class="form-control" placeholder="Tempat Uji" id="place_test_bpljskb"--}}
+                        {{--                                       name="place_test_bpljskb"--}}
+                        {{--                                       value="{{ @$test_letter->certificate->place_test_bpljskb }}">--}}
+                        {{--                                <small class="form-hint">--}}
+                        {{--                                    Tempat uji, contoh : Bekasi.--}}
+                        {{--                                </small>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="form-label required">Tanggal Uji</label>
@@ -477,675 +483,1125 @@
                         </div>
                         <div class="form-label">D. Hasil Uji :</div>
                         <div class="col-12">
-                            <table class="table table-bordered">
-                                <thead class="table-light">
-                                <tr>
-                                    <th>NO</th>
-                                    <th width="400px">JENIS PENGUJIAN</th>
-                                    <th width="160px">DATA TEKNIS</th>
-                                    <th width="160px">HASIL UJI</th>
-                                    <th>AMBANG BATAS</th>
-                                    <th width="200px">KETERANGAN</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $pengujian = json_decode(@$test_letter->certificate->testing);
-                                @endphp
-                                <tr>
-                                    <td width="8%"><input readonly type="number" name="pengujian[0][no]"
-                                                          class="form-control" value="1"></td>
-                                    <td><input type="text" readonly name="pengujian[0][jenis]" class="form-control"
-                                               value="REM"></td>
-                                    <td><input type="hidden" name="pengujian[0][a][data_teknis]" class="form-control" value="{{ @$pengujian[0]->a->data_teknis }}"></td>
-                                    <td>
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Efisiensi rem depan" type="text" name="pengujian[0][a][hasil_uji][depan]"
-                                               class="form-control mb-1" placeholder="Rem Depan (%)" value="{{ @$pengujian[0]->a->hasil_uji->depan }}">
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Efisiensi rem belakang" type="text" name="pengujian[0][a][hasil_uji][belakang]"
-                                               class="form-control" placeholder="Rem Belakang (%)" value="{{ @$pengujian[0]->a->hasil_uji->belakang }}">
-                                    </td>
-                                    <td>
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Efisiensi rem utama minimum" type="text" name="pengujian[0][a][ambang_batas]" class="form-control"
-                                               placeholder="Minimum (%)" value="{{ @$pengujian[0]->a->ambang_batas }}">
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[0][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[0]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="8%"><input readonly type="number" name="pengujian[1][no]"
-                                                          class="form-control" value="2"></td>
-                                    <td><input type="text" readonly name="pengujian[1][jenis]" class="form-control"
-                                               value="LAMPU UTAMA"></td>
-                                    <td><input type="hidden" name="pengujian[1][a][data_teknis]" class="form-control" value="{{ @$pengujian[1]->a->data_teknis }}">
-                                    </td>
-                                    <td>
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Kekuatan pancar lampu jauh" type="text" name="pengujian[1][a][hasil_uji]" class="form-control mb-1"
-                                               placeholder="Kekuatan pancar lampu jauh" value="{{ @$pengujian[1]->a->hasil_uji }}">
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Pyimpangan arah lampu jauh" type="text" name="pengujian[1][b][hasil_uji]" class="form-control"
-                                               placeholder="Penyimpangan arah lampu jauh" value="{{ @$pengujian[1]->b->hasil_uji }}">
-                                    </td>
-                                    <td>
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Kekuatan min pancar lampu utama" type="text" name="pengujian[1][a][ambang_batas]" class="form-control"
-                                               placeholder="Kekuatan pancar lampu jauh" value="{{ @$pengujian[1]->a->ambang_batas }}">
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Penyimpangan ke kanan" type="text" name="pengujian[1][b][penyimpangan_kanan]" class="form-control"
-                                               placeholder="Penyimpangan kanan" value="{{ @$pengujian[1]->b->penyimpangan_kanan }}">
-                                        <input data-bs-toggle="tooltip"
-                                               data-bs-placement="top" title="Penyimpangan ke kiri" type="text" name="pengujian[1][b][penyimpangan_kiri]" class="form-control"
-                                               placeholder="Penyimpangan kiri" value="{{ @$pengujian[1]->b->penyimpangan_kiri }}">
-                                    </td>
-{{--                                    <td>--}}
-{{--                                        <input type="text" name="pengujian[1][a][keterangan]"  class="form-control"--}}
-{{--                                               placeholder="Keterangan" value="{{ @$pengujian[1]->a->keterangan }}">--}}
-{{--                                        <input type="text" name="pengujian[1][b][keterangan]"  class="form-control"--}}
-{{--                                               placeholder="Keterangan" value="{{ @$pengujian[1]->b->keterangan }}">--}}
-{{--                                    </td>--}}
-                                    <td>
-                                        <select name="pengujian[1][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[1]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[1]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                        <select name="pengujian[1][b][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[1]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[1]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="8%"><input readonly type="number" name="pengujian[2][no]"
-                                                          class="form-control" value="3"></td>
-                                    <td><input type="text" readonly name="pengujian[2][jenis]" class="form-control"
-                                               value="KLAKSON"></td>
-                                    <td><input type="hidden" name="pengujian[2][a][data_teknis]" class="form-control"  value="{{ @$pengujian[1]->a->data_teknis }}">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="pengujian[2][a][hasil_uji]" class="form-control mb-1"
-                                               placeholder="db" value="{{ @$pengujian[2]->a->hasil_uji }}">
-                                    </td>
-{{--                                    <td>--}}
-{{--                                        <input type="text" name="pengujian[2][a][ambang_batas]" class="form-control"--}}
-{{--                                               placeholder="db" value="{{ @$pengujian[2]->a->ambang_batas }}">--}}
-{{--                                    </td>--}}
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[2][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[2]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[2]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                        <select name="pengujian[2][b][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[2]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[2]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="8%"><input readonly type="number" name="pengujian[3][no]"
-                                                          class="form-control" value="4"></td>
-                                    <td><input type="text" readonly name="pengujian[3][jenis]" class="form-control"
-                                               value="BERAT KOSONG"></td>
-                                    <td><input type="text" name="pengujian[3][a][data_teknis]" class="form-control"  value="{{ @$pengujian[3]->a->data_teknis }}">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="pengujian[3][a][hasil_uji]" class="form-control mb-1"
-                                               placeholder="" value="{{ @$pengujian[3]->a->hasil_uji }}">
-                                    </td>
-{{--                                    <td>--}}
-{{--                                        <input type="text" name="pengujian[3][a][ambang_batas]" class="form-control"--}}
-{{--                                               placeholder="" value="{{ @$pengujian[3]->a->ambang_batas }}">--}}
-{{--                                    </td>--}}
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[3][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[3]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[3]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="8%"><input readonly type="number" name="pengujian[4][no]"
-                                                          class="form-control" value="5"></td>
-                                    <td><input type="text" readonly name="pengujian[4][jenis]" class="form-control"
-                                               value="SPEEDOMETER"></td>
-                                    <td><input type="text" name="pengujian[4][a][data_teknis]" class="form-control" value="{{ @$pengujian[4]->a->data_teknis }}">
-                                    </td>
-                                    <td>
-                                        <input type="text" name="pengujian[4][a][hasil_uji]" class="form-control mb-1"
-                                               placeholder="" value="{{ @$pengujian[4]->a->hasil_uji }}">
-                                    </td>
-{{--                                    <td>--}}
-{{--                                        <input type="text" name="pengujian[4][a][ambang_batas]" class="form-control"--}}
-{{--                                               placeholder="" value="{{ @$pengujian[4]->a->ambang_batas }}">--}}
-{{--                                    </td>--}}
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[4][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[4]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[4]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <!-- Baris utama -->
-                                <tr>
-                                    <td rowspan="7"><input readonly type="number" name="pengujian[5][no]"
-                                                           class="form-control" value="6"></td>
-                                    <td><input type="text" readonly name="pengujian[5][a][jenis]" class="form-control"
-                                               value="a. Indikator saat kendaraan siap dikendarai"></td>
-                                    <td>
-                                        <select name="pengujian[5][a][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[5]->a->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->a->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][a][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->a->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->a->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[5][b][jenis]" class="form-control"
-                                               value="b. Indikator visual/akustik saat kendaraan masih dalam kondisi dinyalakan">
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][b][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[5]->b->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->b->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][b][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->b->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->b->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][b][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[5][c][jenis]" class="form-control"
-                                               value="c. Pengisian baterai tidak menyebabkan gangguan"></td>
-                                    <td>
-                                        <select name="pengujian[5][c][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[5]->c->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->c->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][c][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->c->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->c->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][c][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->c->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->c->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[5][d][jenis]" class="form-control"
-                                               value="d. Sistem peringatan dua tahap"></td>
-                                    <td>
-                                        <select name="pengujian[5][d][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[5]->d->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->d->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][d][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->d->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->d->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][d][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->d->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->d->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[5][e][jenis]" class="form-control"
-                                               value="e. Tahap untuk mematikan KLLB"></td>
-                                    <td>
-                                        <select name="pengujian[5][e][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[5]->e->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->e->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][e][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->e->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->e->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][e][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->e->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->e->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[5][f][jenis]" class="form-control"
-                                               value="f. Indikator baterai lemah"></td>
-                                    <td>
-                                        <select name="pengujian[5][f][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Ada" {{ @$pengujian[5]->f->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->f->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][f][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->f->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->f->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][f][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->f->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->f->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[5][g][jenis]" class="form-control"
-                                               value="g. Fungsi mundur saat maju"></td>
-                                    <td>
-                                        <select name="pengujian[5][g][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[5]->g->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[5]->g->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[5][g][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[5]->g->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[5]->g->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[5][g][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[5]->g->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[5]->g->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
+                            @if(@$test_letter->certificate->testing != null)
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>NO</th>
+                                        <th width="400px">JENIS PENGUJIAN</th>
+                                        <th width="160px">DATA TEKNIS</th>
+                                        <th width="160px">HASIL UJI</th>
+                                        <th>AMBANG BATAS</th>
+                                        <th width="200px">KETERANGAN</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $pengujian = json_decode(@$test_letter->certificate->testing);
+                                    @endphp
+                                    <tr>
+                                        <td width="8%"><input readonly type="number" name="pengujian[0][no]"
+                                                              class="form-control" value="1"></td>
+                                        <td><input type="text" readonly name="pengujian[0][jenis]" class="form-control"
+                                                   value="REM"></td>
+                                        <td><input type="hidden" name="pengujian[0][a][data_teknis]"
+                                                   class="form-control" value="{{ @$pengujian[0]->a->data_teknis }}">
+                                        </td>
+                                        <td>
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Efisiensi rem depan" type="text"
+                                                   name="pengujian[0][a][hasil_uji][depan]"
+                                                   class="form-control mb-1" placeholder="Rem Depan (%)"
+                                                   value="{{ @$pengujian[0]->a->hasil_uji->depan }}">
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Efisiensi rem belakang" type="text"
+                                                   name="pengujian[0][a][hasil_uji][belakang]"
+                                                   class="form-control" placeholder="Rem Belakang (%)"
+                                                   value="{{ @$pengujian[0]->a->hasil_uji->belakang }}">
+                                        </td>
+                                        <td>
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Efisiensi rem utama minimum"
+                                                   type="text" name="pengujian[0][a][ambang_batas]" class="form-control"
+                                                   placeholder="Minimum (%)"
+                                                   value="{{ @$pengujian[0]->a->ambang_batas }}">
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[0][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[0]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="8%"><input readonly type="number" name="pengujian[1][no]"
+                                                              class="form-control" value="2"></td>
+                                        <td><input type="text" readonly name="pengujian[1][jenis]" class="form-control"
+                                                   value="LAMPU UTAMA"></td>
+                                        <td><input type="hidden" name="pengujian[1][a][data_teknis]"
+                                                   class="form-control" value="{{ @$pengujian[1]->a->data_teknis }}">
+                                        </td>
+                                        <td>
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Kekuatan pancar lampu jauh"
+                                                   type="text" name="pengujian[1][a][hasil_uji]"
+                                                   class="form-control mb-1"
+                                                   placeholder="Kekuatan pancar lampu jauh"
+                                                   value="{{ @$pengujian[1]->a->hasil_uji }}">
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Pyimpangan arah lampu jauh"
+                                                   type="text" name="pengujian[1][b][hasil_uji]" class="form-control"
+                                                   placeholder="Penyimpangan arah lampu jauh"
+                                                   value="{{ @$pengujian[1]->b->hasil_uji }}">
+                                        </td>
+                                        <td>
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Kekuatan min pancar lampu utama"
+                                                   type="text" name="pengujian[1][a][ambang_batas]" class="form-control"
+                                                   placeholder="Kekuatan pancar lampu jauh"
+                                                   value="{{ @$pengujian[1]->a->ambang_batas }}">
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Penyimpangan ke kanan" type="text"
+                                                   name="pengujian[1][b][penyimpangan_kanan]" class="form-control"
+                                                   placeholder="Penyimpangan kanan"
+                                                   value="{{ @$pengujian[1]->b->penyimpangan_kanan }}">
+                                            <input data-bs-toggle="tooltip"
+                                                   data-bs-placement="top" title="Penyimpangan ke kiri" type="text"
+                                                   name="pengujian[1][b][penyimpangan_kiri]" class="form-control"
+                                                   placeholder="Penyimpangan kiri"
+                                                   value="{{ @$pengujian[1]->b->penyimpangan_kiri }}">
+                                        </td>
+                                        {{--                                    <td>--}}
+                                        {{--                                        <input type="text" name="pengujian[1][a][keterangan]"  class="form-control"--}}
+                                        {{--                                               placeholder="Keterangan" value="{{ @$pengujian[1]->a->keterangan }}">--}}
+                                        {{--                                        <input type="text" name="pengujian[1][b][keterangan]"  class="form-control"--}}
+                                        {{--                                               placeholder="Keterangan" value="{{ @$pengujian[1]->b->keterangan }}">--}}
+                                        {{--                                    </td>--}}
+                                        <td>
+                                            <select name="pengujian[1][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[1]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[1]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                            <select name="pengujian[1][b][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[1]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[1]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="8%"><input readonly type="number" name="pengujian[2][no]"
+                                                              class="form-control" value="3"></td>
+                                        <td><input type="text" readonly name="pengujian[2][jenis]" class="form-control"
+                                                   value="KLAKSON"></td>
+                                        <td><input type="hidden" name="pengujian[2][a][data_teknis]"
+                                                   class="form-control" value="{{ @$pengujian[1]->a->data_teknis }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="pengujian[2][a][hasil_uji]"
+                                                   class="form-control mb-1"
+                                                   placeholder="db" value="{{ @$pengujian[2]->a->hasil_uji }}">
+                                        </td>
+                                        {{--                                    <td>--}}
+                                        {{--                                        <input type="text" name="pengujian[2][a][ambang_batas]" class="form-control"--}}
+                                        {{--                                               placeholder="db" value="{{ @$pengujian[2]->a->ambang_batas }}">--}}
+                                        {{--                                    </td>--}}
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[2][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[2]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[2]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                            <select name="pengujian[2][b][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[2]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[2]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="8%"><input readonly type="number" name="pengujian[3][no]"
+                                                              class="form-control" value="4"></td>
+                                        <td><input type="text" readonly name="pengujian[3][jenis]" class="form-control"
+                                                   value="BERAT KOSONG"></td>
+                                        <td><input type="text" name="pengujian[3][a][data_teknis]" class="form-control"
+                                                   value="{{ @$pengujian[3]->a->data_teknis }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="pengujian[3][a][hasil_uji]"
+                                                   class="form-control mb-1"
+                                                   placeholder="" value="{{ @$pengujian[3]->a->hasil_uji }}">
+                                        </td>
+                                        {{--                                    <td>--}}
+                                        {{--                                        <input type="text" name="pengujian[3][a][ambang_batas]" class="form-control"--}}
+                                        {{--                                               placeholder="" value="{{ @$pengujian[3]->a->ambang_batas }}">--}}
+                                        {{--                                    </td>--}}
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[3][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[3]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[3]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="8%"><input readonly type="number" name="pengujian[4][no]"
+                                                              class="form-control" value="5"></td>
+                                        <td><input type="text" readonly name="pengujian[4][jenis]" class="form-control"
+                                                   value="SPEEDOMETER"></td>
+                                        <td><input type="text" name="pengujian[4][a][data_teknis]" class="form-control"
+                                                   value="{{ @$pengujian[4]->a->data_teknis }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="pengujian[4][a][hasil_uji]"
+                                                   class="form-control mb-1"
+                                                   placeholder="" value="{{ @$pengujian[4]->a->hasil_uji }}">
+                                        </td>
+                                        {{--                                    <td>--}}
+                                        {{--                                        <input type="text" name="pengujian[4][a][ambang_batas]" class="form-control"--}}
+                                        {{--                                               placeholder="" value="{{ @$pengujian[4]->a->ambang_batas }}">--}}
+                                        {{--                                    </td>--}}
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[4][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[4]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[4]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <!-- Baris utama -->
+                                    <tr>
+                                        <td rowspan="7"><input readonly type="number" name="pengujian[5][no]"
+                                                               class="form-control" value="6"></td>
+                                        <td><input type="text" readonly name="pengujian[5][a][jenis]"
+                                                   class="form-control"
+                                                   value="a. Indikator saat kendaraan siap dikendarai"></td>
+                                        <td>
+                                            <select name="pengujian[5][a][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->a->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->a->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][a][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->a->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->a->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[5][b][jenis]"
+                                                   class="form-control"
+                                                   value="b. Indikator visual/akustik saat kendaraan masih dalam kondisi dinyalakan">
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][b][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->b->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->b->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][b][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->b->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->b->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][b][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[5][c][jenis]"
+                                                   class="form-control"
+                                                   value="c. Pengisian baterai tidak menyebabkan gangguan"></td>
+                                        <td>
+                                            <select name="pengujian[5][c][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->c->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->c->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][c][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->c->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->c->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][c][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->c->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->c->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[5][d][jenis]"
+                                                   class="form-control"
+                                                   value="d. Sistem peringatan dua tahap"></td>
+                                        <td>
+                                            <select name="pengujian[5][d][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->d->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->d->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][d][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->d->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->d->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][d][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->d->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->d->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[5][e][jenis]"
+                                                   class="form-control"
+                                                   value="e. Tahap untuk mematikan KLLB"></td>
+                                        <td>
+                                            <select name="pengujian[5][e][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->e->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->e->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][e][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->e->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->e->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][e][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->e->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->e->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[5][f][jenis]"
+                                                   class="form-control"
+                                                   value="f. Indikator baterai lemah"></td>
+                                        <td>
+                                            <select name="pengujian[5][f][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->f->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->f->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][f][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->f->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->f->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][f][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->f->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->f->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[5][g][jenis]"
+                                                   class="form-control"
+                                                   value="g. Fungsi mundur saat maju"></td>
+                                        <td>
+                                            <select name="pengujian[5][g][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[5]->g->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[5]->g->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[5][g][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[5]->g->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[5]->g->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[5][g][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[5]->g->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[5]->g->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
 
 
-                                <tr>
-                                    <td rowspan="12"><input readonly type="number" name="pengujian[6][no]"
-                                                            class="form-control" value="7"></td>
-                                    <td><input type="text" readonly name="pengujian[6][a][jenis]" class="form-control"
-                                               value="a. Sistem Lampu"></td>
-                                    <td>
-                                        <select name="pengujian[6][a][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->a->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->a->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][a][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->a->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->a->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][a][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][b][jenis]" class="form-control"
-                                               value="b. Sistem Alat Kemudi"></td>
-                                    <td>
-                                        <select name="pengujian[6][b][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->b->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->b->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][b][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->b->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->b->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][b][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][c][jenis]" class="form-control"
-                                               value="c. Sistem Suspensi"></td>
-                                    <td>
-                                        <select name="pengujian[6][c][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->c->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->c->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][c][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->c->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->c->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][c][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->c->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->c->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][d][jenis]" class="form-control"
-                                               value="d. Sistem Kelistrikan"></td>
-                                    <td>
-                                        <select name="pengujian[6][d][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->d->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->d->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][d][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->d->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->d->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][d][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->d->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->d->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][e][jenis]" class="form-control"
-                                               value="e. Sistem Rem"></td>
-                                    <td>
-                                        <select name="pengujian[6][e][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->e->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->e->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][e][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->e->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->e->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][e][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->e->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->e->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][f][jenis]" class="form-control"
-                                               value="f. Kelengkapan Kendaraan  Panel Instrument"></td>
-                                    <td>
-                                        <select name="pengujian[6][f][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->f->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->f->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][f][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->f->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->f->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][f][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->f->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->f->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][g][jenis]" class="form-control"
-                                               value="g. Tempat Duduk"></td>
-                                    <td>
-                                        <select name="pengujian[6][g][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->g->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->g->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][g][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->g->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->g->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][g][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->g->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->g->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][h][jenis]" class="form-control"
-                                               value="h. Kaca Spion"></td>
-                                    <td>
-                                        <select name="pengujian[6][h][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->h->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->h->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][h][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->h->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->h->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][h][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->h->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->h->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][i][jenis]" class="form-control"
-                                               value="i. Sistem roda-roda"></td>
-                                    <td>
-                                        <select name="pengujian[6][i][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->i->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->i->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][i][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->i->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->i->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][i][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->i->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->i->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][j][jenis]" class="form-control"
-                                               value="j. Perlingungan kontak tak langsung"></td>
-                                    <td>
-                                        <select name="pengujian[6][j][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->j->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->j->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][j][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->j->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->j->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][j][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->j->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->j->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][k][jenis]" class="form-control"
-                                               value="k. Resistance"></td>
-                                    <td>
-                                        <select name="pengujian[6][k][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->k->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->k->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][k][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->k->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->k->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][k][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->k->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->k->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" readonly name="pengujian[6][l][jenis]" class="form-control"
-                                               value="l. Insulation"></td>
-                                    <td>
-                                        <select name="pengujian[6][l][data_teknis]" id="" class="form-control">
-                                            <option value="">Pilih data teknis</option>
-                                            <option value="Ada" {{ @$pengujian[6]->l->data_teknis == "Ada" ? 'selected' : '' }}>Ada</option>
-                                            <option value="Tidak" {{ @$pengujian[6]->l->data_teknis == "Tidak" ? 'selected' : '' }}>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="pengujian[6][l][hasil_uji]" id="" class="form-control">
-                                            <option value="">Pilih hasil uji</option>
-                                            <option value="Baik dan Berfungsi" {{ @$pengujian[6]->l->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>Baik dan Berfungsi</option>
-                                            <option value="Tidak Tersedia" {{ @$pengujian[6]->l->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>Tidak Tersedia</option>
-                                        </select>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <select name="pengujian[6][l][keterangan]" id="" class="form-control">
-                                            <option value="">Pilih keterangan</option>
-                                            <option value="Memenuhi Syarat" {{ @$pengujian[6]->l->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>Memenuhi Syarat</option>
-                                            <option value="Tidak Memenuhi" {{ @$pengujian[6]->l->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>Tidak Memenuhi</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <tr>
+                                        <td rowspan="12"><input readonly type="number" name="pengujian[6][no]"
+                                                                class="form-control" value="7"></td>
+                                        <td><input type="text" readonly name="pengujian[6][a][jenis]"
+                                                   class="form-control"
+                                                   value="a. Sistem Lampu"></td>
+                                        <td>
+                                            <select name="pengujian[6][a][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->a->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->a->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][a][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->a->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->a->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][a][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->a->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->a->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][b][jenis]"
+                                                   class="form-control"
+                                                   value="b. Sistem Alat Kemudi"></td>
+                                        <td>
+                                            <select name="pengujian[6][b][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->b->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->b->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][b][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->b->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->b->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][b][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->b->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->b->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][c][jenis]"
+                                                   class="form-control"
+                                                   value="c. Sistem Suspensi"></td>
+                                        <td>
+                                            <select name="pengujian[6][c][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->c->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->c->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][c][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->c->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->c->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][c][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->c->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->c->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][d][jenis]"
+                                                   class="form-control"
+                                                   value="d. Sistem Kelistrikan"></td>
+                                        <td>
+                                            <select name="pengujian[6][d][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->d->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->d->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][d][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->d->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->d->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][d][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->d->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->d->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][e][jenis]"
+                                                   class="form-control"
+                                                   value="e. Sistem Rem"></td>
+                                        <td>
+                                            <select name="pengujian[6][e][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->e->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->e->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][e][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->e->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->e->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][e][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->e->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->e->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][f][jenis]"
+                                                   class="form-control"
+                                                   value="f. Kelengkapan Kendaraan  Panel Instrument"></td>
+                                        <td>
+                                            <select name="pengujian[6][f][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->f->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->f->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][f][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->f->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->f->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][f][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->f->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->f->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][g][jenis]"
+                                                   class="form-control"
+                                                   value="g. Tempat Duduk"></td>
+                                        <td>
+                                            <select name="pengujian[6][g][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->g->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->g->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][g][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->g->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->g->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][g][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->g->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->g->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][h][jenis]"
+                                                   class="form-control"
+                                                   value="h. Kaca Spion"></td>
+                                        <td>
+                                            <select name="pengujian[6][h][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->h->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->h->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][h][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->h->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->h->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][h][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->h->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->h->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][i][jenis]"
+                                                   class="form-control"
+                                                   value="i. Sistem roda-roda"></td>
+                                        <td>
+                                            <select name="pengujian[6][i][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->i->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->i->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][i][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->i->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->i->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][i][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->i->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->i->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][j][jenis]"
+                                                   class="form-control"
+                                                   value="j. Perlingungan kontak tak langsung"></td>
+                                        <td>
+                                            <select name="pengujian[6][j][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->j->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->j->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][j][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->j->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->j->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][j][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->j->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->j->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][k][jenis]"
+                                                   class="form-control"
+                                                   value="k. Resistance"></td>
+                                        <td>
+                                            <select name="pengujian[6][k][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->k->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->k->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][k][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->k->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->k->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][k][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->k->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->k->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" readonly name="pengujian[6][l][jenis]"
+                                                   class="form-control"
+                                                   value="l. Insulation"></td>
+                                        <td>
+                                            <select name="pengujian[6][l][data_teknis]" id="" class="form-control">
+                                                <option value="">Pilih data teknis</option>
+                                                <option
+                                                    value="Ada" {{ @$pengujian[6]->l->data_teknis == "Ada" ? 'selected' : '' }}>
+                                                    Ada
+                                                </option>
+                                                <option
+                                                    value="Tidak" {{ @$pengujian[6]->l->data_teknis == "Tidak" ? 'selected' : '' }}>
+                                                    Tidak
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="pengujian[6][l][hasil_uji]" id="" class="form-control">
+                                                <option value="">Pilih hasil uji</option>
+                                                <option
+                                                    value="Baik dan Berfungsi" {{ @$pengujian[6]->l->hasil_uji == "Baik dan Berfungsi" ? 'selected' : '' }}>
+                                                    Baik dan Berfungsi
+                                                </option>
+                                                <option
+                                                    value="Tidak Tersedia" {{ @$pengujian[6]->l->hasil_uji == "Tidak Tersedia" ? 'selected' : '' }}>
+                                                    Tidak Tersedia
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select name="pengujian[6][l][keterangan]" id="" class="form-control">
+                                                <option value="">Pilih keterangan</option>
+                                                <option
+                                                    value="Memenuhi Syarat" {{ @$pengujian[6]->l->keterangan == "Memenuhi Syarat" ? 'selected' : '' }}>
+                                                    Memenuhi Syarat
+                                                </option>
+                                                <option
+                                                    value="Tidak Memenuhi" {{ @$pengujian[6]->l->keterangan == "Tidak Memenuhi" ? 'selected' : '' }}>
+                                                    Tidak Memenuhi
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            @endif
+                            @if(@$test_letter->certificate->testing == null)
+                                <div class="card rounded-3" style="border: 1px dashed #0054a6">
+                                    <div class="card-body">
+                                        <div class="row align-items-center justify-content-center"
+                                             style="max-height: 300px; height: 200px;">
+                                            <div class="col-12">
+                                                <div class="w-100 text-center">
+                                                    <input type="hidden" name="testing_null">
+                                                </div>
+                                                <h3 class="text-center text-muted">Hasil Uji Tidak Tersedia</h3>
+                                                <div class="w-100 text-center">
+                                                    <button type="button" id="btn_request_testing"
+                                                            class="btn btn-primary">Request Hasil Uji
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
                     </div>
                 </div>
             </div>
@@ -1160,6 +1616,7 @@
 
 @section('url')
     <input type="hidden" id="certificate-form-url" value="{{ route('certificate.test.letter.certificate.submit') }}">
+    <input type="hidden" id="request-testing-url" value="{{ route('certificate.test.letter.request.testing') }}">
 @endsection
 
 @section('script')

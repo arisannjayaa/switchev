@@ -20,6 +20,7 @@ export default defineConfig({
                 'resources/js/apps/test-letter/certificate.js',
                 'resources/js/apps/test-letter/permohonan-srut.js',
                 'resources/js/apps/template-certificate/template.js',
+                'resources/js/apps/test-letter/testing.js',
             ],
             refresh: true,
         }),

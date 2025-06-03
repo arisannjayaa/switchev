@@ -4,7 +4,9 @@ namespace App\Services\TestLetter;
 
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
+use App\Models\TemplateCertificate;
 use App\Repositories\CertificateTestLetter\CertificateTestLetterRepository;
+use App\Repositories\TemplateCertificate\TemplateCertificateRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -34,12 +36,13 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
      * don't change $this->mainRepository variable name
      * because used in extends service class
      */
-     protected $mainRepository, $certificateRepository;
+     protected $mainRepository, $certificateRepository, $templateRepository;
 
-    public function __construct(TestLetterRepository $mainRepository, CertificateTestLetterRepository $certificateRepository)
+    public function __construct(TestLetterRepository $mainRepository, CertificateTestLetterRepository $certificateRepository, TemplateCertificateRepository $templateRepository)
     {
       $this->mainRepository = $mainRepository;
       $this->certificateRepository = $certificateRepository;
+      $this->templateRepository = $templateRepository;
     }
 
     // Define your custom methods :)
@@ -252,7 +255,8 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
     public function generate_physical_test_cover_letter()
     {
         try {
-            $templatePath = storage_path('app/templates/Surat_Pengantar_Uji.docx');
+            $template = $this->templateRepository->find(TemplateCertificate::TEMPLATE_SPU);
+            $templatePath = storage_path('app/'.$template->attachment);
             $templateProcessor = new TemplateProcessor($templatePath);
 
             $outputPath = storage_path('app/public/surat-pengantar/'.'SPU-'.uniqid().'.docx');
@@ -369,7 +373,8 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
 
 
             $testLetter = $this->mainRepository->find($data['id']);
-            $templatePath = storage_path('app/templates/Template_SPU.docx');
+            $template = $this->templateRepository->find(TemplateCertificate::TEMPLATE_SPU);
+            $templatePath = storage_path('app/'.$template->attachment);
             $templateProcessor = new TemplateProcessor($templatePath);
 
             $templateProcessor->setValue('workshop', $data['workshop']);

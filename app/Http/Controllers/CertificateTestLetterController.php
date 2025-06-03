@@ -205,4 +205,53 @@ class CertificateTestLetterController extends Controller
         $data['certificate'] = $this->certificateTestLetterService->findOrFail(Helper::decrypt($request->id))->getResult();
         return view('apps.certificate-test-letter.detail', $data);
     }
+
+    public function request_testing(Request $request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['id', 'test_letter_id']);
+        return $this->certificateTestLetterService->request_testing($data)->toJson();
+    }
+
+    public function index_testing()
+    {
+        if (!auth()->user()->isBpljskb()) {
+            return abort(403);
+        }
+
+        return view('apps.testing.index');
+    }
+
+    public function table_testing()
+    {
+        if (!auth()->user()->isBpljskb()) {
+            return abort(403);
+        }
+
+        return $this->certificateTestLetterService->table_testing();
+    }
+
+    public function form_testing($id)
+    {
+        if (!auth()->user()->isBpljskb()) {
+            return abort(403);
+        }
+
+        $data['test_letter'] = $this->certificateTestLetterService->findOrFail(Helper::decrypt($id))->getResult();
+        return view('apps.testing.form', $data);
+    }
+
+    public function form_testing_submit(Request $request)
+    {
+        if (!auth()->user()->isBpljskb()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['id', 'pengujian']);
+
+        return $this->certificateTestLetterService->form_testing_submit($data)->toJson();
+    }
 }

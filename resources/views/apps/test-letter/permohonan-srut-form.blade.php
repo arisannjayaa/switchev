@@ -67,7 +67,10 @@
                                 <small class="form-hint">
                                     @if(@$test_letter->quality_control) sudah pernah diupload, <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->quality_control)]) }}">lihat disini</a>
                                     <br> @endif
-                                    Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt('/templates/FORMAT_LAPORAN_QUALITY_CONTROL.docx')]) }}">Disini</a>
+                                    @php
+                                        $template = \App\Models\TemplateCertificate::find(\App\Models\TemplateCertificate::LAPORAN_QUALITY_CONTROL);
+                                    @endphp
+                                    Format dokumen tersedia dapat di unduh <a target="_blank" href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($template->attachment)]) }}">Disini</a>
                                 </small>
                             </div>
                         </div>

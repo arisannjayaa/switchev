@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <form id="form-test-letter">
+        <form id="form-permohonan-srut">
             <div class="card card-md">
                 <div class="card-body text-center py-4 p-sm-5">
                     <h1 class="mt-5">Form Permohonan SRUT</h1>

@@ -131,6 +131,11 @@ class DatabaseSeeder extends Seeder
                 'attachment' => 'templates/Template_SPU.docx',
                 'attachment_default' => 'templates/Template_SPU.docx'
             ],
+            [
+                'name' => 'SK Selain Sepeda Motor',
+                'attachment' => 'templates/SK_SELAIN_SEPEDA_MOTOR.docx',
+                'attachment_default' => 'templates/SK_SELAIN_SEPEDA_MOTOR.docx'
+            ],
         ];
 
         foreach ($templates as $template) {

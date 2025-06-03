@@ -76,7 +76,7 @@
             $attachments[] = $test_letter->physical_inspection;
             $attachments[] = $test_letter->test_report;
         @endphp
-        @canany(['isBpljskb','isAdmin'])
+        @canany(['isBpljskb','isBpljskb'])
             <div class="card mb-3">
                 <div class="card-header">
                     <h3 class="card-title">Data Penanggung Jawab</h3>

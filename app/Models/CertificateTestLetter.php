@@ -54,6 +54,7 @@ class CertificateTestLetter extends Model
         'goods_capacity',
         'testing',
         'regarding',
+        'testing_status',
     ];
 
     protected $table = 'certificate_test_letters';

@@ -419,6 +419,17 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             if ($id == null) {
                 $this->mainRepository->create($data);
             } else {
+                if ($testLetter->workshop_type == "A" && $testLetter->step != "create_certificate_srut") {
+                    $data['status'] = 'SUT Terverifikasi';
+                }
+
+                if ($testLetter->workshop_type == "A" && $testLetter->step == "create_certificate_srut") {
+                    $data['status'] = 'SRUT Terverifikasi';
+                }
+
+                if ($testLetter->workshop_type == "B") {
+                    $data['status'] = 'SRUT SUT Terverifikasi';
+                }
 
                 $this->mainRepository->update($id, $data);
             }
