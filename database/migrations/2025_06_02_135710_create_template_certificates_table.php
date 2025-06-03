@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('template_certificates', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('type');
+            $table->string('name');
             $table->string('attachment');
             $table->string('attachment_default');
             $table->timestamps();

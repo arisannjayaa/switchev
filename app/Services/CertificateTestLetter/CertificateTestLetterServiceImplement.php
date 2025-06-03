@@ -746,7 +746,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
     {
         $testLetter = $this->testLetterRepository->find($test_letter_id);
         $testing = json_decode($testLetter->certificate->testing);
-        $templatePath =  storage_path('app/templates/LAMPIRAN .docx');
+        $templatePath =  storage_path('app/templates/LAMPIRAN.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
 
         $templateProcessor->setValue('rem_belakang', $testing[0]->a->hasil_uji->belakang ?? '');

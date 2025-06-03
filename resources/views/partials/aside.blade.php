@@ -165,6 +165,10 @@
             @can('isSuperAdmin')
                 @include('partials.menu-superadmin')
             @endcan
+
+            @can('isBpljskb')
+                @include('partials.menu-bpljskb')
+            @endcan
         </ul>
     </div>
 </div>
