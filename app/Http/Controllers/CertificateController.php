@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataKonversiExport;
 use App\Helpers\Helper;
+use App\Http\Requests\ExportDataConversion;
 use App\Http\Requests\UploadArchiveRequest;
 use App\Models\Certificate;
 use App\Services\Certificate\CertificateService;
 use App\Services\Conversion\ConversionService;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Exception;
 
 class CertificateController extends Controller
 {
@@ -110,6 +114,16 @@ class CertificateController extends Controller
 
         $data = $request->only(['id','accreditation_type']);
         return $this->certificateService->send_draft($data['id'], $data['accreditation_type'])->toJson();
+    }
+
+    /**
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function export_data(ExportDataConversion $request)
+    {
+        $data = $request->only(['date_range', 'type', 'status']);
+        return $this->certificateService->export($data)->toJson();
     }
 
 }

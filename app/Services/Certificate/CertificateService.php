@@ -16,4 +16,6 @@ interface CertificateService extends BaseService{
     public function table();
 
     public function send_draft($conversion_id, $accreditation_type);
+
+    public function export($data);
 }

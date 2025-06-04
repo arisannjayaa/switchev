@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('certificate')->name('certificate.')->group(function () {
         Route::get('/daftar-permohonan', [\App\Http\Controllers\CertificateController::class, 'index'])->name('index');
         Route::post('/verifikasi', [\App\Http\Controllers\CertificateController::class, 'verify_draft'])->name('verification');
+        Route::post('/export', [\App\Http\Controllers\CertificateController::class, 'export_data'])->name('export');
         Route::get('/table', [\App\Http\Controllers\CertificateController::class, 'table'])->name('table');
         Route::post('/generate-certificate', [\App\Http\Controllers\CertificateController::class, 'generate_certificate'])->name('generate.certificate');
         Route::post('/generate-sk', [\App\Http\Controllers\CertificateController::class, 'generate_sk'])->name('generate.sk');

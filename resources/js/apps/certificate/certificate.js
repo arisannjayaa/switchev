@@ -22,7 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
         autoWidth: false,
         responsive: true,
         ajax: {
-            url: tableUrl
+            url: tableUrl,
+            data: function (d) {
+                d.status_conversion = $("#status-filter").val() ?? "";
+                d.workshop_type = $("#workshop-type-filter").val() ?? "";
+                d.date_range = $("#date-range").val() ?? "";
+            }
         },
         language: {
             search: "Cari:",
@@ -47,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 orderable: false,
                 searchable: false,
             },
+            { data: 'conversion.type', name: 'conversion.type', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'conversion.certificate_code', name: 'conversion.certificate_code', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'conversion.sk_code', name: 'conversion.sk_code', className: 'text-nowrap', orderable: false, searchable: true},
             { data: 'status', name: 'status', className: 'text-nowrap', orderable: false, searchable: true},
@@ -64,6 +70,96 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isCertificate == 1) {
         $("#btn-approve").prop('disabled', false);
     }
+
+    $("#btn-apply-filter").on('click', function() {
+        $("#table").DataTable().ajax.reload();
+    });
+
+    // Hanya preset, tanpa custom range
+    $('#date-range').daterangepicker({
+        autoUpdateInput: false,
+        showCustomRangeLabel: true,
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: 'Pilih',
+            cancelLabel: 'Bersihkan',
+        },
+        opens: 'left',
+        ranges: {
+            'Hari Ini': [moment(), moment()],
+            'Minggu Ini': [moment().startOf('week'), moment().endOf('week')],
+            'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
+        }
+    });
+
+    // Saat preset dipilih
+    $('#date-range').on('apply.daterangepicker', function (ev, picker) {
+        const start = picker.startDate.format('YYYY-MM-DD');
+        const end = picker.endDate.format('YYYY-MM-DD');
+        $(this).val(`${start} - ${end}`);
+         $("#table").DataTable().ajax.reload();
+    });
+
+    // Saat dibersihkan
+    $('#date-range').on('cancel.daterangepicker', function () {
+        $(this).val('');
+         $("#table").DataTable().ajax.reload();
+    });
+
+    $('#btn-export').on('click', function () {
+        let formData = new FormData();
+        const range = $('#date-range').val();
+        const status = $('#status-filter').val();
+        const workshop_type = $('#workshop-type-filter').val();
+        formData.append('date_range', range);
+        formData.append('status', status);
+        formData.append('type', workshop_type);
+        const url = $('#export-url').val();
+
+        $('#btn-export').empty().append(`<div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                                </div>`).prop('disabled', true);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+            },
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if(data.code == 200) {
+                    fetch(data.data.download)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = data.data.file_name;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                        });
+                }
+
+                if (data.errors || data.invalid) {
+                    new handleValidation(data.errors || data.invalid)
+                }
+
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            })
+            .finally(() => {
+                $("#btn-export").empty().append(`
+                    Export
+                `).prop('disabled', false);
+            });
+    });
 
 
     $("#btn-download-sk").click(function () {

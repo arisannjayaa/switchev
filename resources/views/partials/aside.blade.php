@@ -136,8 +136,8 @@
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <a href="{{ route('home.index') }}">Beranda</a>
-                <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
                 <a href="{{ route('account.index') }}" class="dropdown-item">Akun Saya</a>
+                <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
             </div>
         </div>
     </div>

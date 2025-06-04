@@ -59,6 +59,19 @@ class CertificateRepositoryImplement extends Eloquent implements CertificateRepo
     {
         return $this->model->query()
             ->with(['conversion','user'])
+            ->when(request()->filled('status_conversion'), function ($query) {
+                $query->where('status', request()->status_conversion);
+            })
+            ->when(request()->filled('date_range'), function ($query) {
+                [$start, $end] = explode(' - ', request()->date_range);
+                $query->whereBetween('created_at', [$start . ' 00:00:00', $end . ' 23:59:59']);
+            })
+            ->when(request()->filled('workshop_type'), function ($query) {
+                $query->whereHas('conversion', function ($q) {
+                    $q->where('type', request()->workshop_type);
+                });
+            })
+
             ->orderBy('updated_at', 'desc');
     }
 }

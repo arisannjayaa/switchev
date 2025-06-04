@@ -2,6 +2,7 @@
 
 namespace App\Services\Certificate;
 
+use App\Exports\DataKonversiExport;
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
 use App\Mail\MailSend;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\Certificate\CertificateRepository;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
@@ -85,7 +87,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $templateProcessor->setValue('address', $conversion->address);
             $templateProcessor->setValue('responsible', $conversion->person_responsible);
             $templateProcessor->setValue('year_l', strtoupper($year_value));
-            $templateProcessor->setValue('reference_number', Helper::generateNomorSurat($conversion->queue_number, "SBK"));
+            $templateProcessor->setValue('reference_number', $conversion->certificate_code);
 
             $outputPath = storage_path('app/public/certificate/'."SERTIF-BK-".$conversion->id.'.docx');
             $templateProcessor->saveAs($outputPath);
@@ -210,7 +212,7 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             $templateProcessor->setValue('year', $year_value);
             $templateProcessor->setValue('date', CertificateHelper::formatDateID(date('Y-m-d')));
             $templateProcessor->setValue('responsible', $conversion->person_responsible);
-            $templateProcessor->setValue('reference_number', Helper::generateNomorSurat($conversion->queue_number, "SK/BK"));
+            $templateProcessor->setValue('reference_number', $conversion->sk_code);
 
             $outputPath = storage_path('app/public/certificate/'."SK-BK-".$conversion->id.'.docx');
             $templateProcessor->saveAs($outputPath);
@@ -420,5 +422,28 @@ class CertificateServiceImplement extends ServiceApi implements CertificateServi
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function export($data)
+    {
+        try {
+            [$start, $end] = explode(' - ', $data['date_range']);
+            $status = $data['status'];
+            $type = $data['type'];
+
+            $fileName = 'export_' . now()->format('Ymd_His') . '.xlsx';
+            $filePath = storage_path("app/public/exports/{$fileName}");
+
+            Excel::store(new DataKonversiExport($start, $end, $type, $status), "public/exports/{$fileName}");
+            $result = [
+                'download' => route('secure.file', ['path' => Helper::encrypt("exports/{$fileName}")]),
+                'file_name' => $fileName
+            ];
+            return $this->setResult($result)
+                ->setCode(200)
+                ->setMessage("Berhasil mengexport data");
+        } catch (Exception $e) {
+            return $this->exceptionResponse($e);
+        }
     }
 }

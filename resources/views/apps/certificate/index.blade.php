@@ -32,10 +32,48 @@
                     </h2>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
+                    <div>
+                        <input type="text" name="date_range" id="date-range" class="form-control" placeholder="Pilih rentang tanggal" required>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div>
+                        <button class="btn btn-success" id="btn-export">Export</button>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Filter
+                        </button>
+                        <div class="dropdown-menu p-4" style="min-width: 300px;">
+                            <div class="mb-3">
+                                <label class="form-label">Status Permohonan</label>
+                                <select class="form-select" id="status-filter">
+                                    <option value="">Semua</option>
+                                    <option value="Draft">Draft</option>
+                                    <option value="Terverifikasi">Terverifikasi</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Bengkel</label>
+                                <select class="form-select" id="workshop-type-filter">
+                                    <option value="">Semua</option>
+                                    <option value="Sepeda Motor">Sepeda Motor</option>
+                                    <option value="Selain Sepeda Motor">Selain Sepeda Motor</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid">
+                                <button class="btn btn-primary" id="btn-apply-filter">Terapkan</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -44,6 +82,7 @@
                             <thead>
                             <tr>
                                 <th class="w-1">No.</th>
+                                <th class="w-1">Jenis Bengkel</th>
                                 <th>No Sertifikat</th>
                                 <th>No Surat Keterangan</th>
                                 <th>Status</th>
@@ -61,6 +100,7 @@
 
 @section('url')
     <input type="hidden" id="table-url" value="{{ route('certificate.table') }}">
+    <input type="hidden" id="export-url" value="{{ route('certificate.export') }}">
 @endsection
 
 @section('script')

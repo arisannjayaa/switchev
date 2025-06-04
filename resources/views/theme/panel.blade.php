@@ -10,6 +10,21 @@
     <!-- CSS files -->
     @include('partials.style')
     @yield('style')
+    <style>
+        .daterangepicker {
+            z-index: 1056 !important; /* lebih tinggi dari Bootstrap dropdown (1050) */
+        }
+
+        .daterangepicker .ranges li.active {
+            background-color: var(--tblr-primary);
+            color: var(--tblr-white);
+        }
+
+        .daterangepicker td.active, .daterangepicker td.active:hover {
+            background-color: var(--tblr-primary);
+            color: var(--tblr-white);
+        }
+    </style>
 </head>
 <body >
 <script src="{{ asset('assets') }}/dist/js/demo-theme.min.js?1692870487"></script>

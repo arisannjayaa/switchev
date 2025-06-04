@@ -21,7 +21,7 @@
                                 <a href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('conversion.index') }}">Daftar Permohonan</a>
+                                <a href="{{ route('certificate.index') }}">Daftar Permohonan</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <a href="#">Verifikasi Draft</a>
