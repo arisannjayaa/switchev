@@ -15,7 +15,7 @@ class NewRoleAccount extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'name' => 'Administrator',
+            'name' => 'BPLJSKB',
             'email' => 'bpljskb@mail.com',
             'password' => bcrypt('password1'),
             'role_id' => Role::BPLJSKB,
