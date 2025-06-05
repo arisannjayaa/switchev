@@ -28,11 +28,25 @@ class CertificateTestLetterRepositoryImplement extends Eloquent implements Certi
     {
         return $this->model->query()
             ->with(['test_letter','user'])
-            ->when((auth()->user()->isAdmin() && auth()->user()->isSuperAdmin()), function ($query) {
+            ->when((auth()->user()->isAdmin() || auth()->user()->isSuperAdmin()), function ($query) {
                 return $query->whereIn('status',  ['Draft','Terverifikasi','Selesai','Draft SRUT','Draft SUT','Draft SRUT SUT','SUT Terverifikasi','SRUT Terverifikasi','SRUT SUT Terverifikasi']);
             })
             ->when(auth()->user()->isBpljskb(), function ($query) {
                 return $query->whereIn('testing_status', ['Menunggu Hasil Uji', 'Hasil Uji Sudah Dibuat']);
+            })
+            ->when(request()->filled('status_test_letter'), function ($query) {
+                $query->whereHas('test_letter', function ($q) {
+                    $q->where('status', request()->status_test_letter);
+                });
+            })
+            ->when(request()->filled('date_range'), function ($query) {
+                [$start, $end] = explode(' - ', request()->date_range);
+                $query->whereBetween('created_at', [$start . ' 00:00:00', $end . ' 23:59:59']);
+            })
+            ->when(request()->filled('workshop_type'), function ($query) {
+                $query->whereHas('test_letter', function ($q) {
+                    $q->where('workshop_type', request()->workshop_type);
+                });
             })
             ->orderBy('updated_at', 'desc');
     }

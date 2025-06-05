@@ -147,7 +147,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 if (data.errors || data.invalid) {
-                    new handleValidation(data.errors || data.invalid)
+                    for (let i in data.errors) {
+                        for (let t in data.errors[i]) {
+                            $("[name=" + i + "]")
+                                .addClass("is-invalid");
+                        }
+
+                        // remove message if event key press
+                        $("[name=" + i + "]").keypress(function () {
+                            $("[name=" + i + "]").removeClass("is-invalid");
+                        });
+
+                        // remove message if event change
+                        $("[name=" + i + "]").change(function () {
+                            $("[name=" + i + "]").removeClass("is-invalid");
+                        });
+                    }
                 }
 
             })

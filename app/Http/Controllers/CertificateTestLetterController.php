@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Requests\ExportDataTestLetter;
 use App\Http\Requests\FormArchiveTestLetterCertificateRequest;
 use App\Http\Requests\FormTestLetterCertificateRequest;
 use App\Http\Requests\UploadArchiveRequest;
@@ -253,5 +254,11 @@ class CertificateTestLetterController extends Controller
         $data = $request->only(['id', 'pengujian']);
 
         return $this->certificateTestLetterService->form_testing_submit($data)->toJson();
+    }
+
+    public function export_data(ExportDataTestLetter $request)
+    {
+        $data = $request->only(['date_range', 'type', 'status']);
+        return $this->certificateTestLetterService->export($data)->toJson();
     }
 }

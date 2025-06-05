@@ -27,4 +27,6 @@ interface CertificateTestLetterService extends BaseService{
     public function table_testing();
 
     public function form_testing_submit($data);
+
+    public function export($data);
 }

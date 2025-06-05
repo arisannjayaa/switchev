@@ -2,6 +2,7 @@
 
 namespace App\Services\CertificateTestLetter;
 
+use App\Exports\DataTestLetterExport;
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
 use App\Mail\MailSend;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\CertificateTestLetter\CertificateTestLetterRepository;
+use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpWord\TemplateProcessor;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
@@ -949,6 +951,29 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
                 ->setMessage("Data berhasil dibuat");
         } catch (Exception $e) {
             DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    public function export($data)
+    {
+        try {
+            [$start, $end] = explode(' - ', $data['date_range']);
+            $status = $data['status'];
+            $type = $data['type'];
+
+            $fileName = 'export_' . now()->format('Ymd_His') . '.xlsx';
+            $filePath = storage_path("app/public/exports/{$fileName}");
+
+            Excel::store(new DataTestLetterExport($start, $end, $type, $status), "public/exports/{$fileName}");
+            $result = [
+                'download' => route('secure.file', ['path' => Helper::encrypt("exports/{$fileName}")]),
+                'file_name' => $fileName
+            ];
+            return $this->setResult($result)
+                ->setCode(200)
+                ->setMessage("Berhasil mengexport data");
+        } catch (Exception $e) {
             return $this->exceptionResponse($e);
         }
     }
