@@ -142,5 +142,13 @@ class DatabaseSeeder extends Seeder
             TemplateCertificate::create($template);
         }
 
+        User::factory()->create([
+            'name' => 'BPLJSKB',
+            'email' => 'bpljskb@mail.com',
+            'password' => bcrypt('password1'),
+            'role_id' => Role::BPLJSKB,
+            'status' => 'verified'
+        ]);
+
     }
 }

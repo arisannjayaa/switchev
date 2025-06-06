@@ -59,13 +59,15 @@
 @section('content')
     <div class="container">
         @php
-            $attachments[] = $test_letter->sop_component_installation;
-            $attachments[] = $test_letter->technical_drawing;
-            $attachments[] = $test_letter->conversion_workshop_certificate;
-            $attachments[] = $test_letter->electrical_diagram;
-            $attachments[] = $test_letter->photocopy_stnk;
-            $attachments[] = $test_letter->physical_inspection;
-            $attachments[] = $test_letter->test_report;
+            $attachments[] = @$test_letter->sop_component_installation;
+            $attachments[] = @$test_letter->technical_drawing;
+            $attachments[] = @$test_letter->conversion_workshop_certificate;
+            $attachments[] = @$test_letter->electrical_diagram;
+            $attachments[] = @$test_letter->photocopy_stnk;
+            $attachments[] = @$test_letter->physical_inspection;
+            $attachments[] = @$test_letter->test_report;
+            $attachments[] = @$test_letter->temp_type_test_attachment;
+            $attachments[] = @$test_letter->quality_control;
         @endphp
         <div class="page-header mb-3">
             <div class="row align-items-center">
@@ -94,6 +96,9 @@
             </div>
         </div>
         <div class="row">
+            @if(@$test_letter->temp_type_test_attachment)
+                <input type="hidden" id="is_have_sut" name="is_have_sut" value="{{ @$test_letter->temp_type_test_attachment ? 1 : 0 }}">
+            @endif
             <div class="col-lg-8 col-12">
                 <div class="card">
                     <div class="card-header">
@@ -103,10 +108,12 @@
                         <input type="hidden" id="id" value="{{ $test_letter->id }}" name="id">
                         <div class="row">
                             @foreach($attachments as $attachment)
-                                <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($attachment)]) }}" class="d-flex align-items-center file-pdf-2 mb-3">
-                                    <img width="24" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
-                                    {{ Str::limit(substr($attachment, strlen('documents/')), 60) }}
-                                </a>
+                                @if($attachment != null)
+                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($attachment)]) }}" class="d-flex align-items-center file-pdf-2 mb-3">
+                                        <img width="24" src="{{ asset('assets/dist/img/pdf_illustration.png') }}">
+                                        {{ Str::limit(substr($attachment, strlen('documents/')), 60) }}
+                                    </a>
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -127,6 +134,7 @@
 @endsection
 
 @section('url')
+    <input type="hidden" id="approve-srut-url" value="{{ route('test.letter.approve.srut') }}">
     <input type="hidden" id="approve-url" value="{{ route('test.letter.approve') }}">
 @endsection
 

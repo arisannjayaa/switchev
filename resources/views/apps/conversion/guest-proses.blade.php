@@ -78,10 +78,13 @@
                         </div>
                     </div>
                 @endif
-                @if($conversion->step != 0)
+                @if($conversion->step != 0 || $conversion->status == 'is_being_uploaded')
                     <div class="d-flex justify-content-center align-items-center text-center flex-column">
                         <div class="bg-primary-lt w-100 p-7 rounded-3">
                             @if($conversion->step >= 1 && $conversion->step <= 4)
+                                <img width="300" src="{{ asset('assets/dist/img/undraw_in-progress_cdfz.svg') }}" alt="">
+                            @endif
+                            @if($conversion->status == 'is_being_uploaded' && !($conversion->step >= 1 && $conversion->step <= 4))
                                 <img width="300" src="{{ asset('assets/dist/img/undraw_in-progress_cdfz.svg') }}" alt="">
                             @endif
                             @if($conversion->step == 5)

@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/table', [TestLetterController::class, 'table'])->name('table');
         Route::post('/update', [TestLetterController::class, 'update'])->name('update');
         Route::post('/delete', [TestLetterController::class, 'delete'])->name('delete');
+        Route::post('/form-have-sut', [TestLetterController::class, 'form_have_sut_submit'])->name('form.have.sut.submit');
         Route::post('/approve', [TestLetterController::class, 'approve'])->name('approve');
         Route::post('/physical-test', [TestLetterController::class, 'upload_physical_test_letter'])->name('upload_physical_test_letter');
         Route::get('/form-registration/{id?}', [TestLetterController::class, 'form'])->name('form');

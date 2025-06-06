@@ -145,6 +145,7 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             }
 
             DB::commit();
+
             return $this->setStatus(true)
                 ->setCode(200)
                 ->setResult(['redirect' => $redirect->getTargetUrl()]);
@@ -596,6 +597,123 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                 ->setCode(200)
                 ->setResult(['redirect' => $redirect->getTargetUrl()])
                 ->setMessage("SRUT berhasil di verifikasi");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function have_sut_form($data)
+    {
+        DB::beginTransaction();
+        try {
+            $testLetter = $this->mainRepository->find($data['id']);
+            $data['is_form_completed'] = 1;
+            $data['temp_type_test_attachment'] = @$data['type_test_attachment'];
+
+            $attachments = [
+                'sop_component_installation' => @$data['sop_component_installation'],
+                'technical_drawing' => @$data['technical_drawing'],
+                'conversion_workshop_certificate' => @$data['conversion_workshop_certificate'],
+                'electrical_diagram' => @$data['electrical_diagram'],
+                'photocopy_stnk' => @$data['photocopy_stnk'],
+                'physical_inspection' => @$data['physical_inspection'],
+                'test_report' => @$data['test_report'],
+                'conversion_type_test_application_letter' => @$data['conversion_type_test_application_letter'],
+                'temp_type_test_attachment' => @$data['temp_type_test_attachment'],
+                'quality_control' => @$data['quality_control'],
+            ];
+
+            foreach ($attachments as $key => $value) {
+                $fileName = $key;
+                switch ($fileName) {
+                    case 'sop_component_installation':
+                        $fileName = "SOP_Pemasangan_Komponen_Konversi_";
+                        break;
+                    case 'technical_drawing':
+                        $fileName = "Gambar_Teknik_";
+                        break;
+                    case 'conversion_workshop_certificate':
+                        $fileName = "Sertifikat_Bengkel_Konversi_";
+                        break;
+                    case 'electrical_diagram':
+                        $fileName = "Elektrikal_Diagram_";
+                        break;
+                    case 'photocopy_stnk':
+                        $fileName = "Fotokopi_STNK_";
+                        break;
+                    case 'physical_inspection':
+                        $fileName = "Fisik_Inspeksi_";
+                        break;
+                    case 'test_report':
+                        $fileName = "Laporan_Pengujian_";
+                        break;
+                    case 'conversion_type_test_application_letter':
+                        $fileName = "Surat_Permohonan_Uji_Tipe_Konversi_";
+                        break;
+                    case 'temp_type_test_attachment':
+                        $fileName = "Sertifikat_SUT_";
+                        break;
+                    case 'quality_control':
+                        $fileName = "Quality_Control_";
+                        break;
+                    default:
+                        break;
+                }
+
+                if (@$data[$key]) {
+                    if (@$testLetter->$key) {
+                        if (file_exists(storage_path('app/public/'.@$testLetter->$key))) {
+                            unlink(storage_path('app/public/'.@$testLetter->$key));
+                        }
+                    }
+
+                    // file application letter
+                    $file = $data[$key];
+                    $originalName = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $newFileName = $fileName . uniqid() . '.' . $extension;
+                    $filePath = $file->storeAs('documents', $newFileName, 'public');
+                    $data[$key] = $filePath;
+                }
+
+                if (@$data['old_'.$key]) {
+                    $data[$key] = $data['old_'.$key];
+                    unset($data['old_'.$key]);
+                }
+            }
+
+            $data['user_id'] = auth()->user()->id;
+            $data['is_verified'] = 0;
+            $data['status'] = 'Menunggu Verifikasi';
+            $data['step'] = 'verification_admin';
+            $data['message'] = '<span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin.</span>';
+            $lastQueue = $this->mainRepository->getLastQueue();
+            $lastNumber = $lastQueue ? (int) $lastQueue->queue_number : 0;
+            $newQueueNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+
+            if (@$data['id']) {
+                $this->mainRepository->update($data['id'], $data);
+                $redirect = redirect()->intended(URL::route('test.letter.show', ['id' => Helper::encrypt($data['id'])]));
+            }
+
+            if (!@$data['id']) {
+                unset($data['id']);
+                $data['code'] = Helper::generateTestLetterCode($newQueueNumber);
+                $data['queue_number'] = $newQueueNumber;
+                $result = $this->mainRepository->create($data);
+                $redirect = redirect()->intended(URL::route('test.letter.show', ['id' => Helper::encrypt($result->id)]));
+            }
+
+            DB::commit();
+
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult(['redirect' => $redirect->getTargetUrl()]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->exceptionResponse($e);

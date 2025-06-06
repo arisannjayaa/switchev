@@ -35,9 +35,7 @@ class CertificateTestLetterRepositoryImplement extends Eloquent implements Certi
                 return $query->whereIn('testing_status', ['Menunggu Hasil Uji', 'Hasil Uji Sudah Dibuat']);
             })
             ->when(request()->filled('status_test_letter'), function ($query) {
-                $query->whereHas('test_letter', function ($q) {
-                    $q->where('status', request()->status_test_letter);
-                });
+                $query->where('status', request()->status_test_letter);
             })
             ->when(request()->filled('date_range'), function ($query) {
                 [$start, $end] = explode(' - ', request()->date_range);

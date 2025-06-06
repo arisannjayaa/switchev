@@ -11,77 +11,6 @@
 @endsection
 
 @section('content')
-    <div class="modal fade" id="modal-q" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Apakah anda sudah memiliki Sertifikat SUT?</label>
-                        <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
-                            <label class="form-selectgroup-item flex-fill">
-                                <input type="radio" name="is_have_sut" value="1" class="form-selectgroup-input">
-                                <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                    <div class="me-3">
-                                        <span class="form-selectgroup-check"></span>
-                                    </div>
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="icon text-success icon-tabler icons-tabler-outline icon-tabler-circle-dashed-check">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"/>
-                                            <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"/>
-                                            <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"/>
-                                            <path d="M8.56 20.31a9 9 0 0 0 3.44 .69"/>
-                                            <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"/>
-                                            <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"/>
-                                            <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"/>
-                                            <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"/>
-                                            <path d="M9 12l2 2l4 -4"/>
-                                        </svg>
-                                        <span class="ms-1">Saya sudah memiliki Sertifikat SUT</span>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="form-selectgroup-item flex-fill">
-                                <input type="radio" name="is_have_sut" value="0"
-                                       class="form-selectgroup-input" checked="">
-                                <div class="form-selectgroup-label d-flex align-items-center p-3">
-                                    <div class="me-3">
-                                        <span class="form-selectgroup-check"></span>
-                                    </div>
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="icon text-danger icon-tabler icons-tabler-outline icon-tabler-circle-dashed-x">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"/>
-                                            <path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"/>
-                                            <path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"/>
-                                            <path d="M8.56 20.31a9 9 0 0 0 3.44 .69"/>
-                                            <path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"/>
-                                            <path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"/>
-                                            <path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"/>
-                                            <path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"/>
-                                            <path d="M14 14l-4 -4"/>
-                                            <path d="M10 14l4 -4"/>
-                                        </svg>
-                                        <span class="ms-1">Saya belum memiliki Sertifikat SUT</span>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="btn-apply-submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
         <div class="page-header mb-3">
             <div class="row align-items-center">
@@ -101,7 +30,7 @@
                     </div>
                     <h2 class="page-title">
         <span class="text-truncate"
-        >Form Penerbitan</span
+        >Form Pendaftaran</span
         >
                     </h2>
                 </div>
@@ -345,9 +274,7 @@
 @endsection
 
 @section('url')
-    <input type="hidden" id="secure_file" value="{{ route('secure.file', ['path' => ':path']) }}">
     <input type="hidden" id="upsert-form-url" value="{{ route('test.letter.upsert.form') }}">
-    <input type="hidden" id="upsert-form-have-sut-url" value="{{ route('test.letter.form.have.sut.submit') }}">
 @endsection
 
 @section('script')

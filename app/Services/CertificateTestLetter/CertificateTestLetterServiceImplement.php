@@ -421,7 +421,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             if ($id == null) {
                 $this->mainRepository->create($data);
             } else {
-
+                $data['type_test_attachment'] = $testLetter->temp_type_test_attachment;
                 $this->mainRepository->update($id, $data);
             }
 
@@ -913,12 +913,17 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
         return DataTables::of($this->mainRepository->table())
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $menu = '<a class="dropdown-item detail" href="' . route('testing.form', ['id' => Helper::encrypt($row->id)]) . '" data-id="' . $row->id . '">
+                $url_href = route('testing.form', ['id' => Helper::encrypt($row->id)]);
+                $is_active = $row->status == 'Selesai' ? 'disabled' : '';
+                if ($row->status == 'Selesai') {
+                    $url_href = 'javascript:void(0)';
+                }
+                $menu = '<a aria-disabled="true" class="dropdown-item detail" href="' . $url_href . '" data-id="' . $row->id . '">
                                   Buat Hasil Uji
                                 </a>';
 
                 $html = '<span class="dropdown">
-                              <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
+                              <button '.$is_active.' class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                   <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-circle-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 12l0 .01" /><path d="M12 12l0 .01" /><path d="M16 12l0 .01" /></svg></button>
                               <div class="dropdown-menu dropdown-menu-end" style="">
                                     ' . $menu . '

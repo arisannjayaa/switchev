@@ -58,6 +58,48 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
     });
 
+    $("#workshop_type").change(function () {
+        $(".sut-attachment").remove();
+        $(".quality-attachment").remove();
+        $('#is_have_srut').remove();
+        let value = $(this).val();
+        if (value == 'A') {
+            $("#modal-q").modal("show");
+        }
+    })
+
+    $("#btn-apply-submit").on('click', function () {
+        let value = $('input[name="is_have_sut"]:checked').val();
+        let templateQuality = $("#secure_file").val();
+        templateQuality = templateQuality.replace(":path", "dGllVVRVaVd5ZlpLTVp5bHJtVU01dElEWXFyNk9zdmM3RDZwcTU2Q2xCbEZOT2V1akRUcFBVdDlCUVZpak5pRg==");
+        if (value == 1) {
+           $('input[name="id"]').after('<input type="hidden" id="is_have_sut" name="is_have_sut" value="1">');
+           $('.row.row-cards').append(`
+                <div class="col-lg-6 col-12 sut-attachment">
+                            <div class="mb-3">
+                                <label class="form-label required">Lampiran Sertifikat SUT</label>
+                                <input id="type_test_attachment" type="file" class="form-control" name="type_test_attachment">
+                                <small class="form-hint">
+                                    Lampiran Sertifikat SUT.
+                                </small>
+                            </div>
+                        </div>
+                <div class="col-lg-6 col-12 quality-attachment">
+                    <div class="mb-3">
+                        <label class="form-label required">Lampiran Quality Control</label>
+                        <input id="quality_control" type="file" class="form-control" name="quality_control">
+                        <small class="form-hint">
+                            Lampiran Quality Control. <br>
+                             Format dokumen tersedia dapat di unduh <a target="_blank" href="${templateQuality}">Disini</a>
+                        </small>
+                    </div>
+                </div>
+           `);
+        }
+
+        $("#modal-q").modal("hide");
+    })
+
     $("#sop_component_installation").change(function () {
         if ($('[name="old_sop_component_installation"]').length) {
             $('[name="old_sop_component_installation"]').remove();
@@ -107,6 +149,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let formData = new FormData(this);
         let btn = "#btn-submit"
         let url = $("#upsert-form-url").val();
+        let is_have_sut = $("#is_have_sut").val();
+
+        if (is_have_sut == 1) {
+            url = $("#upsert-form-have-sut-url").val();
+        }
 
         $(btn).empty().append(`<div class="spinner-border" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -271,6 +318,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let url = $("#approve-url").val();
         let btn = $("#btn-approve")
         let formData = new FormData();
+        if ($("#is_have_sut").val() == 1) {
+            url = $("#approve-srut-url").val();
+        }
+
         formData.append("id", id);
         formData.append("is_verified", 1);
 

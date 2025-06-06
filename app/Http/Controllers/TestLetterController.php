@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Requests\FormGenerateSpuRequest;
+use App\Http\Requests\FormHaveSUT;
 use App\Http\Requests\FormPermohonanSRUTRequest;
 use App\Http\Requests\FormSendSpuRequest;
 use App\Http\Requests\FormTestLetterCertificateRequest;
@@ -253,5 +254,31 @@ class TestLetterController extends Controller
         $data = $request->only(['id','is_verified']);
 
         return $this->testLetterService->approve_srut($data)->toJson();
+    }
+
+    public function form_have_sut_submit(FormHaveSUT $request)
+    {
+        if (!auth()->user()->isGuest()) {
+            return abort(403);
+        }
+
+        $data = $request->only(['workshop_type',
+            'sop_component_installation',
+            'technical_drawing',
+            'conversion_workshop_certificate',
+            'electrical_diagram',
+            'photocopy_stnk',
+            'physical_inspection',
+            'test_report',
+            'id',
+            'responsible_person',
+            'telephone',
+            'address',
+            'workshop','form_step',
+            'conversion_type_test_application_letter',
+            'type_test_attachment',
+            'quality_control'
+        ]);
+        return $this->testLetterService->have_sut_form($data)->toJson();
     }
 }

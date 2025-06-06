@@ -42,6 +42,7 @@ class TestLetter extends Model
         'queue_number',
         'permohonan_srut',
         'quality_control',
+        'temp_type_test_attachment',
     ];
 
     public function user()
