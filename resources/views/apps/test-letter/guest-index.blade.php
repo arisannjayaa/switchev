@@ -76,7 +76,6 @@
                                                             <div class="dropdown-menu dropdown-menu-end" style="">
                                                                 <a class="dropdown-item" href="{{ route('test.letter.show', \App\Helpers\Helper::encrypt($test_letter->id)) }}') }}"> Lihat </a>
                                                                 <a class="dropdown-item" href="{{ route('test.letter.show.guest', \App\Helpers\Helper::encrypt($test_letter->id)) }}') }}"> Detail </a>
-                                                                @if($test_letter->step == 'send_spu') <a data-id="{{ $test_letter->id }}" class="dropdown-item modal-pyhsical-test" href="#"> Upload Hasil Uji Fisik </a> @endif
                                                                 @if(@$test_letter->workshop_type == "A" && $test_letter->step == "next_request_srut") <a data-id="{{ $test_letter->id }}" class="dropdown-item" href="{{ route('test.letter.permohonan.srut', ['id' => \App\Helpers\Helper::encrypt($test_letter->id)]) }}"> Ajukan Permohonan Sertifikat SRUT </a> @endif
                                                             </div>
                                                         </div>

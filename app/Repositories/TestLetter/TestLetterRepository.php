@@ -18,4 +18,6 @@ interface TestLetterRepository extends Repository{
     public function table();
 
     public function getLastQueue();
+
+    public function table_resume();
 }

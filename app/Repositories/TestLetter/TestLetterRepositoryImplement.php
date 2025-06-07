@@ -74,4 +74,15 @@ class TestLetterRepositoryImplement extends Eloquent implements TestLetterReposi
             ->orderBy('queue_number', 'desc')
             ->first();
     }
+
+    /**
+     * @return mixed
+     */
+    public function table_resume()
+    {
+        return $this->model->query()
+            ->with(['user','certificate'])
+            ->where('status', 'Menunggu Unggah Berkas BPLJSKB')
+            ->orderBy('updated_at', 'desc');
+    }
 }

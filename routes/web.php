@@ -165,7 +165,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [TemplateController::class, 'detail'])->name('detail');
     });
 
-
+    Route::prefix('resume-hasil-uji')->name('resume.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\ResumeController::class, 'index'])->name('index');
+        Route::get('/table', [\App\Http\Controllers\ResumeController::class, 'table'])->name('table');
+        Route::post('/resume-upload', [\App\Http\Controllers\ResumeController::class, 'upload_physical_test_letter'])->name('upload');
+        Route::get('/physical-test/{id}', [\App\Http\Controllers\ResumeController::class, 'show_physical_test_letter'])->name('show_physical_test_letter');
+    });
 });
 
 Route::prefix('/')->name('home.')->group(function () {
