@@ -148,64 +148,91 @@
         @endcanany
     </div>
         @can('isGuest')
-            <div class="d-flex justify-content-center align-items-center flex-column">
-                <div class="w-100">
-                    <div class="alert alert-important alert-info" role="alert">
-                        <div class="d-flex">
-                            <div class="alert-icon">
-                                <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
-                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                                    <path d="M12 8v4"></path>
-                                    <path d="M12 16h.01"></path>
-                                </svg>
+            <div class="row">
+                <div class="col-lg-8 col-12">
+                    <div class="d-flex justify-content-center align-items-center flex-column">
+                        <div class="w-100">
+                            <div class="alert alert-important alert-info rounded-3" role="alert">
+                                <div class="d-flex">
+                                    <div class="alert-icon">
+                                        <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
+                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                            <path d="M12 8v4"></path>
+                                            <path d="M12 16h.01"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="alert-heading text-left">{{ @$test_letter->status }}</div>
+                                        {{--                                @if(@$test_letter->is_verified && @$test_letter->step == 'send_spu')--}}
+                                        {{--                                    <span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.--}}
+                                        {{--                                         <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->spu_attachment)]) }}">Unduh Surat Pengantar Uji di sini</a></span>--}}
+                                        {{--                                @endif--}}
+                                        {{--                                @if(@$test_letter->is_verified && @$test_letter->step == 'bpljskb_uploaded')--}}
+                                        {{--                                    <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Keterangan dan Sertifikat akan segera diperoses.</span>--}}
+                                        {{--                                @endif--}}
+                                        {{--                                @if(!@$test_letter->is_verified && !@$test_letter->step == 'send_spu')--}}
+                                        {{--                                    <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Pengantar Uji akan tersedia setelah proses verifikasi selesai.</span>--}}
+                                        {{--                                @endif--}}
+                                        {!! @$test_letter->message !!}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="alert-heading text-left">{{ @$test_letter->status }}</div>
-                                {{--                                @if(@$test_letter->is_verified && @$test_letter->step == 'send_spu')--}}
-                                {{--                                    <span class="text-secondary text-left">Silakan lanjutkan pengujian fisik ke BPLJSKB dengan membawa Surat Pengantar Uji dan dokumen pendukung. Proses dilakukan sendiri oleh pemohon tanpa pendampingan admin.--}}
-                                {{--                                         <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt(@$test_letter->spu_attachment)]) }}">Unduh Surat Pengantar Uji di sini</a></span>--}}
-                                {{--                                @endif--}}
-                                {{--                                @if(@$test_letter->is_verified && @$test_letter->step == 'bpljskb_uploaded')--}}
-                                {{--                                    <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Keterangan dan Sertifikat akan segera diperoses.</span>--}}
-                                {{--                                @endif--}}
-                                {{--                                @if(!@$test_letter->is_verified && !@$test_letter->step == 'send_spu')--}}
-                                {{--                                    <span>Mohon menunggu, dokumen Anda sedang diperiksa oleh admin. Surat Pengantar Uji akan tersedia setelah proses verifikasi selesai.</span>--}}
-                                {{--                                @endif--}}
-                                {!! @$test_letter->message !!}
+                        </div>
+                        <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
+                            @if(@$test_letter->is_verified)
+                                <img class="img-fluid" width="200" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
+                            @else
+                                <img class="img-fluid" width="200" src="{{ asset('assets/dist/img/undraw_loading_65y2.svg') }}">
+                            @endif
+                        </div>
+                        @if(@$test_letter->is_verified && (@$test_letter->step == 'completed' || @$test_letter->step == 'next_request_srut'))
+                            @php
+                                $attachment_certificates [] = [
+                                    'file' => $test_letter->certificate->type_test_attachment,
+                                    'name' => 'Sertifikat SUT'];
+                                $attachment_certificates [] = [
+                                    'file' => $test_letter->certificate->registration_attachment,
+                                    'name' => 'Sertifikat SRUT'];
+                                $attachment_certificates [] = [
+                                    'file' => $test_letter->certificate->sk_attachment,
+                                    'name' => 'Surat Keterangan SUT dan Lampiran SUT'];
+                            @endphp
+                            <div class="row w-100 gap-2">
+                                @foreach($attachment_certificates as $row)
+                                    @if($row['file'] != null)
+                                        <div class="col-12">
+                                            <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($row['file'])]) }}" class="btn btn-outline-primary w-100 text-left">{{ $row['name'] }}</a>
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="card border-primary rounded-3">
+                        <div class="card-body">
+                            <ul class="steps steps-counter steps-vertical">
+                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                    <div>Verifikasi Admin</div>
+                                </li>
+                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                    <div>Verifikasi Admin</div>
+                                </li>
+                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                    <div>Verifikasi Zoom</div>
+                                </li>
+                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                    <div>Verifikasi Lapangan</div>
+                                </li>
+                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                    <div>Selesai</div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
-                    @if(@$test_letter->is_verified)
-                        <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
-                    @else
-                        <img class="img-fluid" width="300" src="{{ asset('assets/dist/img/undraw_loading_65y2.svg') }}">
-                    @endif
-                </div>
-                @if(@$test_letter->is_verified && (@$test_letter->step == 'completed' || @$test_letter->step == 'next_request_srut'))
-                    @php
-                        $attachment_certificates [] = [
-                            'file' => $test_letter->certificate->type_test_attachment,
-                            'name' => 'Sertifikat SUT'];
-                        $attachment_certificates [] = [
-                            'file' => $test_letter->certificate->registration_attachment,
-                            'name' => 'Sertifikat SRUT'];
-                        $attachment_certificates [] = [
-                            'file' => $test_letter->certificate->sk_attachment,
-                            'name' => 'Surat Keterangan SUT dan Lampiran SUT'];
-                    @endphp
-                    <div class="row w-100 gap-2">
-                        @foreach($attachment_certificates as $row)
-                            @if($row['file'] != null)
-                                <div class="col-12">
-                                    <a href="{{ route('secure.file', ['path' => \App\Helpers\Helper::encrypt($row['file'])]) }}" class="btn btn-outline-primary w-100 text-left">{{ $row['name'] }}</a>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                @endif
             </div>
         @endcan
     </div>

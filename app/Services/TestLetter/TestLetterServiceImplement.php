@@ -745,4 +745,29 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             ->rawColumns(['action'])
             ->make(true);
     }
+
+    /**
+     * @return mixed
+     */
+    public function reject($data)
+    {
+        DB::beginTransaction();
+        try {
+            $test_letter = $this->mainRepository->find($data['id']);
+            $data['step'] = 'rejected';
+            $data['status'] = 'Di Tolak';
+
+            $this->mainRepository->update($data['id'], $data);
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult([
+                    'redirect' => route('test.letter.index'),])
+                ->setMessage("Data berhasil ditolak karena tidak sesuai");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
 }

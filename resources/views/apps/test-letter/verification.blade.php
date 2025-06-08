@@ -125,19 +125,26 @@
                         <div class="d-flex flex-column gap-2">
                             <a href="{{ route('test.letter.index') }}" class="btn btn-outline-primary">Kembali</a>
                             <button {{ $test_letter->is_verified == 1 ? 'disabled' : '' }} id="btn-approve" type="submit" class="btn btn-primary">Verifikasi</button>
+                            <button {{ $test_letter->is_verified == 1 ? 'disabled' : '' }} id="btn-reject" type="submit" class="btn btn-danger">Tolak</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('apps.test-letter.reject-modal')
 @endsection
 
 @section('url')
     <input type="hidden" id="approve-srut-url" value="{{ route('test.letter.approve.srut') }}">
     <input type="hidden" id="approve-url" value="{{ route('test.letter.approve') }}">
+    <input type="hidden" id="reject-url" value="{{ route('test.letter.reject') }}">
 @endsection
 
 @section('script')
     @vite(['resources/js/apps/test-letter/test_letter.js'])
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
 @endsection

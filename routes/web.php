@@ -111,6 +111,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [TestLetterController::class, 'delete'])->name('delete');
         Route::post('/form-have-sut', [TestLetterController::class, 'form_have_sut_submit'])->name('form.have.sut.submit');
         Route::post('/approve', [TestLetterController::class, 'approve'])->name('approve');
+        Route::post('/reject', [TestLetterController::class, 'reject'])->name('reject');
         Route::post('/physical-test', [TestLetterController::class, 'upload_physical_test_letter'])->name('upload_physical_test_letter');
         Route::get('/form-registration/{id?}', [TestLetterController::class, 'form'])->name('form');
         Route::get('/generate-surat-spu/{id}', [TestLetterController::class, 'generate_spu'])->name('generate.spu');

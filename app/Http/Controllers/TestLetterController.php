@@ -281,4 +281,10 @@ class TestLetterController extends Controller
         ]);
         return $this->testLetterService->have_sut_form($data)->toJson();
     }
+
+    public function reject(Request $request)
+    {
+        $data = $request->only(['message', 'id', 'nohtml']);
+        return $this->testLetterService->reject($data)->toJson();
+    }
 }

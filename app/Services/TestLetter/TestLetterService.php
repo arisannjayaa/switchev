@@ -29,4 +29,5 @@ interface TestLetterService extends BaseService{
     public function have_sut_form($data);
 
     public function table_resume();
+    public function reject($data);
 }

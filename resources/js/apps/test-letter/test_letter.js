@@ -58,6 +58,114 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
     });
 
+    var quillReject;
+
+    $('#modal-reject').on('hidden.bs.modal', function () {
+        destroyQuill(quillReject, "#editor-reject");
+    });
+
+    $("#btn-reject").click(function (){
+        let id = $("#id").val();
+        let url = $("#reject-url").val();
+        url = url.replace(":id", id);
+        let formData = new FormData();
+        formData.append("id", id);
+
+        Swal.fire({
+            html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-danger"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path><path d="M12 16h.01"></path></svg>
+                    <h3>Apakah anda yakin</h3>
+                    <div class="text-secondary" style="font-size: 14px !important;">Apakah Anda benar ingin menolak data ini?</div>`,
+            confirmButtonText: 'Tolak',
+            cancelButtonText: 'Batal',
+            customClass: {
+                confirmButton: 'btn btn-danger w-100',
+                cancelButton: 'btn w-100'
+            },
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#modal-reject").modal('show');
+
+                quillReject = new Quill('#editor-reject', {
+                    theme: 'snow'
+                });
+
+                const btnRejectConfirm = "#btn-reject-confirm";
+
+                $("#btn-reject-confirm").off('click').on('click', function () {
+                    btnLoading(btnRejectConfirm);
+                    let message = quillReject.root.innerHTML;
+                    let noHtml = quillReject.getText().trim();
+                    formData.append('message', message);
+                    formData.append('nohtml', noHtml);
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken(),
+                        },
+                        body: formData,
+                    })
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(data => {
+                            if(data.code == 200) {
+
+                                Swal.fire({
+                                    html: `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 text-green"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path><path d="M9 12l2 2l4 -4"></path></svg>
+                            <h3>Berhasil</h3>
+                            <div class="text-secondary">${data.message}</div>`,
+                                    confirmButtonText: 'Ok',
+                                    confirmButtonColor: '#2fb344',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success w-100'
+                                    }
+                                });
+
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 2000);
+                            }
+
+                            if (data.errors || data.invalid) {
+                                let messages = data.errors || data.invalid;
+                                $(".invalid-feedback").remove();
+                                for (let i in messages) {
+                                    for (let t in messages[i]) {
+                                        $("[key=" + i + "]")
+                                            .addClass("is-invalid")
+                                            .after(
+                                                '<div class="text-left invalid-feedback">' +
+                                                messages[i][t] +
+                                                "</div>"
+                                            );
+                                    }
+
+                                    // remove message if event key press
+                                    $("[key=" + i + "]").keypress(function () {
+                                        $("[key=" + i + "]").removeClass("is-invalid");
+                                    });
+
+                                    // remove message if event change
+                                    $("[key=" + i + "]").change(function () {
+                                        $("[key=" + i + "]").removeClass("is-invalid");
+                                    });
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.log('Error:', error);
+                        })
+                        .finally(() => {
+                            $(btnRejectConfirm).empty().append("Konfirmasi").prop('disabled', false);
+                        });
+                })
+            }
+            hideLoading(1000);
+        });
+    })
+
     $("#workshop_type").change(function () {
         $(".sut-attachment").remove();
         $(".quality-attachment").remove();
