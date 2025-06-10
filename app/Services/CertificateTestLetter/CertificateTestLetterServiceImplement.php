@@ -982,4 +982,38 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             return $this->exceptionResponse($e);
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function reject($data)
+    {
+        DB::beginTransaction();
+        try {
+            $certificate = $this->mainRepository->find(Helper::decrypt($data['id']));
+            $data_test_letter = $this->testLetterRepository->find($certificate->test_letter->id);
+            $data_test_letter['step'] = 'rejected';
+            $data_test_letter['status'] = 'Di Tolak';
+            $data_test_letter['message'] = $data['message'];
+            unset($data['message']);
+            $data['status'] = 'Di Tolak';
+
+            $certificate->status = 'Di Tolak';
+            $certificate->save();
+            $data_test_letter->step = 'rejected';
+            $data_test_letter->message = $data_test_letter['message'];
+            $data_test_letter->status = 'Di Tolak';
+            $data_test_letter->save();
+
+            DB::commit();
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult([
+                    'redirect' => route('certificate.test.letter.index'),])
+                ->setMessage("Data berhasil ditolak karena tidak sesuai");
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->exceptionResponse($e);
+        }
+    }
 }

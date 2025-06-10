@@ -68,4 +68,12 @@ class CertificateTestLetterRepositoryImplement extends Eloquent implements Certi
             ->where('id', $id)
             ->firstOrFail();
     }
+
+    public function find($id)
+    {
+        return $this->model->query()
+            ->with(['test_letter','user'])
+            ->where('id', $id)
+            ->first();
+    }
 }

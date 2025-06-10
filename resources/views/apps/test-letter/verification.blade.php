@@ -125,7 +125,7 @@
                         <div class="d-flex flex-column gap-2">
                             <a href="{{ route('test.letter.index') }}" class="btn btn-outline-primary">Kembali</a>
                             <button {{ $test_letter->is_verified == 1 ? 'disabled' : '' }} id="btn-approve" type="submit" class="btn btn-primary">Verifikasi</button>
-                            <button {{ $test_letter->is_verified == 1 ? 'disabled' : '' }} id="btn-reject" type="submit" class="btn btn-danger">Tolak</button>
+                            <button {{ $test_letter->step == 'rejected' ? 'disabled' : '' }} id="btn-reject" type="submit" class="btn btn-danger">Tolak</button>
                         </div>
                     </div>
                 </div>

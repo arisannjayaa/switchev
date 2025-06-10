@@ -214,16 +214,13 @@
                     <div class="card border-primary rounded-3">
                         <div class="card-body">
                             <ul class="steps steps-counter steps-vertical">
-                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                <li class="step-item {{ in_array(@$test_letter->step, ['verification_admin', 'create_spu', 'send_spu', 'verification_admin_srut']) ? 'active' : '' }}">
                                     <div>Verifikasi Admin</div>
                                 </li>
-                                <li class="step-item {{ @$test_letter->step == 'create_certificate_sut' || @$test_letter->step == 'create_certificate_srut' ? 'active' : '' }}">
+                                <li class="step-item {{ in_array(@$test_letter->step, ['create_certificate_sut', 'create_certificate_srut', 'bpljskb_uploaded']) ? 'active' : '' }}">
                                     <div>Sertifikat Sedang di Buat</div>
                                 </li>
-                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
-                                    <div>Verifikasi Lapangan</div>
-                                </li>
-                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
+                                <li class="step-item {{ @$test_letter->step == 'completed' ? 'active' : '' }}">
                                     <div>Selesai</div>
                                 </li>
                             </ul>

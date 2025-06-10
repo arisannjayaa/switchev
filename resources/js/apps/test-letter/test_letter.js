@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 });
 
                                 setTimeout(function() {
-                                    location.reload();
+                                    window.location.href = data.data.redirect;
                                 }, 2000);
                             }
 

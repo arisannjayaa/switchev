@@ -261,4 +261,10 @@ class CertificateTestLetterController extends Controller
         $data = $request->only(['date_range', 'type', 'status']);
         return $this->certificateTestLetterService->export($data)->toJson();
     }
+
+    public function reject(Request $request)
+    {
+        $data = $request->only(['message', 'id', 'nohtml']);
+        return $this->certificateTestLetterService->reject($data)->toJson();
+    }
 }

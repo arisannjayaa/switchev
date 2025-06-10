@@ -141,6 +141,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/verifikasi-draft', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft'])->name('verification.draft.submit');
         Route::post('/request-hasil-uji', [\App\Http\Controllers\CertificateTestLetterController::class, 'request_testing'])->name('request.testing');
 
+        Route::post('/reject', [\App\Http\Controllers\CertificateTestLetterController::class, 'reject'])->name('reject');
         Route::post('/export', [\App\Http\Controllers\CertificateTestLetterController::class, 'export_data'])->name('export');
 
         Route::get('/verifikasi-draft/{id}', [\App\Http\Controllers\CertificateTestLetterController::class, 'verify_draft_view'])->name('verification.draft.form');

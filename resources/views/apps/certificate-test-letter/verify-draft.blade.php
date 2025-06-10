@@ -39,6 +39,7 @@
             </div>
         </div>
         <input type="hidden" id="id" value="{{ \App\Helpers\Helper::encrypt($certificate->id) }}">
+        <input type="hidden" id="test_letter_id" value="{{ $certificate->test_letter->id }}">
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="step-1">
@@ -77,19 +78,27 @@
                 <div class="card">
                     <div class="card-footer">
                         <div class="d-flex flex-column gap-2">
-                            <button id="btn-verification" type="submit" class="btn btn-primary">Verifikasi</button>
+                            <a href="{{ route('certificate.test.letter.index') }}" class="btn btn-outline-primary">Kembali</a>
+                            <button {{ in_array(@$certificate->status, ['SUT Terverifikasi']) ? 'disabled' : '' }} {{ @$certificate->test_letter->step == 'rejected' ? 'disabled' : '' }} id="btn-verification" type="submit" class="btn btn-primary">Verifikasi</button>
+                            <button {{ @$certificate->test_letter->is_verified == 1 ? 'disaled' : '' }} {{ @$certificate->test_letter->step == 'rejected' ? 'disabled' : '' }} id="btn-reject" type="submit" class="btn btn-danger">Tolak</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('apps.test-letter.reject-modal')
 @endsection
 
 @section('url')
     <input type="hidden" id="verify-url" value="{{ route('certificate.test.letter.verification.draft.submit') }}">
+    <input type="hidden" id="reject-url" value="{{ route('certificate.test.letter.reject') }}">
 @endsection
 
 @section('script')
     @vite(['resources/js/apps/test-letter/certificate.js'])
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
 @endsection
