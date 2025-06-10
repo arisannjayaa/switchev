@@ -217,11 +217,8 @@
                                 <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
                                     <div>Verifikasi Admin</div>
                                 </li>
-                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
-                                    <div>Verifikasi Admin</div>
-                                </li>
-                                <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
-                                    <div>Verifikasi Zoom</div>
+                                <li class="step-item {{ @$test_letter->step == 'create_certificate_sut' || @$test_letter->step == 'create_certificate_srut' ? 'active' : '' }}">
+                                    <div>Sertifikat Sedang di Buat</div>
                                 </li>
                                 <li class="step-item {{ @$test_letter->step == 'verification_admin' ? 'active' : '' }}">
                                     <div>Verifikasi Lapangan</div>
