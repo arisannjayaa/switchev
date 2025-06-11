@@ -914,7 +914,7 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $url_href = route('testing.form', ['id' => Helper::encrypt($row->id)]);
-                $is_active = $row->status == 'Selesai' ? 'disabled' : '';
+                $is_active = in_array($row->status, ['Di Tolak','Selesai']) ? 'disabled' : '';
                 if ($row->status == 'Selesai') {
                     $url_href = 'javascript:void(0)';
                 }
@@ -1001,9 +1001,15 @@ class CertificateTestLetterServiceImplement extends ServiceApi implements Certif
             $certificate->status = 'Di Tolak';
             $certificate->save();
             $data_test_letter->step = 'rejected';
+            $data_test_letter->is_verified = 0;
             $data_test_letter->message = $data_test_letter['message'];
             $data_test_letter->status = 'Di Tolak';
             $data_test_letter->save();
+
+            $mail['email'] = $data_test_letter->user->email;
+            $mail['title'] = $data['status'];
+            $mail['message'] = $data_test_letter['message'];
+            Mail::to($mail['email'])->send(new MailSend($mail));
 
             DB::commit();
             return $this->setStatus(true)

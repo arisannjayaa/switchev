@@ -4,11 +4,13 @@ namespace App\Services\TestLetter;
 
 use App\Helpers\CertificateHelper;
 use App\Helpers\Helper;
+use App\Mail\MailSend;
 use App\Models\TemplateCertificate;
 use App\Repositories\CertificateTestLetter\CertificateTestLetterRepository;
 use App\Repositories\TemplateCertificate\TemplateCertificateRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use LaravelEasyRepository\ServiceApi;
@@ -550,9 +552,10 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             $lastQueue = $this->mainRepository->getLastQueue();
             $lastNumber = $lastQueue ? (int) $lastQueue->queue_number : 0;
             $newQueueNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+            $id = @$data['id'];
 
             if (@$data['id']) {
-                $this->mainRepository->update($data['id'], $data);
+                $this->mainRepository->update($id, $data);
                 $this->certificateRepository->update($testLetter->certificate->id, ['status' => 'Draft SRUT']);
             }
 
@@ -560,10 +563,10 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
                 unset($data['id']);
                 $data['code'] = Helper::generateTestLetterCode($newQueueNumber);
                 $data['queue_number'] = $newQueueNumber;
-                $this->mainRepository->create($data);
+                $testLetter = $this->mainRepository->create($data);
             }
 
-            $redirect = redirect()->intended(URL::route('test.letter.index'));
+            $redirect = redirect()->intended(URL::route('test.letter.show', ['id' => Helper::encrypt($testLetter->id)]));
 
             DB::commit();
             return $this->setStatus(true)
@@ -732,7 +735,16 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
 
                 $menu = '<a class="dropdown-item show-modal-physical" href="javascript:void(0)" data-id="'.$row->id.'">
                               Upload Resume <a/>';
-                $status = ($row->physical_test_bpljskb && $row->status) == 'Selesai' ? 'disabled' : '';
+                $status = '';
+
+                if ($row->physical_test_bpljskb) {
+                    $status = 'disabled';
+                }
+
+                if (in_array($row->status, ['Di Tolak','Selesai'])) {
+                    $status = 'disabled';
+                }
+
                 $html = '<span class="dropdown">
                               <button '.$status.' class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                   <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-circle-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 12l0 .01" /><path d="M12 12l0 .01" /><path d="M16 12l0 .01" /></svg></button>
@@ -756,8 +768,12 @@ class TestLetterServiceImplement extends ServiceApi implements TestLetterService
             $test_letter = $this->mainRepository->find($data['id']);
             $data['step'] = 'rejected';
             $data['status'] = 'Di Tolak';
-
+            $data['is_verified'] = 0;
+            $mail['email'] = $test_letter->user->email;
+            $mail['title'] = $data['status'];
+            $mail['message'] = $data['message'];
             $this->mainRepository->update($data['id'], $data);
+            Mail::to($mail['email'])->send(new MailSend($mail));
 
             DB::commit();
             return $this->setStatus(true)

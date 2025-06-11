@@ -77,7 +77,7 @@
     ]
   },
   "resources/js/apps/test-letter/certificate.js": {
-    "file": "assets/certificate-BrVG8prI.js",
+    "file": "assets/certificate-AnW33gn2.js",
     "name": "certificate",
     "src": "resources/js/apps/test-letter/certificate.js",
     "isEntry": true,
@@ -86,9 +86,18 @@
     ]
   },
   "resources/js/apps/test-letter/permohonan-srut.js": {
-    "file": "assets/permohonan-srut-DWeI3gcz.js",
+    "file": "assets/permohonan-srut-DwJOP28A.js",
     "name": "permohonan-srut",
     "src": "resources/js/apps/test-letter/permohonan-srut.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/apps/utils/helper.js"
+    ]
+  },
+  "resources/js/apps/test-letter/resume.js": {
+    "file": "assets/resume-CLTHriQq.js",
+    "name": "resume",
+    "src": "resources/js/apps/test-letter/resume.js",
     "isEntry": true,
     "imports": [
       "resources/js/apps/utils/helper.js"
@@ -104,7 +113,7 @@
     ]
   },
   "resources/js/apps/test-letter/test_letter.js": {
-    "file": "assets/test_letter-C-8fMYce.js",
+    "file": "assets/test_letter-TMcb4Q-W.js",
     "name": "test_letter",
     "src": "resources/js/apps/test-letter/test_letter.js",
     "isEntry": true,

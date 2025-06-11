@@ -7,7 +7,53 @@
         #table_wrapper {
             padding: 20px !important;
         }
+        .file-pdf:hover {
+            border-radius: 7px;
+            cursor: pointer;
+            background-color: rgba(24, 36, 51, 0.09) !important;
+        }
+
+        .step-item.active:before {
+            background-color: #fff !important;
+            border: 2px solid #0054a6 !important;
+            color: #0054a6 !important;
+        }
+
+        .alert-info {
+            background-color: #fff !important;
+            border: 1px solid #0054a6 !important;
+            color: #0054a6 !important;
+        }
+
+        .alert-success {
+            background-color: #fff !important;
+            border: 1px solid #2fb344 !important;
+            color: #2fb344 !important;
+        }
+
+        .ql-container {
+            height: 200px !important;
+            border-radius: 0 0 8px 8px !important;
+        }
+        .ql-toolbar.ql-snow {
+            border-radius: 8px 8px 0 0 !important;
+        }
+
+        .file-pdf-2 {
+            text-decoration: none;
+            color: #000;
+            padding: 10px 10px 12px 12px;
+            border: 1px solid #0054a6 !important;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .file-pdf-2:hover {
+            background-color: rgba(24, 36, 51, 0.09) !important;
+        }
     </style>
+    <!-- Include stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 @endsection
 
 @section('content')

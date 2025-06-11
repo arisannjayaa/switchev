@@ -182,6 +182,8 @@
                         <div class="bg-primary-lt w-100 p-8 rounded-3 mb-3 img-border text-center">
                             @if(@$test_letter->is_verified)
                                 <img class="img-fluid" width="200" src="{{ asset('assets/dist/img/undraw_happy-announcement_23nf.svg') }}">
+                            @elseif(@$test_letter->step == 'rejected')
+                                <img class="img-fluid" width="200" src="{{ asset('assets/dist/img/undraw_cancel_7zdh.svg') }}">
                             @else
                                 <img class="img-fluid" width="200" src="{{ asset('assets/dist/img/undraw_loading_65y2.svg') }}">
                             @endif
