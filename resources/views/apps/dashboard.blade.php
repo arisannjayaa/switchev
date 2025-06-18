@@ -60,6 +60,16 @@
             </div>
         </div>
     </div>
+
+    @can('isSuperAdmin')
+
+        <div class="mt-3 card">
+            <div class="card-body">
+                <img src="{{ asset('assets/dist/img/pdf_illustration.png') }}" width="20"   alt="">
+            </div>
+        </div>
+
+    @endcan
 </div>
 @endsection
 
