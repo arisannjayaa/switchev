@@ -14,7 +14,7 @@
                 <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
                     <div class="col-lg-8 ftco-animate">
                         <div class="text w-100 text-center mb-md-5 pb-md-5">
-                            <h1 class="mb-4">Transformasi Bengkel ke Era Kendaraan Listrik</h1>
+                            <h1 class="mb-4">Test</h1>
                             <p style="font-size: 18px;">Jadikan bengkel Anda pionir dalam konversi kendaraan listrik! Switch EV hadir untuk mendukung bengkel dalam mengadopsi teknologi ramah lingkungan dengan solusi konversi yang efisien, terpercaya, dan inovatif. Saatnya beralih ke masa depan yang lebih hijau!</p>
                         </div>
                     </div>

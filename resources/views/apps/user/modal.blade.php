@@ -24,11 +24,11 @@
                     </div>
                     <hr>
                     <div class="mb-3">
-                        <label class="form-label required">Verifikasi</label>
+                        <label class="form-label required">Terima</label>
                         <div>
                             <select class="form-select" name="status" id="status">
                                 <option value="pending">Pending</option>
-                                <option value="verified">Verifikasi</option>
+                                <option value="verified">Terima</option>
                                 <option value="rejected">Tolak</option>
                             </select>
                         </div>
