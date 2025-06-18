@@ -19,11 +19,20 @@ class ConversionController extends Controller
         $this->conversionService = $conversionService;
     }
 
+    /**
+     * halaman daftar data konversi
+     * @return mixed
+     */
     public function index()
     {
         return $this->conversionService->checkStatusUser();
     }
 
+    /**
+     * form halaman konversi
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|void
+     */
     public function form($id = null)
     {
         if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
@@ -32,6 +41,12 @@ class ConversionController extends Controller
         }
     }
 
+    /**
+     * form halaman konversi
+     * @param $step
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\View\View|void
+     */
     public function formResponsibleWorkshop($step, $id = null)
     {
 
@@ -60,6 +75,11 @@ class ConversionController extends Controller
         }
     }
 
+    /**
+     * tambah atau update data konversi
+     * @param FormResponsibleWorkshopRequest $request
+     * @return never
+     */
     public function upsertFormResponsibleWorkshop(FormResponsibleWorkshopRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -75,6 +95,11 @@ class ConversionController extends Controller
         return $this->conversionService->upsertFormResponsibleWorkshop($data)->toJson();
     }
 
+    /**
+     *
+     * @param FormDocumentRequest $request
+     * @return never
+     */
     public function upsertFormDocument(FormDocumentRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -98,6 +123,10 @@ class ConversionController extends Controller
         return $this->conversionService->upsertFormDocumentRequest($data)->toJson();
     }
 
+    /**
+     * @param ConversionRequest $request
+     * @return never
+     */
     public function upsert(ConversionRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -119,11 +148,18 @@ class ConversionController extends Controller
         return $this->conversionService->upsert($data)->toJson();
     }
 
+    /**
+     * @return mixed
+     */
     public function table()
     {
         return $this->conversionService->table();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function show($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -140,6 +176,10 @@ class ConversionController extends Controller
         return view('apps.conversion.detail', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function approve(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -149,6 +189,10 @@ class ConversionController extends Controller
         return $this->conversionService->approve($request->id)->toJson();
     }
 
+    /**
+     * @param RejectConversionRequest $request
+     * @return never
+     */
     public function reject(RejectConversionRequest $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -159,6 +203,10 @@ class ConversionController extends Controller
         return $this->conversionService->reject($data)->toJson();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\View\View|never
+     */
     public function verification($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -179,6 +227,10 @@ class ConversionController extends Controller
         return view('apps.conversion.verification', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function sendMail(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -189,12 +241,20 @@ class ConversionController extends Controller
         return $this->conversionService->sendEmail($data)->toJson();
     }
 
+    /**
+     * @param ChecklistEquipmentRequest $request
+     * @return mixed
+     */
     public function checklist(ChecklistEquipmentRequest $request)
     {
         $data = $request->only(['status','id']);
         return $this->conversionService->checklist($data)->toJson();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
     public function process_detail($id)
     {
         $data['conversion'] = $this->conversionService->find(Helper::decrypt($id))->getResult();

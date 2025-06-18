@@ -21,6 +21,11 @@ class TestLetterController extends Controller
         $this->testLetterService = $testLetterService;
     }
 
+    /**
+     * halaman data sut dan srut
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function index(Request $request)
     {
         if (auth()->user()->isBpljskb()) {
@@ -31,6 +36,12 @@ class TestLetterController extends Controller
         return view('apps.test-letter.index', $data);
     }
 
+    /**
+     * halaman form sut dan srut
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function form(Request $request, $id = null)
     {
         if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
@@ -41,6 +52,11 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
+    /**
+     * halaman generate spu
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function generate_spu($id)
     {
         if (auth()->user()->isAdmin()) {
@@ -51,6 +67,11 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
+    /**
+     * proses generate spu
+     * @param FormGenerateSpuRequest $request
+     * @return never
+     */
     public function generate_spu_submit(FormGenerateSpuRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -110,6 +131,11 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
+    /**
+     * halaman kirim spu
+     * @param FormSendSpuRequest $request
+     * @return never
+     */
     public function send_spu(FormSendSpuRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -123,6 +149,11 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
+    /**
+     * proses insert atau update data sut srut
+     * @param FormTestLetterRequest $request
+     * @return never
+     */
     public function upsert_form(FormTestLetterRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -147,6 +178,10 @@ class TestLetterController extends Controller
         return $this->testLetterService->upsert_form($data)->toJson();
     }
 
+    /**
+     * fetch data table sut srut
+     * @return never
+     */
     public function table()
     {
         if (!auth()->user()->isAdmin()) {
@@ -156,18 +191,33 @@ class TestLetterController extends Controller
         return $this->testLetterService->table();
     }
 
+    /**
+     * menampilkan detail sut srut
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
     public function show(Request $request)
     {
         $data['test_letter'] = $this->testLetterService->find(Helper::decrypt($request->id))->getResult();
         return view('apps.test-letter.detail', $data);
     }
 
+    /**
+     * menampilkan detail sut srut khusus role guest
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
     public function show_guest(Request $request)
     {
         $data['test_letter'] = $this->testLetterService->find(Helper::decrypt($request->id))->getResult();
         return view('apps.test-letter.detail-guest', $data);
     }
 
+    /**
+     * verifikasi permintaan terkait sut srut
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function verification($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -179,6 +229,11 @@ class TestLetterController extends Controller
         return view('apps.test-letter.verification', $data);
     }
 
+    /**
+     * menerima permintaan terkait sut srut
+     * @param Request $request
+     * @return never
+     */
     public function approve(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -191,6 +246,11 @@ class TestLetterController extends Controller
         return $this->testLetterService->approve($data)->toJson();
     }
 
+    /**
+     * upload bpljskb
+     * @param UploadPhysicalTestRequest $request
+     * @return never
+     */
     public function upload_physical_test_letter(UploadPhysicalTestRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -201,6 +261,11 @@ class TestLetterController extends Controller
         return $this->testLetterService->upload_physical_test_letter($data)->toJson();
     }
 
+    /**
+     * menampilkan detail bpljskb sut srut
+     * @param Request $request
+     * @return never
+     */
     public function show_physical_test_letter(Request $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -210,6 +275,11 @@ class TestLetterController extends Controller
         return $this->testLetterService->findOrFail($request->id)->toJson();
     }
 
+    /**
+     * halaman permohonan permintaan srut
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function permohonan_sertifikat_srut_form($id)
     {
         if (auth()->user()->isGuest() && auth()->user()->isVerified()) {
@@ -220,6 +290,11 @@ class TestLetterController extends Controller
         return abort(403);
     }
 
+    /**
+     * proses permohonan permintaan srut
+     * @param FormPermohonanSRUTRequest $request
+     * @return never
+     */
     public function permohonan_sertifikat_srut_submit(FormPermohonanSRUTRequest $request)
     {
         if (auth()->user()->isAdmin()) {
@@ -233,6 +308,11 @@ class TestLetterController extends Controller
         return $this->testLetterService->upsert_permohonan_srut_form($data)->toJson();
     }
 
+    /**
+     * verifikasi srut
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function verification_srut($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -244,6 +324,11 @@ class TestLetterController extends Controller
         return view('apps.test-letter.verification-srut', $data);
     }
 
+    /**
+     * menerima permintaan terkait srut
+     * @param Request $request
+     * @return never
+     */
     public function approve_srut(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -256,6 +341,11 @@ class TestLetterController extends Controller
         return $this->testLetterService->approve_srut($data)->toJson();
     }
 
+    /**
+     * proses form sut
+     * @param FormHaveSUT $request
+     * @return never
+     */
     public function form_have_sut_submit(FormHaveSUT $request)
     {
         if (!auth()->user()->isGuest()) {
@@ -282,6 +372,11 @@ class TestLetterController extends Controller
         return $this->testLetterService->have_sut_form($data)->toJson();
     }
 
+    /**
+     * menolak permintaan terkait sut srut
+     * @param Request $request
+     * @return mixed
+     */
     public function reject(Request $request)
     {
         $data = $request->only(['message', 'id', 'nohtml']);

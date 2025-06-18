@@ -6,7 +6,6 @@ use App\Http\Controllers\CertificateTestLetterController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\MechanicalController;
 use App\Http\Controllers\SecureFileController;

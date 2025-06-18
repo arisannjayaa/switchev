@@ -16,6 +16,11 @@ class TemplateController extends Controller
     {
         $this->templateCertificateService = $templateCertificateService;
     }
+
+    /**
+     * halaman data daftar template
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function index()
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -25,6 +30,10 @@ class TemplateController extends Controller
         return view('apps.template-certificate.index');
     }
 
+    /**
+     * fetch data
+     * @return never
+     */
     public function table()
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -34,6 +43,11 @@ class TemplateController extends Controller
         return $this->templateCertificateService->table();
     }
 
+    /**
+     * update data template
+     * @param FormTemplate $request
+     * @return never
+     */
     public function update(FormTemplate $request)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -44,6 +58,11 @@ class TemplateController extends Controller
         return $this->templateCertificateService->update(Helper::decrypt($data['id']), $data)->toJson();
     }
 
+    /**
+     * halaman form
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function form($id)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -54,6 +73,11 @@ class TemplateController extends Controller
         return view('apps.template-certificate.form', $data);
     }
 
+    /**
+     * halaman detail template
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function detail($id)
     {
         if (!auth()->user()->isSuperAdmin()) {

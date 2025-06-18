@@ -14,11 +14,20 @@ class RegistrationController extends Controller
         $this->authService = $authService;
     }
 
+    /**
+     * halaman registrasi
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
     public function index()
     {
         return view ('apps.auth.registration');
     }
 
+    /**
+     * registrasi proses
+     * @param RegisterRequest $request
+     * @return mixed
+     */
     public function register(RegisterRequest $request)
     {
         $data = $request->only(['name', 'email', 'password']);
