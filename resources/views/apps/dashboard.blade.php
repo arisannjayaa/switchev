@@ -61,11 +61,12 @@
         </div>
     </div>
 
-    @can('isSuperAdmin')
+    @can('isGuest')
 
-        <div class="mt-3 card">
+        <div class="mt-5 card">
             <div class="card-body">
-                <img src="{{ asset('assets/dist/img/pdf_illustration.png') }}" width="20"   alt="">
+                <div style="text-align: center;">
+                <img src="{{ asset('assets/dist/img/timelines.png') }}" style="max-width: 100%; height: auto;"  alt="">
             </div>
         </div>
 

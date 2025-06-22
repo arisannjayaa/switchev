@@ -8,13 +8,13 @@
 
 @section('content')
     <div>
-        <div class="hero-wrap ftco-degree-bg" style="background-image: url('{{ asset('assets/frontend/images/engineer-does-checkup-client-car-compressed.jpg') }}');" data-stellar-background-ratio="0.5">
+        <div class="hero-wrap ftco-degree-bg" style="background-image: url('{{ asset('assets/frontend/images/konversipoltrada.jpg') }}');" data-stellar-background-ratio="0.5">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
                     <div class="col-lg-8 ftco-animate">
                         <div class="text w-100 text-center mb-md-5 pb-md-5">
-                            <h1 class="mb-4">Test</h1>
+                            <h1 class="mb-4">SWITCHEV</h1>
                             <p style="font-size: 18px;">Jadikan bengkel Anda pionir dalam konversi kendaraan listrik! Switch EV hadir untuk mendukung bengkel dalam mengadopsi teknologi ramah lingkungan dengan solusi konversi yang efisien, terpercaya, dan inovatif. Saatnya beralih ke masa depan yang lebih hijau!</p>
                         </div>
                     </div>
@@ -25,14 +25,14 @@
         <section class="ftco-section ftco-about">
             <div class="container">
                 <div class="row no-gutters">
-                    <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({{ asset('assets/frontend') }}/images/about.jpg);">
+                    <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({{ asset('assets/frontend') }}/images/konversi.jpg);">
                     </div>
                     <div class="col-md-6 wrap-about ftco-animate">
                         <div class="heading-section heading-section-white pl-md-5">
                             <span class="subheading">Tentang Kami</span>
                             <h2 class="mb-4">Selamat datang di Switch EV</h2>
-                            <p>Switch EV hadir sebagai solusi bagi bengkel yang ingin bertransformasi ke era kendaraan listrik. Kami percaya bahwa konversi EV bukan hanya tren, tetapi langkah nyata menuju masa depan transportasi yang lebih ramah lingkungan dan efisien.</p>
-                            <p>Dengan dukungan teknologi terkini dan jaringan profesional di bidang otomotif, Switch EV membantu bengkel dalam mengadopsi sistem konversi kendaraan listrik melalui pelatihan, teknologi, dan akses ke komponen berkualitas.</p>
+                            <p>SWITCHEV adalah sebuah website yang dikembangkan untuk mendukung pelayanan Sertifikasi Bengkel Konversi dan Kendaraan Hasil Konversi di lingkungan Kementerian Perhubungan Republik Indonesia. Platform ini bertujuan mempermudah proses administrasi dan verifikasi dalam penerbitan Sertifikat Uji Tipe (SUT) dan Sertifikat Registrasi Uji Tipe (SRUT) secara digital.</p>
+                            <p>Dengan adanya SWITCHEV, pelaksanaan sertifikasi dapat dilakukan secara lebih cepat, terstruktur, dan transparan sebagai bentuk legalitas resmi bagi bengkel konversi dan kendaraan hasil konversi. Sistem ini juga mendukung upaya pemerintah dalam mendorong percepatan transisi menuju kendaraan berbasis listrik yang ramah lingkungan dan berstandar nasional.</p>
                         </div>
                     </div>
                 </div>

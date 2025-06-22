@@ -24,7 +24,7 @@
                     </div>
                     <hr>
                     <div class="mb-3">
-                        <label class="form-label required">Terima</label>
+                        <label class="form-label required">Status</label>
                         <div>
                             <select class="form-select" name="status" id="status">
                                 <option value="pending">Pending</option>
