@@ -20,6 +20,11 @@ class ResumeController extends Controller
         $this->testLetterService = $testLetterService;
     }
 
+    /**
+     * halaman daftar resume
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function index(Request $request)
     {
         if (!auth()->user()->isBpljskb()) {
@@ -29,6 +34,10 @@ class ResumeController extends Controller
         return view('apps.resume.index');
     }
 
+    /**
+     * fetch data
+     * @return never
+     */
     public function table()
     {
         if (!auth()->user()->isBpljskb()) {
@@ -38,6 +47,11 @@ class ResumeController extends Controller
         return $this->testLetterService->table_resume();
     }
 
+    /**
+     * upload bpljskb file
+     * @param UploadPhysicalTestRequest $request
+     * @return never
+     */
     public function upload_physical_test_letter(UploadPhysicalTestRequest $request)
     {
         if (!auth()->user()->isBpljskb()) {
@@ -48,6 +62,11 @@ class ResumeController extends Controller
         return $this->testLetterService->upload_physical_test_letter($data)->toJson();
     }
 
+    /**
+     * menampilkan data resume
+     * @param Request $request
+     * @return never
+     */
     public function show_physical_test_letter(Request $request)
     {
         if (!auth()->user()->isBpljskb()) {

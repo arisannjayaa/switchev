@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class SecureFileController extends Controller
 {
+    /**
+     * direct download file yang di enkripsi
+     * @param $path
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function index($path)
     {
         // decrypt
@@ -14,6 +19,11 @@ class SecureFileController extends Controller
         return response()->download($newPath);
     }
 
+    /**
+     * menampilkan file yang di enkripsi
+     * @param $path
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function download($path)
     {
         // decrypt

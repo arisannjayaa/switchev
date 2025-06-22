@@ -21,6 +21,11 @@ class CertificateController extends Controller
         $this->conversionService = $conversionService;
     }
 
+    /**
+     * generate file sertifikat konversi
+     * @param Request $request
+     * @return never
+     */
     public function generate_certificate(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -31,6 +36,11 @@ class CertificateController extends Controller
         return $this->certificateService->generate_certificate($data['id'], $data['accreditation_type'])->toJson();
     }
 
+    /**
+     * genereate file surat keterangan konversi
+     * @param Request $request
+     * @return never
+     */
     public function generate_sk(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -41,6 +51,11 @@ class CertificateController extends Controller
         return $this->certificateService->generate_sk($data['id'], $data['accreditation_type'])->toJson();
     }
 
+    /**
+     * upload file sertifikat dan surat keterangan konversi
+     * @param UploadArchiveRequest $request
+     * @return never
+     */
     public function upload_archive(UploadArchiveRequest $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -53,6 +68,11 @@ class CertificateController extends Controller
         return $this->certificateService->upload_archive($data)->toJson();
     }
 
+    /**
+     * halaman upload sertifikat konversi
+     * @param $conversion_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\View\View|never
+     */
     public function certification_form($conversion_id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -67,6 +87,10 @@ class CertificateController extends Controller
         return view('apps.conversion.certification', $data);
     }
 
+    /**
+     * halaman daftar data sertifikat konversi
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function index()
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -76,6 +100,10 @@ class CertificateController extends Controller
         return view('apps.certificate.index');
     }
 
+    /**
+     * fetch data sertifikat konversi
+     * @return never
+     */
     public function table()
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -85,6 +113,11 @@ class CertificateController extends Controller
         return $this->certificateService->table();
     }
 
+    /**
+     * halaman verifikasi draft
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function verify_draft_view($id)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -96,6 +129,11 @@ class CertificateController extends Controller
         return view('apps.certificate.verify-draft', $data);
     }
 
+    /**
+     * proses verifikasi draft
+     * @param Request $request
+     * @return never
+     */
     public function verify_draft(Request $request)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -106,6 +144,11 @@ class CertificateController extends Controller
         return $this->certificateService->verify_draft($data['id'])->toJson();
     }
 
+    /**
+     * proses kirim draft ke superadmin
+     * @param Request $request
+     * @return never
+     */
     public function send_draft(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -117,6 +160,8 @@ class CertificateController extends Controller
     }
 
     /**
+     * export data sertifikat konversi
+     * @param ExportDataConversion $request
      * @throws Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */

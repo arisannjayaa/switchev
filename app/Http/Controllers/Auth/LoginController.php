@@ -15,17 +15,30 @@ class LoginController extends Controller
         $this->authService = $authService;
     }
 
+    /**
+     * halaman login
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
     public function index()
     {
         return view ('apps.auth.login');
     }
 
+    /**
+     * login proses
+     * @param LoginRequest $request
+     * @return mixed
+     */
     public function login(LoginRequest $request)
     {
         $data = $request->only(['email', 'password', 'remember']);
         return $this->authService->login($data)->toJson();
     }
 
+    /**
+     * logout proses
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout()
     {
         $this->authService->logout();

@@ -20,6 +20,9 @@ class CertificateTestLetterController extends Controller
         $this->certificateTestLetterService = $certificateTestLetterService;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function index()
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -29,6 +32,9 @@ class CertificateTestLetterController extends Controller
         return view('apps.certificate-test-letter.index');
     }
 
+    /**
+     * @return never
+     */
     public function table()
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -38,6 +44,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->table();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function certificate($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -49,6 +59,10 @@ class CertificateTestLetterController extends Controller
         return view('apps.test-letter.certificate', $data);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function certificate_srut($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -60,6 +74,10 @@ class CertificateTestLetterController extends Controller
     }
 
 
+    /**
+     * @param FormTestLetterCertificateRequest $request
+     * @return never
+     */
     public function certificate_form_submit(FormTestLetterCertificateRequest $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -105,6 +123,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->upsert_form_certificate($data)->toJson();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\View\View|never
+     */
     public function generate($id)
     {
         if (!auth()->user()->isAdmin()) {
@@ -119,6 +141,10 @@ class CertificateTestLetterController extends Controller
         return view('apps.certificate-test-letter.generate-certificate', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function generate_certificate_srut(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -129,6 +155,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->generate_certificate_srut($data['id'])->toJson();
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function generate_certificate_sut(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -139,6 +169,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->generate_certificate_sut($data['id'])->toJson();
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function generate_sk(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -149,6 +183,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->generate_sk($data['id'])->toJson();
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function send_draft(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -159,6 +197,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->send_draft($data['id'])->toJson();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function verify_draft_view($id)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -169,6 +211,10 @@ class CertificateTestLetterController extends Controller
         return view('apps.certificate-test-letter.verify-draft', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function verify_draft(Request $request)
     {
         if (!auth()->user()->isSuperAdmin()) {
@@ -179,6 +225,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->verify_draft($data['id'])->toJson();
     }
 
+    /**
+     * @param FormArchiveTestLetterCertificateRequest $request
+     * @return \Illuminate\Http\JsonResponse|never
+     */
     public function upload_archive(FormArchiveTestLetterCertificateRequest $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -191,6 +241,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->upload_archive($data)->toJson();
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function generate_certificate_attachment(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -201,12 +255,20 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->generate_certificate_attachment($data['id'])->toJson();
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
+     */
     public function show(Request $request)
     {
         $data['certificate'] = $this->certificateTestLetterService->findOrFail(Helper::decrypt($request->id))->getResult();
         return view('apps.certificate-test-letter.detail', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function request_testing(Request $request)
     {
         if (!auth()->user()->isAdmin()) {
@@ -217,6 +279,9 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->request_testing($data)->toJson();
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function index_testing()
     {
         if (!auth()->user()->isBpljskb()) {
@@ -226,6 +291,9 @@ class CertificateTestLetterController extends Controller
         return view('apps.testing.index');
     }
 
+    /**
+     * @return never
+     */
     public function table_testing()
     {
         if (!auth()->user()->isBpljskb()) {
@@ -235,6 +303,10 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->table_testing();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|never
+     */
     public function form_testing($id)
     {
         if (!auth()->user()->isBpljskb()) {
@@ -245,6 +317,10 @@ class CertificateTestLetterController extends Controller
         return view('apps.testing.form', $data);
     }
 
+    /**
+     * @param Request $request
+     * @return never
+     */
     public function form_testing_submit(Request $request)
     {
         if (!auth()->user()->isBpljskb()) {
@@ -256,12 +332,20 @@ class CertificateTestLetterController extends Controller
         return $this->certificateTestLetterService->form_testing_submit($data)->toJson();
     }
 
+    /**
+     * @param ExportDataTestLetter $request
+     * @return mixed
+     */
     public function export_data(ExportDataTestLetter $request)
     {
         $data = $request->only(['date_range', 'type', 'status']);
         return $this->certificateTestLetterService->export($data)->toJson();
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function reject(Request $request)
     {
         $data = $request->only(['message', 'id', 'nohtml']);
