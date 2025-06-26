@@ -24,6 +24,12 @@
                     </div>
                     <hr>
                     <div class="mb-3">
+                        <a id="no_induk_berusaha" href="javascript:void(0)" class="btn d-block">Lampiran No. Induk Berusaha</a>
+                    </div>
+                    <div class="mb-3">
+                        <a id="fisik_bengkel" href="javascript:void(0)" class="btn d-block">Lampiran Fisik Bengkel</a>
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label required">Status</label>
                         <div>
                             <select class="form-select" name="status" id="status">

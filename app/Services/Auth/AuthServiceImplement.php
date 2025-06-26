@@ -64,7 +64,42 @@ class AuthServiceImplement extends ServiceApi implements AuthService{
         try {
             $data['role_id'] = 2;
             $data['status'] = "pending";
-            $user = $this->mainRepository->create($data);
+
+            $attachments = [
+                'no_induk_berusaha' => @$data['no_induk_berusaha'],
+                'foto_fisik' => @$data['foto_fisik'],
+            ];
+
+            foreach ($attachments as $key => $value) {
+                $fileName = $key;
+                switch ($fileName) {
+                    case 'no_induk_berusaha':
+                        $fileName = "Nomor_Induk_Berusaha_";
+                        break;
+                    case 'foto_fisik':
+                        $fileName = "Foto_Fisik_";
+                        break;
+                    default:
+                        break;
+                }
+
+                if (@$data[$key]) {
+                    // file application letter
+                    $file = $data[$key];
+                    $originalName = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $newFileName = $fileName . uniqid() . '.' . $extension;
+                    $filePath = $file->storeAs('users', $newFileName, 'public');
+                    $data[$key] = $filePath;
+                }
+
+                if (@$data['old_'.$key]) {
+                    $data[$key] = $data['old_'.$key];
+                    unset($data['old_'.$key]);
+                }
+            }
+
+            $this->mainRepository->create($data);
             // change with default user like guest or customer
 
             return $this->setCode(200)

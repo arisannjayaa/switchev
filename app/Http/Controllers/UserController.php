@@ -62,7 +62,7 @@ class UserController extends Controller
             return abort(403);
         }
 
-        return $this->userService->findOrFail($id)->toJson();
+        return $this->userService->show($id)->toJson();
     }
 
     /**

@@ -8,4 +8,5 @@ interface UserService extends BaseService{
 
     public function table();
 
+    public function show($id);
 }

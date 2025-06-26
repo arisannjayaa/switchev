@@ -272,6 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     $("#email").val(res.data.email);
                     $("#telephone").val(res.data.telephone);
                     $("#status").val(res.data.status);
+                    $("#no_induk_berusaha").attr('href', res.data.secure_no_induk);
+                    $("#fisik_bengkel").attr('href', res.data.secure_foto_fisik);
 
                     $("#modal-user").modal("show");
                     resetValidation();

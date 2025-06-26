@@ -30,7 +30,7 @@ class RegistrationController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $data = $request->only(['name', 'email', 'password']);
+        $data = $request->only(['name', 'email', 'password', 'no_induk_berusaha', 'foto_fisik']);
         return $this->authService->register($data)->toJson();
     }
 }

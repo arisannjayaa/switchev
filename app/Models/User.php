@@ -24,7 +24,9 @@ class User extends Authenticatable
         'password',
         'role_id',
         'telephone',
-        'status'
+        'status',
+        'foto_fisik',
+        'no_induk_berusaha',
     ];
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use LaravelEasyRepository\ServiceApi;
 use App\Repositories\User\UserRepository;
@@ -88,6 +89,25 @@ class UserServiceImplement extends ServiceApi implements UserService{
                 ->setMessage("User berhasil diperbaharui");
         } catch (Exception $e) {
             DB::rollBack();
+            return $this->exceptionResponse($exception);
+        }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function show($id)
+    {
+        try {
+            $user = $this->mainRepository->find($id);
+            $user->secure_no_induk = route('secure.file', Helper::encrypt($user->no_induk_berusaha));
+            $user->secure_foto_fisik = route('secure.file', Helper::encrypt($user->foto_fisik));
+            $user->makeHidden(['foto_fisik','no_induk_berusaha']);
+            return $this->setStatus(true)
+                ->setCode(200)
+                ->setResult($user);
+        } catch (Exception $e) {
             return $this->exceptionResponse($exception);
         }
     }

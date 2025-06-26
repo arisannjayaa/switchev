@@ -15,9 +15,11 @@
     {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yaza-putu/helpers@V2.0.4/libs/libs-core.min.css">--}}
     <style>
         @import url('https://rsms.me/inter/inter.css');
+
         :root {
             --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
         }
+
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
@@ -36,38 +38,73 @@
         }
     </style>
 </head>
-<body  class=" d-flex flex-column">
+<body class=" d-flex flex-column">
 <script src="{{ asset('assets') }}/dist/js/demo-theme.min.js?1692870487"></script>
-<div class="page page-center">
-    <div class="container container-tight py-4">
-        <div class="text-center mb-4">
-            <a href="." class="navbar-brand navbar-brand-autodark">
-                <h1>SwitchEV</h1>
-            </a>
-        </div>
-        <div class="alert-container"></div>
-        <form id="form-register" class="card card-md" action="./" method="get" autocomplete="off" novalidate>
-            <div class="card-body">
-                <h2 class="card-title text-center mb-4">Buat Akun Baru</h2>
-                <div class="mb-3">
-                    <label class="form-label">Nama</label>
-                    <input type="text" class="form-control" placeholder="Nama" name="name">
+<div class="row g-0 flex-fill">
+    <div class="col-12 col-lg-4 col-xl-6 d-none d-lg-block">
+        <!-- Photo -->
+        <div class="bg-cover h-100 min-vh-100"
+             style="background-image: url('{{ asset('assets/frontend/images/konversipoltrada.JPG') }}')"></div>
+    </div>
+    <div class="col-12 col-lg-8 col-xl-6 border-top-wide border-primary d-flex flex-column justify-content-center">
+        <div class="container container-narrow my-5 px-lg-5">
+            <div class="text-center mb-4">
+                <a href="{{ route('home.index') }}" class="navbar-brand navbar-brand-autodark"><h3>SwitchEV | Registrasi</h3></a>
+            </div>
+            <form id="form-register">
+                <div class="row">
+                    <label class="form-label">Data Diri dan Berkas</label>
+                    <div class="col-lg-12 col-12">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" placeholder="Nama Lengkap" autocomplete="off" name="name">
+                            <small class="form-hint">
+                                Nama lengkap anda
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Lampiran No. Induk Berusaha</label>
+                            <input type="file" class="form-control" placeholder="Lampiran No. Induk Berusaha"
+                                   name="no_induk_berusaha">
+                            <small class="form-hint">
+                                Lampiran No. Induk Berusaha, file pdf
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Lampiran Foto Fisik Bengkel</label>
+                            <input type="file" class="form-control" placeholder="Foto Fisik Bengkel" name="foto_fisik">
+                            <small class="form-hint">
+                                Foto fisik bengkel, file jpg
+                            </small>
+                        </div>
+                    </div>
                 </div>
+                <label class="form-label">Kredensial</label>
                 <div class="mb-3">
                     <label class="form-label">Email address</label>
-                    <input type="email" class="form-control" placeholder="Email" name="email">
+                    <input type="email" class="form-control" placeholder="alamatemail@mail.com" name="email">
+                    <small class="form-hint">
+                        Alamat email anda
+                    </small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control" placeholder="Email" name="password">
+                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <small class="form-hint">
+                        Password akun anda
+                    </small>
                 </div>
                 <div class="form-footer">
                     <button id="btn-register" type="submit" class="btn btn-primary w-100">Daftar</button>
                 </div>
+            </form>
+            <div class="text-center text-secondary mt-3">
+                Sudah memiliki akun? <a href="{{ route('login') }}" tabindex="-1">Login</a>
             </div>
-        </form>
-        <div class="text-center text-secondary mt-3">
-            Sudah memiliki akun? <a href="{{ route('login') }}" tabindex="-1">Login</a>
         </div>
     </div>
 </div>
